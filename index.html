@@ -20,11 +20,22 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
+<!-- Line icons used through the page -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-check" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 10.2l2.3 2.3 4.7-4.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7.2 7.2l5.6 5.6M12.8 7.2l-5.6 5.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 20 20"><path d="M10 18s-5.5-5.2-5.5-9.5a5.5 5.5 0 0111 0C15.5 12.8 10 18 10 18z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="10" cy="8.5" r="2" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 20 20"><rect x="3" y="4.5" width="14" height="12.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 8.5h14M7 2.5v4M13 2.5v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-people" viewBox="0 0 20 20"><circle cx="7.5" cy="7" r="2.75" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 16.5c.6-2.9 2.6-4.5 5-4.5s4.4 1.6 5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M13 4.6a2.6 2.6 0 010 5M14.6 12.3c1.6.5 2.6 1.9 2.9 4.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-in" viewBox="0 0 20 20"><path d="M11 3.5h4.5v13H11M3 10h9M8.5 6.5L12 10l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-out" viewBox="0 0 20 20"><path d="M9 3.5H4.5v13H9M8 10h9M13.5 6.5L17 10l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Parley Street Travel Co. home"><img src="assets/logo-horizontal-cream.svg" alt="Parley Street Travel Co." width="138" height="46"></a>
     <nav class="nav" aria-label="Main">
-      <a href="#tour">The Tour</a>
+      <a href="#about">The Tour</a>
       <a href="#itinerary">Itinerary</a>
       <a href="#hosts">Hosts</a>
       <a href="#faq">FAQ</a>
@@ -35,293 +46,308 @@
 
 <main id="main">
 
-  <!-- HERO -->
-  <div class="hero" id="top">
-    <div class="hero-text">
-      <p class="label">Parley Street Travel Co. presents</p>
-      <h1>The Witnesses Tour</h1>
-      <p class="tagline">Stand where they stood</p>
-      <p class="with">With The Holy Rebellion</p>
-      <div class="hero-rule" aria-hidden="true"><span></span><i></i><span></span></div>
-      <div class="hero-facts">
-        <span>April 19–23, 2027</span>
-        <span>Missouri &amp; Nauvoo</span>
-        <span>From $1,650</span>
-      </div>
-      <div class="hero-actions">
-        <a class="btn btn-light" href="#book">Reserve your seat</a>
-        <a class="btn btn-outline-light" href="#itinerary">See the itinerary</a>
-      </div>
+  <!-- TITLE, over a faded 1854 engraving of the Saints crossing the Mississippi -->
+  <div class="hero-engraving" id="top">
+    <img class="hero-engraving-art" src="assets/engraving-crossing-the-mississippi.png" alt="" width="1261" height="966">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><span>Parley Street Travel Co.</span><span aria-hidden="true">/</span><span aria-current="page">The Witnesses Tour</span></nav>
+      <h1>The Witnesses Tour: Five Days in Missouri &amp; Nauvoo with The Holy Rebellion</h1>
+      <div class="hero-meta"><span>April 19–23, 2027</span><span>From $1,650</span><span>50 seats</span></div>
+      <a class="btn btn-dark hero-cta" href="#book">Book now</a>
     </div>
-    <div class="hero-art"><img src="assets/hero-art.jpg" alt="" width="1080" height="1080"></div>
   </div>
 
-  <!-- OVERVIEW -->
-  <section id="tour">
-    <div class="wrap">
-      <p class="label">The tour</p>
-      <h2>Five days walking the ground of the Restoration</h2>
-      <p class="lead">Limited to 50 travelers on one coach, hosted by The Holy Rebellion.</p>
+  <div class="wrap layout">
+    <div class="content">
 
-      <div class="overview-grid">
-        <div>
-          <h3>The classic sites</h3>
-          <p>Liberty Jail, Far West, Adam-ondi-Ahman, Historic Nauvoo, the Nauvoo Temple, and Carthage Jail.</p>
-        </div>
-        <div>
-          <h3>The Witnesses</h3>
-          <p>Stand at the graves of 10 of the men who testified of the Book of Mormon, including David Whitmer, whose headstone still carries his testimony. Then hear from the women who witnessed it too, where it happened: Mary Whitmer, the only woman known to have seen the gold plates, Amanda Barnes Smith at Hawn's Mill, Emma Smith, and the founders of the Relief Society in Nauvoo.</p>
-        </div>
-      </div>
+      <section class="block" id="about">
+        <h2>About the tour</h2>
+        <p>Five days walking the ground of the Restoration, limited to 50 travelers on one coach and hosted by The Holy Rebellion.</p>
+        <p>We visit the classic sites, Liberty Jail, Far West, Adam-ondi-Ahman, Historic Nauvoo, the Nauvoo Temple, and Carthage Jail, and stand in the places where the Book of Mormon witnesses lived, testified, and are buried.</p>
+        <p>The tour runs April 19 to 23, 2027. Travelers must be 16 or older.</p>
+      </section>
 
-      <div class="incl">
-        <div>
-          <p class="label">Included</p>
-          <ul>
-            <li>Deluxe motorcoach for all five days</li>
-            <li>4 nights' hotel</li>
-            <li>4 breakfasts, 2 group dinners, and a picnic lunch</li>
-            <li>Site visits and history with your hosts</li>
-          </ul>
-        </div>
-        <div>
-          <p class="label">Not included</p>
-          <ul>
-            <li>Travel to and from the tour</li>
-            <li>Other meals (we stop in towns with good local restaurants)</li>
-            <li>Driver tip</li>
-            <li>Travel insurance (recommended)</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+      <section class="block" id="included">
+        <h2>What's included in the tour</h2>
+        <ul class="icon-list">
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Deluxe motorcoach for all five days</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>4 nights' hotel</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>4 breakfasts</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>2 group dinners</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>A picnic lunch at Adam-ondi-Ahman</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Site visits and history with your hosts</li>
+        </ul>
+      </section>
 
-  <!-- ITINERARY -->
-  <section id="itinerary" class="section-alt">
-    <div class="wrap">
-      <p class="label">Itinerary</p>
-      <h2>Day by day</h2>
-      <p class="lead">Times are approximate and will be confirmed in your traveler packet.</p>
+      <section class="block" id="witnesses">
+        <h2>The Witnesses</h2>
+        <p>Stand at the graves of 10 of the men who testified of the Book of Mormon, including David Whitmer, whose headstone still carries his testimony. Then hear from the women who witnessed it too, where it happened: Mary Whitmer, the only woman known to have seen the gold plates, Amanda Barnes Smith at Hawn's Mill, Emma Smith, and the founders of the Relief Society in Nauvoo.</p>
+      </section>
 
-      <div class="days">
-        <article class="day">
-          <div><div class="day-num">Day 1</div><div class="day-date">Mon, April 19</div></div>
+      <section class="block" id="itinerary">
+        <h2>Full itinerary</h2>
+        <div class="bookends">
+          <p><svg class="ico" aria-hidden="true"><use href="#i-in"/></svg><span>Begins:</span> Mon, April 19, 1:30 PM in Independence</p>
+          <p><svg class="ico" aria-hidden="true"><use href="#i-out"/></svg><span>Ends:</span> Fri, April 23, early afternoon in Carthage</p>
+        </div>
+        <p class="note">Times are approximate and will be confirmed in your traveler packet.</p>
+
+        <div class="days">
+          <article class="day">
+            <div class="day-body">
+              <p class="day-meta"><span class="day-num">Day 1</span><span class="day-date">Mon, April 19</span></p>
+              <h3>Independence</h3>
+              <p>Gather at 1:30 PM at the Independence Visitors' Center. The Temple Lot, the Community of Christ Temple, the 1833 printing office site, and the courthouse square, then a welcome dinner with your hosts.</p>
+              <p class="her"><strong>Her story</strong>Teenage sisters Mary Elizabeth and Caroline Rollins rescued pages of the revelations as a mob wrecked the press, and hid on top of them in a cornfield.</p>
+            </div>
+            <figure class="day-photo"><img src="assets/itinerary/day1-independence.jpg" alt="The spiral spire of the Community of Christ Temple in Independence, Missouri" width="1000" height="1000" loading="lazy"></figure>
+          </article>
+          <article class="day">
+            <div class="day-body">
+              <p class="day-meta"><span class="day-num">Day 2</span><span class="day-date">Tue, April 20</span></p>
+              <h3>Liberty, Richmond &amp; Far West</h3>
+              <p>Liberty Jail, the Eight Witnesses monument, the graves of David Whitmer, Oliver Cowdery, Jacob and John Whitmer, the Richmond courthouse square, and the Far West temple site. Lunch on your own on Liberty's historic square; group dinner in the evening.</p>
+              <p class="her"><strong>Her story</strong>Mary Fielding Smith and her sister Mercy Fielding Thompson travelled 40 miles in February so Hyrum could see his newborn son in Liberty Jail. In Richmond, Mary Whitmer, the only woman known to have seen the gold plates, rests beside her husband.</p>
+            </div>
+            <figure class="day-photo"><img src="assets/itinerary/day2-whitmer.jpg" alt="David Whitmer's headstone in Richmond, Missouri, inscribed with his testimony" width="1000" height="1000" loading="lazy"></figure>
+          </article>
+          <article class="day">
+            <div class="day-body">
+              <p class="day-meta"><span class="day-num">Day 3</span><span class="day-date">Wed, April 21</span></p>
+              <h3>Hawn's Mill, Adam-ondi-Ahman &amp; on to Nauvoo</h3>
+              <p>Hawn's Mill, Adam-ondi-Ahman with a picnic lunch, and Gallatin, then east across Missouri to Washington Park in Quincy, Illinois. Dinner on your own in downtown Quincy, and an evening walk at the Nauvoo Temple.</p>
+              <p class="her"><strong>Her story</strong>Amanda Barnes Smith at Hawn's Mill, Eliza R. Snow at Adam-ondi-Ahman, and Emma Smith crossing the frozen Mississippi to reach Quincy.</p>
+            </div>
+            <figure class="day-photo"><img src="assets/itinerary/day3-adam-ondi-ahman.jpg" alt="Sunset over the valley at Adam-ondi-Ahman, Missouri" width="1000" height="1000" loading="lazy"></figure>
+          </article>
+          <article class="day">
+            <div class="day-body">
+              <p class="day-meta"><span class="day-num">Day 4</span><span class="day-date">Thu, April 22</span></p>
+              <h3>Nauvoo</h3>
+              <p>The Monument to Women garden, Historic Nauvoo, the Joseph Smith Homestead, Mansion House, Red Brick Store, and Smith Family Cemetery. A free afternoon for the temple, more sites, or Mulholland Street, then the Trail of Hope at dusk.</p>
+              <p class="her"><strong>Her story</strong>The Relief Society began as a sewing society in Sarah Granger Kimball's parlor and was organized upstairs in the Red Brick Store in 1842.</p>
+            </div>
+            <figure class="day-photo"><img src="assets/itinerary/day4-red-brick-store.jpg" alt="Joseph Smith's Red Brick Store in Nauvoo, Illinois" width="1000" height="1000" loading="lazy"></figure>
+          </article>
+          <article class="day">
+            <div class="day-body">
+              <p class="day-meta"><span class="day-num">Day 5</span><span class="day-date">Fri, April 23</span></p>
+              <h3>Carthage</h3>
+              <p>A closing visit and devotional at Carthage Jail, where the tour concludes in the early afternoon.</p>
+            </div>
+            <figure class="day-photo"><img src="assets/itinerary/day5-carthage.jpg" alt="Carthage Jail in Carthage, Illinois" width="1000" height="1000" loading="lazy"></figure>
+          </article>
+        </div>
+      </section>
+
+      <section class="block" id="meals">
+        <h2>Meals</h2>
+        <p>We stop in towns with good local restaurants, so the meals on your own are part of the trip.</p>
+        <div class="two-lists">
           <div>
-            <h3>Independence</h3>
-            <p>Gather at 1:30 PM at the Independence Visitors' Center. The Temple Lot, the Community of Christ Temple, the 1833 printing office site, and the courthouse square, then a welcome dinner with your hosts.</p>
-            <p class="her"><strong>Her story</strong>Teenage sisters Mary Elizabeth and Caroline Rollins rescued pages of the revelations as a mob wrecked the press, and hid on top of them in a cornfield.</p>
+            <h3>Included</h3>
+            <ul class="icon-list single">
+              <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Breakfast each morning</li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Welcome dinner with your hosts</li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Group dinner on Day 2</li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Picnic lunch at Adam-ondi-Ahman</li>
+            </ul>
           </div>
-          <figure class="day-photo"><img src="assets/itinerary/day1-independence.jpg" alt="The spiral spire of the Community of Christ Temple in Independence, Missouri" width="1000" height="1000" loading="lazy"></figure>
-        </article>
-        <article class="day">
-          <div><div class="day-num">Day 2</div><div class="day-date">Tue, April 20</div></div>
           <div>
-            <h3>Liberty, Richmond &amp; Far West</h3>
-            <p>Liberty Jail, the Eight Witnesses monument, the graves of David Whitmer, Oliver Cowdery, Jacob and John Whitmer, the Richmond courthouse square, and the Far West temple site. Lunch on your own on Liberty's historic square; group dinner in the evening.</p>
-            <p class="her"><strong>Her story</strong>Mary Fielding Smith and her sister Mercy Fielding Thompson travelled 40 miles in February so Hyrum could see his newborn son in Liberty Jail. In Richmond, Mary Whitmer, the only woman known to have seen the gold plates, rests beside her husband.</p>
+            <h3>On your own</h3>
+            <ul class="icon-list single">
+              <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Lunch on Liberty's historic square</li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Dinner in downtown Quincy</li>
+              <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Other lunches and dinners</li>
+            </ul>
           </div>
-          <figure class="day-photo"><img src="assets/itinerary/day2-whitmer.jpg" alt="David Whitmer's headstone in Richmond, Missouri, inscribed with his testimony" width="1000" height="1000" loading="lazy"></figure>
-        </article>
-        <article class="day">
-          <div><div class="day-num">Day 3</div><div class="day-date">Wed, April 21</div></div>
-          <div>
-            <h3>Hawn's Mill, Adam-ondi-Ahman &amp; on to Nauvoo</h3>
-            <p>Hawn's Mill, Adam-ondi-Ahman with a picnic lunch, and Gallatin, then east across Missouri to Washington Park in Quincy, Illinois. Dinner on your own in downtown Quincy, and an evening walk at the Nauvoo Temple.</p>
-            <p class="her"><strong>Her story</strong>Amanda Barnes Smith at Hawn's Mill, Eliza R. Snow at Adam-ondi-Ahman, and Emma Smith crossing the frozen Mississippi to reach Quincy.</p>
+        </div>
+      </section>
+
+      <section class="block" id="hosts">
+        <h2>Your hosts</h2>
+        <div class="host">
+          <div class="host-name">
+            <h3>Christian Williams &amp; Travis Lish</h3>
+            <p class="host-role">The Holy Rebellion · <a href="https://www.instagram.com/the.holy.rebellion/">@the.holy.rebellion</a></p>
           </div>
-          <figure class="day-photo"><img src="assets/itinerary/day3-adam-ondi-ahman.jpg" alt="Sunset over the valley at Adam-ondi-Ahman, Missouri" width="1000" height="1000" loading="lazy"></figure>
-        </article>
-        <article class="day">
-          <div><div class="day-num">Day 4</div><div class="day-date">Thu, April 22</div></div>
-          <div>
-            <h3>Nauvoo</h3>
-            <p>The Monument to Women garden, Historic Nauvoo, the Joseph Smith Homestead, Mansion House, Red Brick Store, and Smith Family Cemetery. A free afternoon for the temple, more sites, or Mulholland Street, then the Trail of Hope at dusk.</p>
-            <p class="her"><strong>Her story</strong>The Relief Society began as a sewing society in Sarah Granger Kimball's parlor and was organized upstairs in the Red Brick Store in 1842.</p>
+          <div class="host-bio">
+            <p>If you follow <a href="https://www.instagram.com/the.holy.rebellion/">@the.holy.rebellion</a>, you know what Christian Williams and Travis Lish do: confront the hard questions about The Church of Jesus Christ of Latter-day Saints, dig into what the record actually says, and answer as peacemakers. Their aim is to "dismantle the argument without dismantling the arguer," and to be a window, not a mirror.</p>
+            <p>Now they're taking it off the screen and onto the bus. You'll stand with them at Liberty Jail, the Whitmer graves, and Carthage, and talk through the history in the places it happened. Bring your questions, especially the hard ones.</p>
           </div>
-          <figure class="day-photo"><img src="assets/itinerary/day4-red-brick-store.jpg" alt="Joseph Smith's Red Brick Store in Nauvoo, Illinois" width="1000" height="1000" loading="lazy"></figure>
-        </article>
-        <article class="day">
-          <div><div class="day-num">Day 5</div><div class="day-date">Fri, April 23</div></div>
-          <div>
-            <h3>Carthage</h3>
-            <p>A closing visit and devotional at Carthage Jail, where the tour concludes in the early afternoon.</p>
+          <img class="host-photo" src="assets/hosts.jpg" alt="Christian Williams and Travis Lish of The Holy Rebellion" width="150" height="150">
+        </div>
+      </section>
+
+      <section class="block" id="meet">
+        <h2>Where we'll meet</h2>
+        <p class="meet-place"><strong>Independence Visitors' Center</strong>937 W Walnut St, Independence, MO 64050</p>
+        <p>We gather at 1:30 PM on Monday, April 19. Fly into Kansas City International (MCI) by late morning; the visitors' center is about 40 minutes away by rideshare. The tour ends in the early afternoon of Friday, April 23, after Carthage Jail.</p>
+        <img class="meet-photo" src="assets/meet-independence-visitors-center.jpg" alt="The Independence Visitors' Center in Independence, Missouri" width="1600" height="900" loading="lazy">
+      </section>
+
+      <section class="block" id="not-included">
+        <h2>What's <em>not</em> included</h2>
+        <ul class="icon-list">
+          <li><svg class="ico ico-x" aria-hidden="true"><use href="#i-x"/></svg>Travel to and from the tour</li>
+          <li><svg class="ico ico-x" aria-hidden="true"><use href="#i-x"/></svg>Meals not listed above</li>
+          <li><svg class="ico ico-x" aria-hidden="true"><use href="#i-x"/></svg>Driver tip</li>
+          <li><svg class="ico ico-x" aria-hidden="true"><use href="#i-x"/></svg>Travel insurance (recommended)</li>
+        </ul>
+      </section>
+
+      <!-- BOOKING -->
+      <section class="block" id="book">
+        <h2>Choose your room</h2>
+        <p>Prices are per person and include everything listed above. Only 50 seats.</p>
+
+        <fieldset class="pay-choice">
+          <legend>How would you like to pay?</legend>
+          <div class="pay-options">
+            <label>
+              <input type="radio" name="pay" value="deposit" checked>
+              <strong>Pay a deposit</strong>
+              <span><span data-deposit>50%</span> of your trip today. The rest is due by <span data-balance-date>February 18, 2027</span>.</span>
+            </label>
+            <label>
+              <input type="radio" name="pay" value="full">
+              <strong>Pay in full</strong>
+              <span>Pay the whole trip today and you're done.</span>
+            </label>
           </div>
-          <figure class="day-photo"><img src="assets/itinerary/day5-carthage.jpg" alt="Carthage Jail in Carthage, Illinois" width="1000" height="1000" loading="lazy"></figure>
-        </article>
-      </div>
-      <p class="photo-credits">Photos from Wikimedia Commons, cropped: Day 1 by Ecjmartin1 and Day 5 by Nyttend, public domain. Day 2, <a href="https://commons.wikimedia.org/wiki/File:David_Whitmer_gravesite,_tombstone_updated_in_2021.jpg">David Whitmer gravesite</a> by Ablonquist, and Day 4, <a href="https://commons.wikimedia.org/wiki/File:JSHS_Red_Brick_Store_P6081168.JPG">Red Brick Store</a> by Chris Light, both <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Day 3 by Ctel2177, CC0.</p>
+        </fieldset>
+
+        <div class="soldout-banner" id="tour-soldout" role="status">The Witnesses Tour is sold out. Email us to join the waitlist.</div>
+
+        <div class="rooms">
+          <article class="room is-base" data-room="double" data-price="1800" data-people="per person">
+            <div class="tag">Base price</div>
+            <h3>Double</h3>
+            <div><div class="price">$1,800</div><div class="per">per person, 2 to a room</div></div>
+            <ul>
+              <li>Book for yourself, or for you and your roommate</li>
+              <li>Traveling solo? We'll pair you with a roommate</li>
+            </ul>
+            <div class="due" aria-live="polite"></div>
+            <a class="btn btn-dark" href="#" data-book>Book a Double</a>
+          </article>
+
+          <article class="room" data-room="single" data-price="2250" data-people="per person">
+            <div class="tag"></div>
+            <h3>Single</h3>
+            <div><div class="price">$2,250</div><div class="per">per person, room to yourself</div></div>
+            <ul>
+              <li>Your own hotel room all 4 nights</li>
+            </ul>
+            <div class="due" aria-live="polite"></div>
+            <a class="btn btn-dark" href="#" data-book>Book a Single</a>
+          </article>
+
+          <article class="room" data-room="triple" data-price="1700" data-group="3">
+            <div class="tag"></div>
+            <h3>Triple</h3>
+            <div><div class="price">$1,700</div><div class="per">per person, 3 to a room</div></div>
+            <ul>
+              <li>Room with two beds</li>
+              <li>Books all 3 travelers in one order</li>
+            </ul>
+            <div class="due" aria-live="polite"></div>
+            <a class="btn btn-dark" href="#" data-book>Book a Triple</a>
+          </article>
+
+          <article class="room" data-room="quad" data-price="1650" data-group="4">
+            <div class="tag"></div>
+            <h3>Quad</h3>
+            <div><div class="price">$1,650</div><div class="per">per person, 4 to a room</div></div>
+            <ul>
+              <li>Room with two beds</li>
+              <li>Books all 4 travelers in one order</li>
+            </ul>
+            <div class="due" aria-live="polite"></div>
+            <a class="btn btn-dark" href="#" data-book>Book a Quad</a>
+          </article>
+        </div>
+
+        <ol class="steps">
+          <li><strong>Pick your room and payment</strong>Choose a deposit or pay in full, then select your room above.</li>
+          <li><strong>Check out securely</strong>You'll enter traveler names and roommate details on our secure Stripe checkout. Pay by card or bank transfer.</li>
+          <li><strong>Get your confirmation</strong>You'll receive a receipt right away, and we'll follow up by email with your traveler packet and waiver.</li>
+        </ol>
+
+        <p class="notice">By booking you agree to our <a href="terms.html">terms and cancellation policy</a>. Travelers must be 16 or older.</p>
+      </section>
+
+      <section class="block" id="details">
+        <h2>Good to know</h2>
+        <div class="facts">
+          <div class="fact">
+            <h3>Walking</h3>
+            <p>Expect moderate walking, including grassy cemeteries and uneven ground at rural sites. Carthage Jail has stairs and no elevator.</p>
+          </div>
+          <div class="fact">
+            <h3>Travel insurance</h3>
+            <p>We strongly recommend it to cover illness, flight problems, and cancellations outside our refund policy.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" id="faq">
+        <h2>FAQ</h2>
+        <div class="faq">
+          <details>
+            <summary>I'm traveling alone. Do I have to pay for a single?</summary>
+            <p>No. Book a Double and write "Pair me" when checkout asks about your roommate. We'll match you with another traveler. If you'd prefer a room to yourself, book a Single.</p>
+          </details>
+          <details>
+            <summary>How does the deposit work?</summary>
+            <p>Pay <span data-deposit>50%</span> of your trip price to hold your seat. We'll email you an invoice for the other half, due by <span data-balance-date>February 18, 2027</span>, which you can pay by card or bank transfer.</p>
+          </details>
+          <details>
+            <summary>Can I get a refund if I cancel?</summary>
+            <p>Refunds follow our <a href="terms.html">terms and cancellation policy</a>. Travel insurance can cover cancellations the policy doesn't.</p>
+          </details>
+          <details>
+            <summary>How do I book a Triple or Quad?</summary>
+            <p>One person books the whole room in a single order and enters every traveler's name at checkout.</p>
+          </details>
+          <details>
+            <summary>How do I pay?</summary>
+            <p>Checkout runs through Stripe. You can pay by credit or debit card, or by bank transfer from a US bank account.</p>
+          </details>
+          <details>
+            <summary>Is there an age requirement?</summary>
+            <p>Travelers must be 16 or older.</p>
+          </details>
+          <details>
+            <summary>I have another question.</summary>
+            <p>Email us at <a href="mailto:hello@parleystreettravel.com">hello@parleystreettravel.com</a>.</p>
+          </details>
+        </div>
+      </section>
     </div>
-  </section>
 
-  <!-- HOSTS -->
-  <section id="hosts" class="section-dark">
-    <div class="wrap hosts">
-      <img src="assets/hosts.jpg" alt="Christian Williams and Travis Lish of The Holy Rebellion" width="220" height="220">
-      <div>
-        <p class="label">Meet your hosts</p>
-        <h2>The Holy Rebellion</h2>
-        <p>If you follow <a href="https://www.instagram.com/the.holy.rebellion/">@the.holy.rebellion</a>, you know what Christian Williams and Travis Lish do: confront the hard questions about The Church of Jesus Christ of Latter-day Saints, dig into what the record actually says, and answer as peacemakers. Their aim is to "dismantle the argument without dismantling the arguer," and to be a window, not a mirror.</p>
-        <p>Now they're taking it off the screen and onto the bus. You'll stand with them at Liberty Jail, the Whitmer graves, and Carthage, and talk through the history in the places it happened. Bring your questions, especially the hard ones.</p>
+    <!-- SIDE BOX: stays in view on desktop, sits above the content on phones -->
+    <aside class="sidebar" aria-label="Tour summary">
+      <div class="summary">
+        <p class="from">from <strong>$1,650</strong> <span>per person</span></p>
+        <ul class="facts-list">
+          <li><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Missouri &amp; Nauvoo, Illinois</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg>April 19–23, 2027 <span>(5 days, 4 nights)</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-people"/></svg>50 seats on one coach</li>
+        </ul>
       </div>
-    </div>
-  </section>
-
-  <!-- BOOKING -->
-  <section id="book">
-    <div class="wrap">
-      <p class="label">Reserve your seat</p>
-      <h2>Choose your room</h2>
-      <p class="lead">Prices are per person and include everything listed above. Only 50 seats.</p>
-
-      <fieldset class="pay-choice">
-        <legend>How would you like to pay?</legend>
-        <div class="pay-options">
-          <label>
-            <input type="radio" name="pay" value="deposit" checked>
-            <strong>Pay a deposit</strong>
-            <span><span data-deposit>50%</span> of your trip today. The rest is due by <span data-balance-date>February 18, 2027</span>.</span>
-          </label>
-          <label>
-            <input type="radio" name="pay" value="full">
-            <strong>Pay in full</strong>
-            <span>Pay the whole trip today and you're done.</span>
-          </label>
-        </div>
-      </fieldset>
-
-      <div class="soldout-banner" id="tour-soldout" role="status">The Witnesses Tour is sold out. Email us to join the waitlist.</div>
-
-      <div class="rooms">
-        <article class="room is-base" data-room="double" data-price="1800" data-people="per person">
-          <div class="tag">Base price</div>
-          <h3>Double</h3>
-          <div><div class="price">$1,800</div><div class="per">per person, 2 to a room</div></div>
-          <ul>
-            <li>Book for yourself, or for you and your roommate</li>
-            <li>Traveling solo? We'll pair you with a roommate</li>
-          </ul>
-          <div class="due" aria-live="polite"></div>
-          <a class="btn btn-dark" href="#" data-book>Book a Double</a>
-        </article>
-
-        <article class="room" data-room="single" data-price="2250" data-people="per person">
-          <div class="tag"></div>
-          <h3>Single</h3>
-          <div><div class="price">$2,250</div><div class="per">per person, room to yourself</div></div>
-          <ul>
-            <li>Your own hotel room all 4 nights</li>
-          </ul>
-          <div class="due" aria-live="polite"></div>
-          <a class="btn btn-dark" href="#" data-book>Book a Single</a>
-        </article>
-
-        <article class="room" data-room="triple" data-price="1700" data-group="3">
-          <div class="tag"></div>
-          <h3>Triple</h3>
-          <div><div class="price">$1,700</div><div class="per">per person, 3 to a room</div></div>
-          <ul>
-            <li>Room with two beds</li>
-            <li>Books all 3 travelers in one order</li>
-          </ul>
-          <div class="due" aria-live="polite"></div>
-          <a class="btn btn-dark" href="#" data-book>Book a Triple</a>
-        </article>
-
-        <article class="room" data-room="quad" data-price="1650" data-group="4">
-          <div class="tag"></div>
-          <h3>Quad</h3>
-          <div><div class="price">$1,650</div><div class="per">per person, 4 to a room</div></div>
-          <ul>
-            <li>Room with two beds</li>
-            <li>Books all 4 travelers in one order</li>
-          </ul>
-          <div class="due" aria-live="polite"></div>
-          <a class="btn btn-dark" href="#" data-book>Book a Quad</a>
-        </article>
-      </div>
-
-      <ol class="steps">
-        <li><strong>Pick your room and payment</strong>Choose a deposit or pay in full, then select your room above.</li>
-        <li><strong>Check out securely</strong>You'll enter traveler names and roommate details on our secure Stripe checkout. Pay by card or bank transfer.</li>
-        <li><strong>Get your confirmation</strong>You'll receive a receipt right away, and we'll follow up by email with your traveler packet and waiver.</li>
-      </ol>
-
-      <p class="notice">By booking you agree to our <a href="terms.html">terms and cancellation policy</a>. Travelers must be 16 or older.</p>
-    </div>
-  </section>
-
-  <!-- GOOD TO KNOW -->
-  <section id="details" class="section-alt">
-    <div class="wrap">
-      <p class="label">Good to know</p>
-      <h2>Before you go</h2>
-      <div class="facts">
-        <div class="fact">
-          <h3>Where we begin</h3>
-          <p>Monday, April 19, 2027, at 1:30 PM at the Independence Visitors' Center, 937 W Walnut St, Independence, MO 64050.</p>
-        </div>
-        <div class="fact">
-          <h3>Getting there</h3>
-          <p>Fly into Kansas City International (MCI) by late morning on April 19. The visitors' center is about 40 minutes away by rideshare.</p>
-        </div>
-        <div class="fact">
-          <h3>Where we end</h3>
-          <p>Friday, April 23, in the early afternoon after Carthage Jail.</p>
-        </div>
-        <div class="fact">
-          <h3>Walking</h3>
-          <p>Expect moderate walking, including grassy cemeteries and uneven ground at rural sites. Carthage Jail has stairs and no elevator.</p>
-        </div>
-        <div class="fact">
-          <h3>Meals</h3>
-          <p>Breakfast each morning, two group dinners, and a picnic lunch are included. Other meals are on your own in towns with good local restaurants.</p>
-        </div>
-        <div class="fact">
-          <h3>Travel insurance</h3>
-          <p>We strongly recommend it to cover illness, flight problems, and cancellations outside our refund policy.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="wrap">
-      <p class="label">Questions</p>
-      <h2>FAQ</h2>
-      <div class="faq">
-        <details>
-          <summary>I'm traveling alone. Do I have to pay for a single?</summary>
-          <p>No. Book a Double and write "Pair me" when checkout asks about your roommate. We'll match you with another traveler. If you'd prefer a room to yourself, book a Single.</p>
-        </details>
-        <details>
-          <summary>How does the deposit work?</summary>
-          <p>Pay <span data-deposit>50%</span> of your trip price to hold your seat. We'll email you an invoice for the other half, due by <span data-balance-date>February 18, 2027</span>, which you can pay by card or bank transfer.</p>
-        </details>
-        <details>
-          <summary>Can I get a refund if I cancel?</summary>
-          <p>Refunds follow our <a href="terms.html">terms and cancellation policy</a>. Travel insurance can cover cancellations the policy doesn't.</p>
-        </details>
-        <details>
-          <summary>How do I book a Triple or Quad?</summary>
-          <p>One person books the whole room in a single order and enters every traveler's name at checkout.</p>
-        </details>
-        <details>
-          <summary>How do I pay?</summary>
-          <p>Checkout runs through Stripe. You can pay by credit or debit card, or by bank transfer from a US bank account.</p>
-        </details>
-        <details>
-          <summary>Is there an age requirement?</summary>
-          <p>Travelers must be 16 or older.</p>
-        </details>
-        <details>
-          <summary>I have another question.</summary>
-          <p>Email us at <a href="mailto:hello@parleystreettravel.com">hello@parleystreettravel.com</a>.</p>
-        </details>
-      </div>
-    </div>
-  </section>
+      <nav class="section-nav" aria-label="On this page">
+        <a href="#about">About the tour</a>
+        <a href="#itinerary">Full itinerary</a>
+        <a href="#meals">Meals</a>
+        <a href="#hosts">Your hosts</a>
+        <a href="#meet">Where we'll meet</a>
+        <a href="#book">Rooms &amp; prices</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="btn btn-dark side-cta" href="#book">Book now</a>
+    </aside>
+  </div>
 </main>
 
 <footer class="site-footer">
@@ -335,6 +361,7 @@
       <p><a href="terms.html">Terms &amp; cancellation policy</a></p>
     </div>
     <p class="small">© 2026 Parley Street Travel Co., LLC</p>
+    <p class="photo-credits">Header engraving: Crossing the Mississippi, from Benjamin G. Ferris, Utah and the Mormons (1854), public domain. From Wikimedia Commons, cropped. Public domain: Community of Christ Temple (Ecjmartin1), Carthage Jail (Nyttend), Independence Visitors' Center (EGDJ). CC0: Adam-ondi-Ahman sunset (Ctel2177). <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>: <a href="https://commons.wikimedia.org/wiki/File:David_Whitmer_gravesite,_tombstone_updated_in_2021.jpg">David Whitmer gravesite</a> (Ablonquist), <a href="https://commons.wikimedia.org/wiki/File:JSHS_Red_Brick_Store_P6081168.JPG">Red Brick Store</a> (Chris Light).</p>
   </div>
 </footer>
 
@@ -383,6 +410,21 @@
   }
   document.querySelectorAll('input[name="pay"]').forEach(function (r) { r.addEventListener("change", update); });
   update();
+
+  // Highlight the side-box link for the section in view
+  var links = document.querySelectorAll(".section-nav a");
+  if ("IntersectionObserver" in window && links.length) {
+    var byId = {};
+    links.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting || !byId[e.target.id]) return;
+        links.forEach(function (a) { a.classList.remove("is-current"); });
+        byId[e.target.id].classList.add("is-current");
+      });
+    }, { rootMargin: "-30% 0px -60% 0px" });
+    Object.keys(byId).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+  }
 })();
 </script>
 </body>

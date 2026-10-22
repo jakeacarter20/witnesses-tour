@@ -8,12 +8,12 @@ The site is plain HTML. Booking runs through **Stripe Payment Links**, so there 
 
 | File | What it is |
 |---|---|
-| `index.html` | The tour page: overview, itinerary, hosts, room choice and booking, details, FAQ |
+| `index.html` | The tour page: title over a vintage engraving, about, what's included, itinerary, meals, hosts, where we'll meet, room choice and booking, FAQ |
 | `thank-you.html` | Where Stripe sends people after they pay |
 | `terms.html` | Terms and cancellation policy. **Draft outline only, replace before launch** |
 | `booking-config.js` | **The only file you edit to open or close booking.** Paste your Stripe links here |
 | `styles.css` | Brand colors and fonts from the brand guide |
-| `assets/` | Logo and favicon (from the Final Logo Kit SVGs), hero art, host photo, share image |
+| `assets/` | Logo and favicon (from the Final Logo Kit SVGs), header engraving, itinerary and meeting-place photos, host photo, share image. Photo credits are in the page footer |
 
 Until a room's links are pasted into `booking-config.js`, its button reads "Booking opens soon", so you can put the site live before November 2 and switch booking on that morning.
 
