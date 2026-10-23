@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261023">
+<link rel="stylesheet" href="styles.css?v=20261023b">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -480,6 +480,7 @@
       var btn = card.querySelector("[data-book]");
       var link = room[mode];
       var closed = cfg.tourSoldOut || room.soldOut;
+      btn.removeAttribute("data-needs-ack");
       if (closed) {
         btn.textContent = "Sold out";
         btn.setAttribute("aria-disabled", "true");
@@ -489,9 +490,11 @@
         btn.setAttribute("aria-disabled", "true");
         btn.removeAttribute("href");
       } else if (needsAck) {
-        btn.textContent = "Check the box above";
-        btn.setAttribute("aria-disabled", "true");
-        btn.removeAttribute("href");
+        // Still a link: it takes them up to the acknowledgement box
+        btn.textContent = "Check the box above \u2191";
+        btn.removeAttribute("aria-disabled");
+        btn.setAttribute("href", "#deposit-ack");
+        btn.setAttribute("data-needs-ack", "");
       } else {
         btn.textContent = "Book a " + card.querySelector("h3").textContent;
         btn.removeAttribute("aria-disabled");
@@ -523,6 +526,17 @@
     else btn.setAttribute("href", room.balance);
   });
 
+  document.querySelector(".rooms").addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-needs-ack]");
+    if (!btn) return;
+    e.preventDefault();
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    ackWrap.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+    ackBox.focus({ preventScroll: true });
+    ackWrap.classList.remove("is-flash");
+    void ackWrap.offsetWidth; // restart the highlight if clicked again
+    ackWrap.classList.add("is-flash");
+  });
   ackBox.addEventListener("change", update);
   document.querySelectorAll('input[name="pay"]').forEach(function (r) { r.addEventListener("change", update); });
   update();

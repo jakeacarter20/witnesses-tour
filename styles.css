@@ -233,6 +233,12 @@ h3 { font-size: 26px; }
 .ack input { width: 20px; height: 20px; margin-top: 2px; flex: none; accent-color: var(--dark-olive); }
 .ack strong { display: block; font-weight: 500; margin-bottom: 4px; }
 .ack:has(input:checked) { border-color: var(--dark-olive); }
+.ack { scroll-margin-top: calc(var(--header) + 24px); }
+.ack.is-flash { animation: ack-flash 1.6s ease-out; }
+@keyframes ack-flash { 0%, 40% { box-shadow: 0 0 0 4px rgba(180, 89, 43, 0.35); } 100% { box-shadow: 0 0 0 4px rgba(180, 89, 43, 0); } }
+@media (prefers-reduced-motion: reduce) { .ack.is-flash { animation: none; } }
+.btn[data-needs-ack] { background: var(--line); color: var(--dark-olive); text-decoration: underline; text-underline-offset: 4px; }
+.btn[data-needs-ack]:hover { background: var(--paper); }
 .plan-start h4 { font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 20px 0 0; }
 .plan-start h4 + p { margin-top: 6px; }
 .btn-outline { border-color: var(--dark-olive); color: var(--dark-olive); background: transparent; }
