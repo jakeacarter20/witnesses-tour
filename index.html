@@ -15,18 +15,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=20261023">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-
-<!-- Promo banner: the tally comes from seatsSold in booking-config.js -->
-<div class="promo-banner" id="promo" role="note">
-  <div class="wrap">
-    <p><strong>The first 25 seats sold get a free customizable Book of Mormon.</strong> <span class="promo-tally" data-promo-tally></span></p>
-    <div class="promo-bar" aria-hidden="true"><span data-promo-bar></span></div>
-  </div>
-</div>
 
 <!-- Line icons used through the page -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -51,6 +43,14 @@
     </nav>
   </div>
 </header>
+
+<!-- Free Book of Mormon offer: the tally comes from /api/seats, or seatsSold in booking-config.js -->
+<div class="promo-banner" id="promo" role="note">
+  <div class="wrap">
+    <p><strong>The first 25 seats sold get a free customizable Book of Mormon from <span class="promo-host">The Holy Rebellion</span>.</strong> <a class="promo-link" href="https://refugeproducts.com/scriptures" target="_blank" rel="noopener">See the books&nbsp;&rarr;</a></p>
+    <div class="promo-count"><span class="promo-tally" data-promo-tally></span><span class="promo-bar" aria-hidden="true"><span data-promo-bar></span></span></div>
+  </div>
+</div>
 
 <main id="main">
 
@@ -209,6 +209,12 @@
       <section class="block" id="book">
         <h2>Choose your room</h2>
         <p>Prices are per person and include everything listed above. Only 50 seats.</p>
+
+        <div class="promo-reminder" data-promo-reminder>
+          <p class="promo-reminder-title">Book early for a free customizable Book of Mormon</p>
+          <p>The first 25 seats sold get a free customizable Book of Mormon from <span class="promo-host">The Holy Rebellion</span>. Your seat counts as soon as your deposit or full payment goes through. <a class="promo-link" href="https://refugeproducts.com/scriptures" target="_blank" rel="noopener">See the books&nbsp;&rarr;</a></p>
+          <div class="promo-count"><span class="promo-tally" data-promo-tally></span><span class="promo-bar" aria-hidden="true"><span data-promo-bar></span></span></div>
+        </div>
 
         <fieldset class="pay-choice">
           <legend>How would you like to pay?</legend>
@@ -430,14 +436,20 @@
   // seatsSold in booking-config.js, then uses the live count from Stripe
   // (api/seats.js) when the site runs on Vercel.
   var promoSeats = cfg.freeBookSeats || 25;
-  var tally = document.querySelector("[data-promo-tally]");
   function showTally(count) {
-    if (!tally) return;
     var sold = Math.max(0, Math.min(Number(count) || 0, promoSeats));
-    tally.textContent = sold >= promoSeats
-      ? "All " + promoSeats + " have been claimed."
-      : sold + " of " + promoSeats + " claimed, " + (promoSeats - sold) + " left.";
-    document.querySelector("[data-promo-bar]").style.width = (sold / promoSeats * 100) + "%";
+    document.querySelectorAll("[data-promo-tally]").forEach(function (el) {
+      el.textContent = sold >= promoSeats
+        ? "All " + promoSeats + " have been claimed."
+        : sold + " of " + promoSeats + " claimed, " + (promoSeats - sold) + " left.";
+    });
+    document.querySelectorAll("[data-promo-bar]").forEach(function (el) {
+      el.style.width = (sold / promoSeats * 100) + "%";
+    });
+    // Once all 25 books are claimed, take the reminder off the booking section
+    if (sold >= promoSeats) {
+      document.querySelectorAll("[data-promo-reminder]").forEach(function (el) { el.remove(); });
+    }
   }
   showTally(cfg.seatsSold);
   if (window.fetch) {

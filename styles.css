@@ -49,14 +49,20 @@ h3 { font-size: 26px; }
 .ico-x { color: var(--rust); }
 
 /* Promo banner above the header */
-.promo-banner { background: var(--dark-olive); color: var(--cream); }
-.promo-banner .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 24px; padding-top: 10px; padding-bottom: 10px; text-align: center; }
-.promo-banner p { margin: 0; font-size: 15px; line-height: 1.4; }
+.promo-banner { background: var(--paper); color: var(--dark-olive); border-bottom: 1px solid var(--line); }
+.promo-banner .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 28px; padding-top: 14px; padding-bottom: 14px; text-align: center; }
+.promo-banner p { margin: 0; font-size: 15px; line-height: 1.45; }
 .promo-banner strong { font-weight: 500; }
-.promo-tally { color: var(--burnt-orange); white-space: nowrap; }
-.promo-bar { width: 120px; height: 4px; background: rgba(239, 233, 218, 0.25); border-radius: 4px; overflow: hidden; }
-.promo-bar span { display: block; height: 100%; width: 0; background: var(--burnt-orange); }
-@media (max-width: 560px) { .promo-banner p { font-size: 14px; } .promo-tally { white-space: normal; } }
+.promo-host { font-family: var(--serif); font-size: 1.2em; font-weight: 600; font-style: italic; white-space: nowrap; }
+.promo-link { color: var(--rust); font-weight: 500; white-space: nowrap; text-underline-offset: 3px; }
+.promo-count { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
+.promo-tally { color: var(--rust); white-space: nowrap; }
+.promo-bar { display: block; width: 120px; height: 4px; background: rgba(51, 57, 31, 0.15); border-radius: 4px; overflow: hidden; }
+.promo-bar span { display: block; height: 100%; width: 0; background: var(--rust); }
+@media (max-width: 560px) { .promo-banner p { font-size: 14px; } .promo-count { flex-wrap: wrap; justify-content: center; } }
+.promo-reminder { margin: 28px 0 0; padding: 20px 24px; background: var(--paper); border: 1px solid var(--line); border-left: 3px solid var(--rust); border-radius: var(--radius); }
+.promo-reminder p { margin: 0 0 12px; }
+.promo-reminder .promo-reminder-title { font-family: var(--serif); font-size: 24px; font-weight: 600; line-height: 1.2; margin-bottom: 8px; }
 
 /* Header */
 .site-header { background: var(--olive); position: sticky; top: 0; z-index: 20; }
