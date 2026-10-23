@@ -20,6 +20,14 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
+<!-- Promo banner: the tally comes from seatsSold in booking-config.js -->
+<div class="promo-banner" id="promo" role="note">
+  <div class="wrap">
+    <p><strong>The first 25 seats sold get a free customizable Book of Mormon.</strong> <span class="promo-tally" data-promo-tally></span></p>
+    <div class="promo-bar" aria-hidden="true"><span data-promo-bar></span></div>
+  </div>
+</div>
+
 <!-- Line icons used through the page -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-check" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 10.2l2.3 2.3 4.7-4.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -207,8 +215,8 @@
           <div class="pay-options">
             <label>
               <input type="radio" name="pay" value="deposit" checked>
-              <strong>Pay a deposit</strong>
-              <span><span data-deposit>50%</span> of your trip today. The rest is due by <span data-balance-date>February 18, 2027</span>.</span>
+              <strong>Reserve with a deposit</strong>
+              <span><span data-deposit>$250</span> per person today, nonrefundable. By <span data-deadline>January 1, 2027</span>, pay the rest in full or start the 4-payment plan. If you haven't, the plan starts automatically on <span data-deadline>January 1, 2027</span>.</span>
             </label>
             <label>
               <input type="radio" name="pay" value="full">
@@ -217,6 +225,11 @@
             </label>
           </div>
         </fieldset>
+
+        <label class="ack" id="deposit-ack">
+          <input type="checkbox" id="ack-box">
+          <span><strong>Please read and check this box to book with a deposit.</strong> I understand that my <span data-deposit>$250</span>-per-person deposit is nonrefundable and that my card or bank account will be saved. If I haven't paid the rest of my trip in full or started the payment plan by <span data-deadline>January 1, 2027</span>, my payment plan starts automatically and the rest of my trip price is charged to that payment method in 4 equal payments on <span data-auto-dates>January 1, January 27, February 21 and March 19, 2027</span>.</span>
+        </label>
 
         <div class="soldout-banner" id="tour-soldout" role="status">The Witnesses Tour is sold out. Email us to join the waitlist.</div>
 
@@ -269,8 +282,28 @@
           </article>
         </div>
 
+        <div class="plan-start" id="plan">
+          <h3>Already paid your deposit?</h3>
+          <p>Choose how to pay the rest by <span data-deadline>January 1, 2027</span>. If you do nothing, your payment plan starts automatically on that date, charged to the card or bank account you used for your deposit.</p>
+          <h4>Pay the rest in full</h4>
+          <div class="plan-links">
+            <a class="btn btn-outline" href="#" data-balance="double" data-price="1800">Double</a>
+            <a class="btn btn-outline" href="#" data-balance="single" data-price="2250">Single</a>
+            <a class="btn btn-outline" href="#" data-balance="triple" data-price="1700" data-group="3">Triple</a>
+            <a class="btn btn-outline" href="#" data-balance="quad" data-price="1650" data-group="4">Quad</a>
+          </div>
+          <h4>Start your payment plan now</h4>
+          <p>Pay the rest in 4 equal payments. The first is charged today and the other 3 automatically, spaced evenly to <span data-final-payment>March 19, 2027</span>.</p>
+          <div class="plan-links">
+            <a class="btn btn-outline" href="#" data-plan="double" data-price="1800">Double</a>
+            <a class="btn btn-outline" href="#" data-plan="single" data-price="2250">Single</a>
+            <a class="btn btn-outline" href="#" data-plan="triple" data-price="1700" data-group="3">Triple</a>
+            <a class="btn btn-outline" href="#" data-plan="quad" data-price="1650" data-group="4">Quad</a>
+          </div>
+        </div>
+
         <ol class="steps">
-          <li><strong>Pick your room and payment</strong>Choose a deposit or pay in full, then select your room above.</li>
+          <li><strong>Pick your room and payment</strong>Reserve with a deposit or pay in full, then select your room above.</li>
           <li><strong>Check out securely</strong>You'll enter traveler names and roommate details on our secure Stripe checkout. Pay by card or bank transfer.</li>
           <li><strong>Get your confirmation</strong>You'll receive a receipt right away, and we'll follow up by email with your traveler packet and waiver.</li>
         </ol>
@@ -301,7 +334,15 @@
           </details>
           <details>
             <summary>How does the deposit work?</summary>
-            <p>Pay <span data-deposit>50%</span> of your trip price to hold your seat. We'll email you an invoice for the other half, due by <span data-balance-date>February 18, 2027</span>, which you can pay by card or bank transfer.</p>
+            <p>A <span data-deposit>$250</span> deposit per person holds your seat. The deposit is nonrefundable. At checkout your card or bank account is saved. By <span data-deadline>January 1, 2027</span>, either pay the rest of your trip in full or start the payment plan, using the buttons under the room prices.</p>
+          </details>
+          <details>
+            <summary>What happens if I don't choose by January 1?</summary>
+            <p>Your payment plan starts automatically. The rest of your trip price is charged to the card or bank account you used for your deposit, in 4 equal payments on <span data-auto-dates>January 1, January 27, February 21 and March 19, 2027</span>. You agree to this when you book with a deposit. To pay in full instead, use the Pay the rest in full buttons before January 1.</p>
+          </details>
+          <details>
+            <summary>Is there a payment plan?</summary>
+            <p>Yes. After your deposit, you can pay the rest of your trip in 4 equal payments, spaced evenly from the day you start the plan to <span data-final-payment>March 19, 2027</span>, one month before departure. Start right away, or any time up to <span data-deadline>January 1, 2027</span>, with the Start your payment plan buttons under the room prices. If you haven't started it by then, it starts automatically on January 1. Payments are charged automatically to your saved card or bank account.</p>
           </details>
           <details>
             <summary>Can I get a refund if I cancel?</summary>
@@ -320,6 +361,10 @@
             <p>Travelers must be 16 or older.</p>
           </details>
           <details>
+            <summary>How does the free Book of Mormon work?</summary>
+            <p>The first 25 seats sold each come with a free customizable Book of Mormon. The banner at the top of this page shows how many have been claimed.</p>
+          </details>
+          <details>
             <summary>I have another question.</summary>
             <p>Email us at <a href="mailto:hello@parleystreettravel.com">hello@parleystreettravel.com</a>.</p>
           </details>
@@ -335,6 +380,7 @@
           <li><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Missouri &amp; Nauvoo, Illinois</li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg>April 19–23, 2027 <span>(5 days, 4 nights)</span></li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-people"/></svg>50 seats on one coach</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg><span class="plain"><span data-deposit>$250</span> deposit, 4-payment plan available</span></li>
         </ul>
       </div>
       <nav class="section-nav" aria-label="On this page">
@@ -370,22 +416,50 @@
 <script>
 (function () {
   var cfg = window.PARLEY_BOOKING || { rooms: {} };
-  var money = function (n) { return "$" + n.toLocaleString("en-US"); };
+  var money = function (n) { return "$" + n.toLocaleString("en-US", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); };
 
-  var pct = cfg.depositPercent || 50;
-  document.querySelectorAll("[data-deposit]").forEach(function (el) { el.textContent = pct + "%"; });
-  document.querySelectorAll("[data-balance-date]").forEach(function (el) { if (cfg.balanceDueDate) el.textContent = cfg.balanceDueDate; });
+  var deposit = cfg.depositPerPerson || 250;
+  document.querySelectorAll("[data-deposit]").forEach(function (el) { el.textContent = money(deposit); });
+  document.querySelectorAll("[data-deadline]").forEach(function (el) { if (cfg.paymentDeadline) el.textContent = cfg.paymentDeadline; });
+  document.querySelectorAll("[data-final-payment]").forEach(function (el) { if (cfg.finalPaymentDate) el.textContent = cfg.finalPaymentDate; });
+  document.querySelectorAll("[data-auto-dates]").forEach(function (el) { if (cfg.autoPlanDates) el.textContent = cfg.autoPlanDates; });
+  var ackBox = document.getElementById("ack-box");
+  var ackWrap = document.getElementById("deposit-ack");
+
+  // Free Book of Mormon banner: running tally of seats sold. Starts from
+  // seatsSold in booking-config.js, then uses the live count from Stripe
+  // (api/seats.js) when the site runs on Vercel.
+  var promoSeats = cfg.freeBookSeats || 25;
+  var tally = document.querySelector("[data-promo-tally]");
+  function showTally(count) {
+    if (!tally) return;
+    var sold = Math.max(0, Math.min(Number(count) || 0, promoSeats));
+    tally.textContent = sold >= promoSeats
+      ? "All " + promoSeats + " have been claimed."
+      : sold + " of " + promoSeats + " claimed, " + (promoSeats - sold) + " left.";
+    document.querySelector("[data-promo-bar]").style.width = (sold / promoSeats * 100) + "%";
+  }
+  showTally(cfg.seatsSold);
+  if (window.fetch) {
+    fetch("/api/seats")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) { if (data && typeof data.seatsSold === "number") showTally(data.seatsSold); })
+      .catch(function () {});
+  }
 
   if (cfg.tourSoldOut) document.getElementById("tour-soldout").style.display = "block";
 
   function update() {
     var mode = document.querySelector('input[name="pay"]:checked').value;
+    // Deposit bookings need the acknowledgement box checked first
+    ackWrap.hidden = mode !== "deposit";
+    var needsAck = mode === "deposit" && !ackBox.checked;
     document.querySelectorAll(".room").forEach(function (card) {
       var key = card.dataset.room;
       var room = cfg.rooms[key] || {};
       var price = Number(card.dataset.price);
       var group = Number(card.dataset.group || 0);
-      var per = mode === "deposit" ? Math.round(price * pct / 100) : price;
+      var per = mode === "deposit" ? deposit : price;
       var due = card.querySelector(".due");
       due.innerHTML = group
         ? "Due today: <b>" + money(per * group) + "</b> for " + group + " travelers"
@@ -402,6 +476,10 @@
         btn.textContent = "Booking opens soon";
         btn.setAttribute("aria-disabled", "true");
         btn.removeAttribute("href");
+      } else if (needsAck) {
+        btn.textContent = "Check the box above";
+        btn.setAttribute("aria-disabled", "true");
+        btn.removeAttribute("href");
       } else {
         btn.textContent = "Book a " + card.querySelector("h3").textContent;
         btn.removeAttribute("aria-disabled");
@@ -409,6 +487,31 @@
       }
     });
   }
+  // Payment plan buttons: each payment is a quarter of what's left after the deposit
+  document.querySelectorAll("[data-plan]").forEach(function (btn) {
+    var key = btn.dataset.plan;
+    var room = cfg.rooms[key] || {};
+    var each = (Number(btn.dataset.price) - deposit) / 4;
+    var label = btn.textContent.replace(/ ·.*$/, "");
+    btn.textContent = label + " · " + money(each) + " per person, 4 times";
+    if (cfg.tourSoldOut || !room.plan) {
+      btn.setAttribute("aria-disabled", "true");
+      btn.removeAttribute("href");
+    } else {
+      btn.setAttribute("href", room.plan);
+    }
+  });
+
+  // Pay-the-rest buttons: the room price minus the deposit
+  document.querySelectorAll("[data-balance]").forEach(function (btn) {
+    var room = cfg.rooms[btn.dataset.balance] || {};
+    var rest = Number(btn.dataset.price) - deposit;
+    btn.textContent = btn.textContent.replace(/ ·.*$/, "") + " · " + money(rest) + " per person";
+    if (cfg.tourSoldOut || !room.balance) { btn.setAttribute("aria-disabled", "true"); btn.removeAttribute("href"); }
+    else btn.setAttribute("href", room.balance);
+  });
+
+  ackBox.addEventListener("change", update);
   document.querySelectorAll('input[name="pay"]').forEach(function (r) { r.addEventListener("change", update); });
   update();
 

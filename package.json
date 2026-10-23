@@ -1,0 +1,12 @@
+{
+  "name": "witnesses-tour",
+  "private": true,
+  "type": "module",
+  "description": "The Witnesses Tour site. Static HTML, plus Vercel functions in api/ that automate Stripe payment plans.",
+  "scripts": {
+    "test": "node test/plan.test.js"
+  },
+  "dependencies": {
+    "stripe": "23.0.1"
+  }
+}
