@@ -115,7 +115,7 @@ The domain was bought through Vercel. Vercel hosts the site straight from the Gi
 
    Then **Deployments → Redeploy** so the function picks them up.
 6. **Test it.** Make a test deposit on the live site with Stripe's test card 4242 4242 4242 4242. Within a minute the sandbox customer should have 4 scheduled invoices, and the banner should read "2 of 25 claimed" (or however many seats you booked). Then try a balance link and check the 4 are deleted.
-7. **Go live.** Repeat steps 3 and 4 in live mode, replace both values in Vercel with the live ones, redeploy, paste the live Payment Links into `booking-config.js`, and switch every link's thank-you redirect to `https://parleystreettravel.com/thank-you.html`.
+7. **Go live.** Change the link-preview tags at the top of `index.html` (`og:image`, `og:url`, `twitter:image`) from the GitHub Pages address to `https://parleystreettravel.com/`. Repeat steps 3 and 4 in live mode, replace both values in Vercel with the live ones, redeploy, paste the live Payment Links into `booking-config.js`, and switch every link's thank-you redirect to `https://parleystreettravel.com/thank-you.html`.
 8. **Turn off GitHub Pages** (repository **Settings → Pages → Source: None**) so there's only one copy of the site. The automation and live banner only run on Vercel.
 9. Set up the email address `hello@parleystreettravel.com`, or replace it in `index.html`, `thank-you.html` and `terms.html`.
 
