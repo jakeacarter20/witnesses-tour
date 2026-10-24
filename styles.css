@@ -178,16 +178,12 @@ h3 { font-size: 26px; }
 }
 
 /* Hosts */
-.host { display: grid; grid-template-columns: 200px minmax(0, 1fr) 150px; gap: 32px; align-items: start; }
+.host { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
 .host-name h3 { font-size: 24px; }
 .host-role { margin: 8px 0 0; font-size: 15px; color: var(--muted); }
 .host-bio p { margin: 0 0 14px; color: var(--muted); }
 .host-bio p:last-child { margin-bottom: 0; }
 .host-photo { width: 150px; height: 150px; object-fit: cover; border-radius: var(--radius); }
-@container (max-width: 640px) {
-  .host { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .host-photo { order: -1; }
-}
 
 /* Where we'll meet */
 .meet-place strong { display: block; color: var(--ink); font-weight: 500; }
