@@ -190,7 +190,7 @@ h3 { font-size: 26px; }
 
 /* Where we'll meet */
 .meet-place strong { display: block; color: var(--ink); font-weight: 500; }
-.meet-photo { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; margin-top: 24px; }
+.meet-photo { display: block; width: 100%; max-width: 560px; height: auto; aspect-ratio: 3 / 2; object-fit: cover; margin-top: 24px; border-radius: var(--radius); }
 
 /* Booking */
 .pay-choice { margin: 32px 0 0; border: 0; padding: 0; }
