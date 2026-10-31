@@ -36,7 +36,7 @@ Static website for Parley Street Travel Co., LLC, selling seats on its first tou
 ## Open items before launch
 
 - A higher-resolution host photo, and the contact email hello@parleystreettravel.com set up.
-- Attorney-approved terms in `terms.html`.
+- Attorney-approved terms in `terms.html`. On 2026-10-31 the public draft note and bracketed placeholders were removed, so the page only states what is already decided. Still missing: what happens if a plan payment fails, refunds after paying in full or starting the plan, refunds close to the tour date, transfers to another traveler, what travelers get if Parley Street cancels (including for too few bookings) and the decision date, the free-book details (what counts as sold, customizing and delivery, cancellations), conduct rules and removal, and any recommended insurance provider.
 - The LLC, EIN, a Stripe account in the LLC's name, insurance, and seller-of-travel registration in California, Florida, Washington and Hawaii.
 - Vercel import, domain, restricted key and webhook (SETUP.md step 5), tested in the sandbox, then switched to live.
 - All 16 live Payment Links pasted into `booking-config.js`, and a test booking made and refunded.

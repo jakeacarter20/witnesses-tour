@@ -10,7 +10,7 @@ The site is plain HTML, hosted on **Vercel** from the GitHub repository. Booking
 |---|---|
 | `index.html` | The tour page: title over a vintage engraving, about, what's included, itinerary, meals, hosts, where we'll meet, room choice and booking, FAQ |
 | `thank-you.html` | Where Stripe sends people after they pay |
-| `terms.html` | Terms and cancellation policy. **Draft outline only, replace before launch** |
+| `terms.html` | Terms and cancellation policy. **Placeholders removed 2026-10-31; still incomplete (see CLAUDE.md open items), replace with attorney-approved terms** |
 | `booking-config.js` | **The only file you edit to open or close booking.** Paste your Stripe links here |
 | `styles.css` | Brand colors and fonts from the brand guide |
 | `api/` | The Vercel functions: `stripe-webhook.js` (schedules plan charges), `seats.js` (banner seat count), and `_lib/` (the plan rules and dates in `_lib/config.js`) |
