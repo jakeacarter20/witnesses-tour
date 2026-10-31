@@ -104,8 +104,8 @@ Travelers who paid the $250 deposit must, by **January 1, 2027**, either pay the
 
 The domain was bought through Vercel. Vercel hosts the site straight from the GitHub repository and redeploys whenever a change is pushed.
 
-1. **Import the repository.** In Vercel: **Add New → Project**, pick `jakeacarter20/witnesses-tour`, leave every build setting at its default (Framework Preset "Other", no build command), and deploy.
-2. **Connect the domain.** In the project: **Settings → Domains**, add `parleystreettravel.com` (and `www.parleystreettravel.com`, set to redirect to it). Because Vercel sold the domain, the DNS is set up for you.
+1. **Import the repository.** Done October 30, 2026: Vercel project `witnesses-tour`, deploying from `main`. In Vercel: **Add New → Project**, pick `jakeacarter20/witnesses-tour`, leave every build setting at its default (Framework Preset "Other", no build command), and deploy.
+2. **Connect the domain.** Done October 30, 2026 for `parleystreettravel.com` and `www.parleystreettravel.com`. In the project: **Settings → Domains**, add `parleystreettravel.com` (and `www.parleystreettravel.com`, set to redirect to it). Because Vercel sold the domain, the DNS is set up for you.
 3. **Make a restricted Stripe key.** In Stripe, start in the **sandbox**: **Developers → API keys → Create restricted key**, named "Witnesses Tour website". Give it **Read** on Checkout Sessions, PaymentIntents, Charges, Customers and Prices, and **Write** on Invoices and Invoice items. Leave everything else at None.
 4. **Add the webhook.** In Stripe, still in the sandbox: **Developers → Webhooks → Add destination**. Endpoint URL `https://parleystreettravel.com/api/stripe-webhook`; events `checkout.session.completed`, `checkout.session.async_payment_succeeded` and `checkout.session.async_payment_failed`. After saving, reveal its **Signing secret** (starts with `whsec_`).
 5. **Paste the secrets into Vercel**, never into the code or a chat: **Settings → Environment Variables**, for Production:
@@ -115,7 +115,7 @@ The domain was bought through Vercel. Vercel hosts the site straight from the Gi
 
    Then **Deployments → Redeploy** so the function picks them up.
 6. **Test it.** Make a test deposit on the live site with Stripe's test card 4242 4242 4242 4242. Within a minute the sandbox customer should have 4 scheduled invoices, and the banner should read "2 of 25 claimed" (or however many seats you booked). Then try a balance link and check the 4 are deleted.
-7. **Go live.** Change the link-preview tags at the top of `index.html` (`og:image`, `og:url`, `twitter:image`) from the GitHub Pages address to `https://parleystreettravel.com/`. Repeat steps 3 and 4 in live mode, replace both values in Vercel with the live ones, redeploy, paste the live Payment Links into `booking-config.js`, and switch every link's thank-you redirect to `https://parleystreettravel.com/thank-you.html`.
+7. **Go live.** Repeat steps 3 and 4 in live mode, replace both values in Vercel with the live ones, redeploy, paste the live Payment Links into `booking-config.js`, and switch every link's thank-you redirect to `https://parleystreettravel.com/thank-you.html`.
 8. **Turn off GitHub Pages** (repository **Settings → Pages → Source: None**) so there's only one copy of the site. The automation and live banner only run on Vercel.
 9. Set up the email address `hello@parleystreettravel.com`, or replace it in `index.html`, `thank-you.html` and `terms.html`.
 
