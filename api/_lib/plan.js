@@ -120,11 +120,15 @@ async function installmentPrice(stripe, room) {
   const found = await stripe.prices.search({
     query: `active:'true' AND metadata['kind']:'installment' AND metadata['room']:'${room}'`,
   });
-  if (found.data.length !== 1) {
-    throw new Error(`Expected one active installment price for ${room}, found ${found.data.length}`);
+  // Copying products from the sandbox can leave identical duplicate prices;
+  // any of them charges the same amount, but different amounts mean a mistake.
+  const amounts = new Set(found.data.map((price) => price.unit_amount));
+  if (found.data.length === 0 || amounts.size !== 1) {
+    throw new Error(`Expected one active installment price amount for ${room}, found ${found.data.length} prices with ${amounts.size} amounts`);
   }
-  priceCache.set(room, found.data[0].id);
-  return found.data[0].id;
+  const price = [...found.data].sort((x, y) => (y.created || 0) - (x.created || 0))[0].id;
+  priceCache.set(room, price);
+  return price;
 }
 
 // Creates one scheduled invoice per charge time. Safe to run twice for the same

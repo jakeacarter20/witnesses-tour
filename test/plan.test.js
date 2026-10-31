@@ -80,7 +80,11 @@ function fakeStripe({ customers = [{ id: "cus_1", email: "pat@example.com" }], q
     prices: {
       async search({ query }) {
         const room = query.match(/\['room'\]:'(\w+)'/)[1];
-        return { data: [{ id: `price_installment_${room}` }] };
+        // Two identical copies, as when products are copied from the sandbox
+        return { data: [
+          { id: `price_installment_${room}`, unit_amount: 36250, created: 2 },
+          { id: `price_installment_${room}_copy`, unit_amount: 36250, created: 1 },
+        ] };
       },
     },
   };
