@@ -44,7 +44,7 @@ Deposits are set by `depositPerPerson` in `booking-config.js`. If you change tha
 
 - Collects name, email and phone, creates a Stripe customer, and emails a receipt invoice.
 - Accepts card and US bank account.
-- Redirects to the thank-you page after payment (the GitHub Pages address for now; switch it to `https://parleystreettravel.com/thank-you.html` once the domain is connected).
+- Redirects to `https://parleystreettravel.com/thank-you.html` after payment.
 - Shows a note above the Pay button: deposit links say the deposit is nonrefundable and give the January 1, 2027 deadline.
 
 **Custom fields:** Double asks for every traveler's full name, who they're sharing a room with (or "Pair me"), and an emergency contact. Single, Triple and Quad ask for the travelers' full names, each traveler's date of birth (must be 16 or older), and an emergency contact. Plan links ask only for the name on the deposit booking.
@@ -116,7 +116,7 @@ The domain was bought through Vercel. Vercel hosts the site straight from the Gi
    Then **Deployments → Redeploy** so the function picks them up.
 6. **Test it.** Make a test deposit on the live site with Stripe's test card 4242 4242 4242 4242. Within a minute the sandbox customer should have 4 scheduled invoices, and the banner should read "2 of 25 claimed" (or however many seats you booked). Then try a balance link and check the 4 are deleted.
 7. **Go live.** Repeat steps 3 and 4 in live mode, replace both values in Vercel with the live ones, redeploy, paste the live Payment Links into `booking-config.js`, and switch every link's thank-you redirect to `https://parleystreettravel.com/thank-you.html`.
-8. **Turn off GitHub Pages** (repository **Settings → Pages → Source: None**) so there's only one copy of the site. The automation and live banner only run on Vercel.
+8. **Turn off GitHub Pages** so there's only one copy of the site. Done on 2026-10-31; the automation and live banner only run on Vercel.
 9. Set up the email address `hello@parleystreettravel.com`, or replace it in `index.html`, `thank-you.html` and `terms.html`.
 
 ## Before November 2: checklist
