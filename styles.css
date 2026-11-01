@@ -218,6 +218,9 @@ h3 { font-size: 26px; }
 .room ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 15px; }
 .room .due { font-size: 15px; border-top: 1px solid var(--line); padding-top: 14px; }
 .room .due b { font-weight: 500; }
+/* Room details: always shown on wider screens; on phones they fold behind a Details toggle */
+.room-more { display: contents; }
+.room-toggle { display: none; }
 
 .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; counter-reset: s; font-size: 16px; }
 .steps li { counter-increment: s; border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); }
@@ -225,6 +228,35 @@ h3 { font-size: 26px; }
 .steps strong { color: var(--ink); font-weight: 500; display: block; }
 @container (max-width: 520px) {
   .pay-options, .rooms { grid-template-columns: minmax(0, 1fr); }
+  /* Compact room cards on phones, so all four prices fit on one screen: name and price on one line, Details folds the rest */
+  .rooms { gap: 10px; margin-top: 24px; }
+  .room {
+    grid-row: auto; grid-template-rows: none; margin-bottom: 0; padding: 12px 14px 10px 16px;
+    grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 10px; row-gap: 0; align-items: center;
+    grid-template-areas: "name price btn" "per per btn" "toggle toggle btn" "more more more";
+  }
+  .room .tag { display: none; }
+  .room h3 { grid-area: name; font-size: 24px; align-self: baseline; }
+  .room .room-price { display: contents; }
+  .room .price { grid-area: price; font-size: 26px; align-self: baseline; }
+  .room .per { grid-area: per; font-size: 13px; line-height: 1.4; }
+  .room .btn { grid-area: btn; width: 128px; min-height: 44px; padding: 8px 12px; font-size: 12px; letter-spacing: 0.08em; line-height: 1.3; text-align: center; }
+  .room-toggle {
+    grid-area: toggle; justify-self: start; display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 0 2px; border: 0; background: none; color: var(--rust); font: 500 14px/1.2 var(--sans); cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .room-toggle::after { content: ""; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); }
+  .room.is-open .room-toggle::after { transform: translateY(1px) rotate(-135deg); }
+  .room-more { grid-area: more; display: none; }
+  .room.is-open .room-more { display: grid; gap: 10px; padding-top: 10px; }
+}
+/* The narrowest phones (about 320px wide) need a size step down so the price clears the button */
+@container (max-width: 300px) {
+  .room { column-gap: 8px; padding: 12px 10px 10px 12px; }
+  .room h3 { font-size: 21px; }
+  .room .price { font-size: 22px; }
+  .room .btn { width: 108px; padding: 8px; font-size: 11px; letter-spacing: 0.06em; }
 }
 /* The steps stay in a row; on narrower columns the text gets smaller, and only phones stack them */
 @container (max-width: 640px) { .steps { gap: 16px; font-size: 14px; line-height: 1.5; } .steps li::before { font-size: 30px; } }
