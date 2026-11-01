@@ -226,7 +226,9 @@ h3 { font-size: 26px; }
 @container (max-width: 520px) {
   .pay-options, .rooms { grid-template-columns: minmax(0, 1fr); }
 }
-@container (max-width: 640px) { .steps { grid-template-columns: minmax(0, 1fr); } }
+/* The steps stay in a row; on narrower columns the text gets smaller, and only phones stack them */
+@container (max-width: 640px) { .steps { gap: 16px; font-size: 14px; line-height: 1.5; } .steps li::before { font-size: 30px; } }
+@container (max-width: 400px) { .steps { grid-template-columns: minmax(0, 1fr); font-size: 16px; } }
 
 .ack { display: flex; gap: 14px; align-items: flex-start; margin-top: 16px; padding: 16px 20px; background: #fff; border: 1px solid var(--rust); border-radius: var(--radius); font-size: 15px; color: var(--ink); cursor: pointer; }
 .ack[hidden] { display: none; }
