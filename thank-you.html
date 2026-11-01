@@ -11,6 +11,29 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=20261031g">
+<script>
+  // Take the Stripe booking ID out of the address before any analytics loads, so
+  // Google Analytics, Clarity and Vercel never record it. traveler-form.js reads it back.
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var id = params.get("session_id");
+    if (!id) return;
+    window.parleyBookingSession = id;
+    try { sessionStorage.setItem("parleyBookingSession", id); } catch (e) {}
+    params.delete("session_id");
+    var rest = params.toString();
+    history.replaceState(null, "", location.pathname + (rest ? "?" + rest : "") + location.hash);
+  })();
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8CDX55VKBV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8CDX55VKBV');
+</script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script type="text/javascript">
@@ -55,9 +78,9 @@
 <footer class="site-footer site-footer-slim">
   <div class="wrap">
     <p><a href="index.html">The Witnesses Tour</a> · <a href="terms.html">Terms &amp; cancellation policy</a> · <a href="privacy.html">Privacy policy</a> · <a href="mailto:hello@parleystreettravel.com">hello@parleystreettravel.com</a></p>
-    <p class="small site-notice">We use Microsoft Clarity and Vercel Web Analytics to see how visitors use this site so we can improve it. By using this site, you agree that we and Microsoft can collect and use this data. Our <a href="privacy.html">privacy policy</a> has more details.</p>
+    <p class="small site-notice">We use Google Analytics, Microsoft Clarity and Vercel Web Analytics to see how visitors use this site so we can improve it. By using this site, you agree that we, Google and Microsoft can collect and use this data. Our <a href="privacy.html">privacy policy</a> has more details.</p>
   </div>
 </footer>
-<script src="traveler-form.js?v=20261031a"></script>
+<script src="traveler-form.js?v=20261101a"></script>
 </body>
 </html>

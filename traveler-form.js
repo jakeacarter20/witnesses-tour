@@ -2,12 +2,15 @@
   Parley Street Travel Co. — traveler details form (thank-you page)
   Stripe checkout only allows three questions, so after a booking the
   thank-you page asks for each traveler's details here, one answer per box.
-  Stripe sends travelers back with ?session_id=cs_... in the address; the
-  answers are saved to that booking in Stripe by /api/traveler-details.
+  Stripe sends travelers back with ?session_id=cs_... in the address (thank-you.html
+  takes it out of the address at once, so analytics never sees it); the answers are
+  saved to that booking in Stripe by /api/traveler-details.
 */
 (function () {
   var section = document.getElementById("traveler-details");
-  var sessionId = new URLSearchParams(location.search).get("session_id");
+  // thank-you.html moves the booking ID out of the address before analytics loads
+  var sessionId = window.parleyBookingSession || new URLSearchParams(location.search).get("session_id");
+  if (!sessionId) { try { sessionId = sessionStorage.getItem("parleyBookingSession"); } catch (e) {} }
   if (!section || !sessionId) return;
 
   var form = section.querySelector("form");
@@ -65,7 +68,7 @@
       form.querySelectorAll('input[name="roommate"]').forEach(function (r) { r.addEventListener("change", syncMate); });
       syncMate();
     }
-    if (data.savedAt) say("Your traveler details are saved. You can change them here any time.", "ok");
+    if (data.savedAt) say("Your traveler details are saved. To change anything later, email hello@parleystreettravel.com.", "ok");
   }
 
   function say(message, kind) {
@@ -95,7 +98,7 @@
     fetch("/api/traveler-details", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
       .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
       .then(function (res) {
-        if (res.ok) say("Saved. Thank you! You can change these here any time before the trip.", "ok");
+        if (res.ok) say("Saved. Thank you! To change anything later, email hello@parleystreettravel.com.", "ok");
         else say(res.body.error || "We couldn't save your details. Please try again.", "error");
       })
       .catch(function () { say("We couldn't reach the server. Please check your connection and try again.", "error"); })
