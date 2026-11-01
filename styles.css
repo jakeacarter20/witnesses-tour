@@ -277,6 +277,11 @@ h3 { font-size: 26px; }
 .site-footer p { margin: 0 0 6px; font-size: 15px; }
 .site-footer a { color: var(--cream); }
 .site-footer .small { opacity: 0.7; font-size: 13px; width: 100%; margin-top: 24px; }
+.site-footer .site-notice { max-width: 760px; }
+.site-footer .site-notice + .small { margin-top: 8px; }
+.site-footer-slim { padding: 32px 0; }
+.site-footer-slim .wrap { display: block; }
+.site-footer-slim .site-notice { margin-top: 12px; }
 .photo-credits { width: 100%; margin: 0; font-size: 12px !important; line-height: 1.5; opacity: 0.7; }
 .photo-credits a { color: inherit; }
 
