@@ -212,13 +212,14 @@ h3 { font-size: 26px; }
 .room.is-base { border-color: var(--dark-olive); }
 .room .tag { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); font-weight: 500; min-height: 18px; }
 .room h3 { font-size: 30px; }
+.book-sub { font-size: 30px; margin: 56px 0 10px; }
 .room .price { font-family: var(--serif); font-size: 44px; font-weight: 600; color: var(--dark-olive); line-height: 1; }
 .room .per { font-size: 14px; color: var(--muted); }
 .room ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 15px; }
 .room .due { font-size: 15px; border-top: 1px solid var(--line); padding-top: 14px; }
 .room .due b { font-weight: 500; }
 
-.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 36px 0 0; padding: 0; list-style: none; counter-reset: s; font-size: 16px; }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; counter-reset: s; font-size: 16px; }
 .steps li { counter-increment: s; border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); }
 .steps li::before { content: counter(s); font-family: var(--serif); font-size: 36px; font-weight: 600; color: var(--rust); display: block; line-height: 1; margin-bottom: 10px; }
 .steps strong { color: var(--ink); font-weight: 500; display: block; }

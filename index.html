@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261031a">
+<link rel="stylesheet" href="styles.css?v=20261031b">
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -210,7 +210,14 @@
 
       <!-- BOOKING -->
       <section class="block" id="book">
-        <h2>Choose your room</h2>
+        <h2>Plan your trip</h2>
+        <ol class="steps">
+          <li><strong>Pick your room and payment</strong>Reserve with a deposit or pay in full, then select your room below.</li>
+          <li><strong>Check out securely</strong>You'll enter traveler names and roommate details on our secure Stripe checkout. Pay by card or bank transfer.</li>
+          <li><strong>Get your confirmation</strong>You'll receive a receipt right away, and we'll follow up by email with your traveler packet and waiver.</li>
+        </ol>
+
+        <h3 class="book-sub">Choose your room</h3>
         <p>Prices are per person and include everything listed above. Only 50 seats.</p>
 
         <fieldset class="pay-choice">
@@ -305,12 +312,6 @@
           </div>
         </div>
 
-        <ol class="steps">
-          <li><strong>Pick your room and payment</strong>Reserve with a deposit or pay in full, then select your room above.</li>
-          <li><strong>Check out securely</strong>You'll enter traveler names and roommate details on our secure Stripe checkout. Pay by card or bank transfer.</li>
-          <li><strong>Get your confirmation</strong>You'll receive a receipt right away, and we'll follow up by email with your traveler packet and waiver.</li>
-        </ol>
-
         <p class="notice">By booking you agree to our <a href="terms.html">terms and cancellation policy</a>. Travelers must be 16 or older.</p>
       </section>
 
@@ -392,7 +393,7 @@
         <a href="#itinerary">Full itinerary</a>
         <a href="#meals">Meals</a>
         <a href="#hosts">Your hosts</a>
-        <a href="#book">Rooms &amp; prices</a>
+        <a href="#book">Plan your trip</a>
         <a href="#faq">FAQ</a>
       </nav>
       <a class="btn btn-dark side-cta" href="#book">Book now</a>
