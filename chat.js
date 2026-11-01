@@ -102,6 +102,7 @@
   panel.hidden = true;
   panel.setAttribute("role", "dialog");
   panel.setAttribute("aria-label", "Questions about The Witnesses Tour");
+  panel.setAttribute("data-clarity-mask", "True"); // keep visitors' questions out of Microsoft Clarity recordings
   panel.innerHTML =
     '<header class="chat-head"><div><strong>Questions about the tour</strong><span>Answers from this page</span></div>' +
     '<button type="button" class="chat-close" aria-label="Close chat">&times;</button></header>' +
