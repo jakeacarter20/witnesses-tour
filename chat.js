@@ -59,8 +59,8 @@
       a: function () { var name = $("#hosts h3"), role = $("#hosts .host-role"), bio = $("#hosts .host-bio p"); return name ? "<p><strong>" + esc(text(name)) + "</strong><br>" + (role ? role.innerHTML : "") + "</p>" + (bio ? "<p>" + bio.innerHTML + "</p>" : "") : ""; } },
     { q: "How much walking is there?", strong: ["walk", "walking", "wheelchair", "accessible", "accessibility", "stairs", "elevator", "mobility", "fitness"], weak: ["hard", "physical"],
       a: function () { var f = $$("#details .fact").filter(function (x) { return /walk/i.test(text($("h3", x))); })[0]; return f ? "<p>" + esc(text($("p", f))) + "</p>" : ""; } },
-    { q: "Do I need travel insurance?", strong: ["insurance", "insure", "insured"], weak: ["sick", "illness"],
-      a: function () { var f = $$("#details .fact").filter(function (x) { return /insurance/i.test(text($("h3", x))); })[0]; return f ? "<p>" + esc(text($("p", f))) + "</p>" : ""; } },
+    { q: "Do I need travel insurance?", strong: ["insurance", "insure", "insured", "squaremouth", "protection"], weak: ["sick", "illness", "protect"],
+      a: function () { var ans = faq("Should I get travel insurance"); if (ans) return ans; var f = $$("#details .fact").filter(function (x) { return /insurance/i.test(text($("h3", x))); })[0]; return f ? "<p>" + $("p", f).innerHTML + "</p>" : ""; } },
     { q: "How big is the group?", strong: ["seats", "size", "spots", "available", "left", "people", "travelers"], weak: ["many", "group", "full"],
       a: function () { var p = $("#about p"); return p ? "<p>" + esc(text(p)) + "</p>" : ""; } }
   ];
