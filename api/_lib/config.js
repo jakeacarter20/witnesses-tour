@@ -17,3 +17,7 @@ export const CHARGE_HOUR_UTC = 16;
 // Every object the automation creates in Stripe carries this in its metadata,
 // so it can be found, checked for duplicates, and undone.
 export const CREATED_BY = "witnesses-webhook";
+
+// Travelers must be this old on the first day of the tour (traveler details form).
+export const TOUR_START = "2027-04-19";
+export const MIN_AGE = 16;

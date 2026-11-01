@@ -44,10 +44,10 @@ Deposits are set by `depositPerPerson` in `booking-config.js`. If you change tha
 
 - Collects name, email and phone, creates a Stripe customer, and emails a receipt invoice.
 - Accepts card and US bank account.
-- Redirects to `https://parleystreettravel.com/thank-you.html` after payment.
+- Redirects to `https://parleystreettravel.com/thank-you.html` after payment. Deposit and pay-in-full links add `?session_id={CHECKOUT_SESSION_ID}` so the thank-you page can show the traveler details form.
 - Shows a note above the Pay button: deposit links say the deposit is nonrefundable and give the January 1, 2027 deadline.
 
-**Custom fields:** Double asks for every traveler's full name, who they're sharing a room with (or "Pair me"), and an emergency contact. Single, Triple and Quad ask for the travelers' full names, each traveler's date of birth (must be 16 or older), and an emergency contact. Plan links ask only for the name on the deposit booking.
+**Custom fields:** Stripe allows at most 3. Every deposit and pay-in-full link asks the same three, one answer each: "Your date of birth (MM/DD/YYYY)", "Emergency contact name" and "Emergency contact phone". Everything else (each traveler's name, date of birth, email and phone, and a solo Double's roommate) is asked on the thank-you page right after payment and saved onto the customer in Stripe (Customers > the buyer > Metadata). Balance and plan links ask only for the name on the deposit booking.
 
 **Terms checkbox:** not turned on yet. It needs a terms URL in Stripe's public business settings, and `terms.html` is still a draft. Turn it on once the attorney-approved terms are live.
 
