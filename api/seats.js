@@ -1,9 +1,10 @@
 // Seats booked so far, for the free Book of Mormon banner on the tour page.
-// Counts paid deposit and pay-in-full checkouts for this tour (one seat per traveler).
+// Counts paid deposit and pay-in-full checkouts for this tour (one seat per traveler),
+// except any listed in NOT_COUNTED in config.js.
 // Cached for two minutes so page views don't each call Stripe.
 
 import Stripe from "stripe";
-import { TOUR } from "./_lib/config.js";
+import { TOUR, NOT_COUNTED } from "./_lib/config.js";
 
 export async function GET() {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -15,6 +16,7 @@ export async function GET() {
     const m = session.metadata || {};
     if (m.tour !== TOUR || (m.kind !== "deposit" && m.kind !== "full")) continue;
     if (session.payment_status !== "paid") continue;
+    if (NOT_COUNTED.includes(session.id)) continue;
     const items = await stripe.checkout.sessions.listLineItems(session.id, { limit: 20 });
     seatsSold += items.data.reduce((n, item) => n + (item.quantity || 0), 0);
   }

@@ -21,3 +21,10 @@ export const CREATED_BY = "witnesses-webhook";
 // Travelers must be this old on the first day of the tour (traveler details form).
 export const TOUR_START = "2027-04-19";
 export const MIN_AGE = 16;
+
+// Checkouts left out of the "seats sold" count on the banner (and so out of the
+// free Book of Mormon tally), such as the owners' own bookings. Add a Checkout
+// Session ID (cs_live_...) from Stripe to leave another one out.
+export const NOT_COUNTED = [
+  "cs_live_a14BHM12ZbXi6qi3EBbHeNK3rjzgU2d9giqB4a5IZFNwk9TyahAuUsf5SU", // Jaime's Double deposit, Oct 31, 2026
+];
