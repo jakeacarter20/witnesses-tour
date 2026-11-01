@@ -233,7 +233,7 @@ h3 { font-size: 26px; }
   .room {
     grid-row: auto; grid-template-rows: none; margin-bottom: 0; padding: 12px 14px 10px 16px;
     grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 10px; row-gap: 0; align-items: center;
-    grid-template-areas: "name price btn" "per per btn" "toggle toggle btn" "more more more";
+    grid-template-areas: "name price btn" "per per btn" "toggle toggle btn" "more more more" "cta cta cta";
   }
   .room .tag { display: none; }
   .room h3 { grid-area: name; font-size: 24px; align-self: baseline; }
@@ -250,6 +250,9 @@ h3 { font-size: 26px; }
   .room.is-open .room-toggle::after { transform: translateY(1px) rotate(-135deg); }
   .room-more { grid-area: more; display: none; }
   .room.is-open .room-more { display: grid; gap: 10px; padding-top: 10px; }
+  /* Until the deposit box is checked, the "Check the box above" button waits inside Details */
+  .room .btn[data-needs-ack] { display: none; grid-area: cta; width: 100%; margin-top: 12px; }
+  .room.is-open .btn[data-needs-ack] { display: inline-flex; }
 }
 /* The narrowest phones (about 320px wide) need a size step down so the price clears the button */
 @container (max-width: 300px) {
