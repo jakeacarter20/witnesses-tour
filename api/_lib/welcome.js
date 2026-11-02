@@ -5,7 +5,7 @@
 // Customer in Stripe (welcome_sent_to, welcome_sent_at), so nobody gets it twice.
 // Kept separate from the HTTP handler so it can be tested (see test/welcome.test.js).
 
-import { TOUR, NOT_COUNTED, WELCOME_DELAY_DAYS, WELCOME_START, WAIVER_URL } from "./config.js";
+import { TOUR, NOT_COUNTED, WELCOME_DELAY_DAYS, WELCOME_START } from "./config.js";
 
 const DAY = 86400;
 const SITE = "https://parleystreettravel.com";
@@ -15,13 +15,10 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const firstName = (name) => String(name || "").trim().split(/\s+/)[0] || "there";
 
 // The letter itself. Returns { subject, html, text }.
-export function buildWelcome({ name, room, kind, travelers, detailsUrl, waiverUrl = WAIVER_URL }) {
+export function buildWelcome({ name, room, kind, travelers, detailsUrl }) {
   const roomName = ROOMS[room] || room;
   const subject = "Welcome to The Witnesses Tour";
   const steps = [];
-  steps.push(waiverUrl
-    ? { title: "Sign your waiver", text: "Every traveler signs their own waiver before the trip. It takes a few minutes.", link: waiverUrl, label: "Sign the waiver" }
-    : { title: "Watch for your waiver", text: "Every traveler signs a waiver before the trip. We'll email the link separately." });
   if (detailsUrl) {
     steps.push({ title: "Add your traveler details", text: "We still need each traveler's name, date of birth and contact details for hotel rooms, the coach list and emergencies.", link: detailsUrl, label: "Add traveler details" });
   }
@@ -34,7 +31,7 @@ export function buildWelcome({ name, room, kind, travelers, detailsUrl, waiverUr
   const intro = `Welcome to The Witnesses Tour! We're so glad you're coming with us April 19–23, 2027, to stand where the witnesses of the Book of Mormon lived, testified and are buried.`;
   const booking = `Your booking: ${roomName} room for ${who.length} traveler${who.length === 1 ? "" : "s"}: ${who.join(", ")}.`;
   const travel = "Fly into Kansas City International (MCI) by late morning on Monday, April 19. We gather at 1:30 PM at the Independence Visitors' Center, 937 W Walnut St, Independence, MO 64050. The tour ends after the closing devotional at Carthage Jail, about 12:30 PM on Friday, April 23. Ride the coach back to Kansas City (arriving at MCI about 6:15 PM), or leave from Carthage on your own. We'll ask which you prefer before the trip.";
-  const next = "About a month before the trip, you'll get your traveler packet with final times, hotels and roommate details.";
+  const next = "About a month before the trip, you'll get your traveler packet with final times, hotels and roommate details, along with the traveler waiver for each traveler to sign.";
 
   const text = [
     `Hi ${firstName(name)},`, "", intro, "", booking, "", "WHAT TO DO NOW", "",

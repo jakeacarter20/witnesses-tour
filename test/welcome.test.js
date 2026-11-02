@@ -111,11 +111,10 @@ test("the letter covers the deposit deadline only for deposits", () => {
   assert.match(deposit.html, /Welcome to The Witnesses Tour/);
 });
 
-test("the waiver step links to the waiver once there is one", () => {
-  const none = buildWelcome({ name: "Pat", room: "single", kind: "full", travelers: ["Pat"], waiverUrl: "" });
-  const linked = buildWelcome({ name: "Pat", room: "single", kind: "full", travelers: ["Pat"], waiverUrl: "https://example.com/waiver" });
-  assert.match(none.text, /We'll email the link separately/);
-  assert.match(linked.text, /https:\/\/example\.com\/waiver/);
+test("the waiver is promised with the traveler packet, not in this email", () => {
+  const { text } = buildWelcome({ name: "Pat", room: "single", kind: "full", travelers: ["Pat"] });
+  assert.match(text, /traveler packet .* along with the traveler waiver/);
+  assert.doesNotMatch(text, /Sign your waiver/);
 });
 
 test("names are escaped in the HTML", () => {

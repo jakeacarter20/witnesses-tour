@@ -36,6 +36,3 @@ export const WELCOME_FROM = "Parley Street Travel Co. <hello@parleystreettravel.
 export const WELCOME_REPLY_TO = "hello@parleystreettravel.com";
 // Bookings made before this date never get the automatic welcome email.
 export const WELCOME_START = "2026-11-01";
-// The online waiver every traveler signs. While this is empty, the email says
-// the waiver link will follow separately.
-export const WAIVER_URL = "";
