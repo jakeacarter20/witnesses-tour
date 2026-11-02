@@ -63,8 +63,9 @@ Every checkout sends Stripe a webhook to `https://parleystreettravel.com/api/str
 | Start the plan (plan link) | Charges payment 1 at checkout. Deletes that traveler's 4 automatic-plan charges, and schedules payments 2 to 4 evenly from today to March 19, 2027 |
 | Pay the rest in full (balance link) | Deletes every scheduled plan charge for that traveler's email |
 | Pay in full | Nothing to schedule |
+| A scheduled plan charge is paid with a new card or bank account (`invoice.paid`) | Moves that booking's remaining scheduled charges to the new payment method (clearing the old bank mandate if they switched to a card). If the traveler didn't save the new one, sends an alert so you can follow up by hand |
 
-The scheduled charges are Stripe invoices in the **Invoices** tab, as drafts with a scheduled charge date, until the day they're charged. Bank payments take a few days to clear; the automation waits until the money arrives.
+The scheduled charges are Stripe invoices in the **Invoices** tab, as drafts with a scheduled charge date, until the day they're charged. For the new-card step to work, turn on **Settings → Billing → Invoices → Save customer payment information** and keep **Ask customers before saving their payment information** on, so the payment page offers to save a new card. Bank payments take a few days to clear; the automation waits until the money arrives.
 
 **Alerts.** Anything it can't settle on its own is written to the Vercel function log and, if you set up email alerts (step 5), emailed to you:
 
@@ -106,8 +107,8 @@ The domain was bought through Vercel. Vercel hosts the site straight from the Gi
 
 1. **Import the repository.** Done October 30, 2026: Vercel project `witnesses-tour`, deploying from `main`. In Vercel: **Add New → Project**, pick `jakeacarter20/witnesses-tour`, leave every build setting at its default (Framework Preset "Other", no build command), and deploy.
 2. **Connect the domain.** Done October 30, 2026 for `parleystreettravel.com` and `www.parleystreettravel.com`. In the project: **Settings → Domains**, add `parleystreettravel.com` (and `www.parleystreettravel.com`, set to redirect to it). Because Vercel sold the domain, the DNS is set up for you.
-3. **Make a restricted Stripe key.** In Stripe, start in the **sandbox**: **Developers → API keys → Create restricted key**, named "Witnesses Tour website". Give it **Read** on Checkout Sessions, PaymentIntents, Charges, Customers and Prices, and **Write** on Invoices and Invoice items. Leave everything else at None.
-4. **Add the webhook.** In Stripe, still in the sandbox: **Developers → Webhooks → Add destination**. Endpoint URL `https://parleystreettravel.com/api/stripe-webhook`; events `checkout.session.completed`, `checkout.session.async_payment_succeeded` and `checkout.session.async_payment_failed`. After saving, reveal its **Signing secret** (starts with `whsec_`).
+3. **Make a restricted Stripe key.** In Stripe, start in the **sandbox**: **Developers → API keys → Create restricted key**, named "Witnesses Tour website". Give it **Read** on Checkout Sessions, PaymentIntents, Charges and Prices, and **Write** on Customers, Invoices and Invoice items. (Invoices covers invoice payments too, which the card-change step reads.) Leave everything else at None.
+4. **Add the webhook.** In Stripe, still in the sandbox: **Developers → Webhooks → Add destination**. Endpoint URL `https://parleystreettravel.com/api/stripe-webhook`; events `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed` and `invoice.paid`. After saving, reveal its **Signing secret** (starts with `whsec_`).
 5. **Paste the secrets into Vercel**, never into the code or a chat: **Settings → Environment Variables**, for Production:
    - `STRIPE_SECRET_KEY`: the restricted key (starts with `rk_test_` in the sandbox, `rk_live_` in live mode)
    - `STRIPE_WEBHOOK_SECRET`: the signing secret

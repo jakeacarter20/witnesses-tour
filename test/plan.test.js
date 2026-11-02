@@ -265,3 +265,109 @@ test("the webhook rejects requests that aren't signed by Stripe", async () => {
   assert.equal(signed.status, 200);
   assert.deepEqual((await signed.json()).result, { ignored: "not a tour checkout" });
 });
+
+// --- A plan charge paid with a new card or bank account ---------------------
+
+const SOURCE = "cs_deposit";
+const planInvoice = (id, installment, { pm = "pm_old", mandate = null, status = "draft", kind = "auto-plan", source = SOURCE, createdBy = "witnesses-webhook" } = {}) => ({
+  id, status, customer: "cus_1", customer_email: "pat@example.com",
+  default_payment_method: pm,
+  payment_settings: { default_mandate: mandate },
+  metadata: { tour: TOUR, kind, room: "double", installment, source_session: source, created_by: createdBy },
+});
+
+function cardChangeStripe({ invoices, paidWith = "pm_new", bankMandate = null, attached = ["pm_old", "pm_new"] }) {
+  const updates = [];
+  return {
+    updates,
+    invoicePayments: {
+      async list({ invoice }) {
+        return { data: [{ invoice, status: "paid", payment: { type: "payment_intent", payment_intent: `pi_${invoice}` } }] };
+      },
+    },
+    paymentIntents: {
+      async retrieve() {
+        return {
+          payment_method: paidWith,
+          latest_charge: bankMandate ? { payment_method_details: { us_bank_account: { mandate: bankMandate } } } : { payment_method_details: { card: {} } },
+        };
+      },
+    },
+    invoices: {
+      async list({ customer, status }) {
+        return { data: invoices.filter((i) => i.customer === customer && (!status || i.status === status)) };
+      },
+      async update(id, params) {
+        if (params.default_payment_method && !attached.includes(params.default_payment_method)) {
+          throw new Error(`The payment method ${params.default_payment_method} does not belong to this customer`);
+        }
+        const inv = invoices.find((i) => i.id === id);
+        inv.default_payment_method = params.default_payment_method;
+        if (params.payment_settings) inv.payment_settings = { ...inv.payment_settings, ...params.payment_settings };
+        updates.push({ id, ...params });
+        return inv;
+      },
+    },
+  };
+}
+
+const paid = (invoice) => ({ id: `evt_${invoice.id}`, type: "invoice.paid", data: { object: invoice } });
+
+test("paying a plan charge with a new card moves the rest of that booking's charges to it", async () => {
+  const invoices = [
+    planInvoice("in_1", "1", { status: "paid" }),
+    planInvoice("in_2", "2"), planInvoice("in_3", "3"), planInvoice("in_4", "4"),
+    planInvoice("in_other", "2", { source: "cs_someone_else" }),
+    planInvoice("in_manual", "2", { createdBy: "a-person" }),
+  ];
+  const stripe = cardChangeStripe({ invoices });
+  const { result, alerts } = await run(stripe, paid(invoices[0]));
+  assert.deepEqual(result.moved.map((m) => m.id), ["in_2", "in_3", "in_4"]);
+  assert.equal(alerts.length, 0);
+  assert.deepEqual(invoices.map((i) => i.default_payment_method), ["pm_old", "pm_new", "pm_new", "pm_new", "pm_old", "pm_old"]);
+  assert.ok(stripe.updates.every((u) => !u.payment_settings), "a card-to-card move leaves the mandate alone");
+
+  const again = await run(stripe, paid(invoices[0]));
+  assert.deepEqual(again.result.moved, [], "a repeated event changes nothing");
+});
+
+test("moving from a bank account to a card clears the old bank mandate", async () => {
+  const invoices = [planInvoice("in_1", "1", { status: "paid", pm: "pm_bank", mandate: "mandate_1" }), planInvoice("in_2", "2", { pm: "pm_bank", mandate: "mandate_1" })];
+  const stripe = cardChangeStripe({ invoices, attached: ["pm_bank", "pm_new"] });
+  await run(stripe, paid(invoices[0]));
+  assert.equal(invoices[1].default_payment_method, "pm_new");
+  assert.equal(invoices[1].payment_settings.default_mandate, "");
+});
+
+test("moving to a new bank account carries its mandate", async () => {
+  const invoices = [planInvoice("in_1", "1", { status: "paid" }), planInvoice("in_2", "2")];
+  const stripe = cardChangeStripe({ invoices, paidWith: "pm_bank2", bankMandate: "mandate_2", attached: ["pm_old", "pm_bank2"] });
+  await run(stripe, paid(invoices[0]));
+  assert.equal(invoices[1].default_payment_method, "pm_bank2");
+  assert.equal(invoices[1].payment_settings.default_mandate, "mandate_2");
+});
+
+test("a new card that wasn't saved alerts instead of moving anything", async () => {
+  const invoices = [planInvoice("in_1", "1", { status: "paid" }), planInvoice("in_2", "2"), planInvoice("in_3", "3")];
+  const stripe = cardChangeStripe({ invoices, attached: ["pm_old"] });
+  const { result, alerts } = await run(stripe, paid(invoices[0]));
+  assert.equal(result.alerted, "new payment method not saved");
+  assert.equal(alerts.length, 1);
+  assert.match(alerts[0].subject, /wasn't saved/);
+  assert.deepEqual(alerts[0].details.notMoved, ["in_2", "in_3"]);
+  assert.deepEqual(invoices.map((i) => i.default_payment_method), ["pm_old", "pm_old", "pm_old"]);
+});
+
+test("a charge paid with the card it was scheduled on changes nothing", async () => {
+  const invoices = [planInvoice("in_1", "1", { status: "paid" }), planInvoice("in_2", "2")];
+  const stripe = cardChangeStripe({ invoices, paidWith: "pm_old" });
+  const { result } = await run(stripe, paid(invoices[0]));
+  assert.match(result.unchanged, /scheduled payment method/);
+  assert.equal(stripe.updates.length, 0);
+});
+
+test("paid invoices that aren't scheduled plan charges are ignored", async () => {
+  const receipt = { id: "in_receipt", customer: "cus_1", metadata: {} };
+  const { result } = await run(cardChangeStripe({ invoices: [] }), paid(receipt));
+  assert.deepEqual(result, { ignored: "not a scheduled plan charge" });
+});

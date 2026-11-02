@@ -5,6 +5,10 @@
 //   plan     -> cancel the automatic plan; schedule payments 2 to 4 evenly to the final date
 //   balance  -> cancel any scheduled plan charges; the trip is paid in full
 //   full     -> nothing to schedule
+//
+// Also, when a scheduled plan charge is paid with a different card or bank account
+// (say the traveler replaced an expired card on Stripe's payment page), the rest
+// of that booking's scheduled charges are moved to the new one (invoice.paid).
 
 import { TOUR, PLAN_DEADLINE, AUTO_PLAN_DATES, FINAL_PAYMENT, CHARGE_HOUR_UTC, CREATED_BY } from "./config.js";
 
@@ -31,6 +35,7 @@ export function planChargeTimes(startSeconds) {
 
 export async function handleEvent(stripe, event, { now, notify }) {
   const type = event.type;
+  if (type === "invoice.paid") return moveRemainingCharges(stripe, event.data.object, notify);
   const session = event.data.object;
   if (!type.startsWith("checkout.session.")) return { ignored: type };
   if (session.metadata?.tour !== TOUR) return { ignored: "not a tour checkout" };
@@ -183,6 +188,69 @@ async function scheduleCharges(stripe, { session, room, quantity, payment, kind,
     results.push({ id: invoice.id, installment, chargesOn: ymdOf(times[i]) });
   }
   return results;
+}
+
+const PLAN_KINDS = ["plan", "auto-plan"];
+
+// A plan charge was paid. If it was paid with a different payment method than the
+// one it was scheduled on, move the booking's other scheduled charges to the new one.
+// Safe to run twice: charges already on the new payment method are left alone.
+async function moveRemainingCharges(stripe, invoice, notify) {
+  const m = invoice.metadata || {};
+  if (m.tour !== TOUR || m.created_by !== CREATED_BY || !PLAN_KINDS.includes(m.kind)) {
+    return { ignored: "not a scheduled plan charge" };
+  }
+  const oldMethod = idOf(invoice.default_payment_method);
+  const used = await paymentUsed(stripe, invoice.id);
+  if (!used) {
+    await notify("A plan charge was paid but its payment method couldn't be found; check the remaining charges by hand", { invoice: invoice.id });
+    return { alerted: "payment method not found" };
+  }
+  if (used.paymentMethod === oldMethod) return { unchanged: "paid with the scheduled payment method" };
+
+  const customer = idOf(invoice.customer);
+  const drafts = await stripe.invoices.list({ customer, status: "draft", limit: 100 });
+  const remaining = drafts.data.filter((inv) => {
+    const dm = inv.metadata || {};
+    return dm.tour === TOUR && dm.created_by === CREATED_BY && PLAN_KINDS.includes(dm.kind)
+      && dm.source_session === m.source_session && idOf(inv.default_payment_method) !== used.paymentMethod;
+  });
+  const who = { invoice: invoice.id, customer, email: invoice.customer_email, installment: m.installment };
+
+  const moved = [];
+  for (const inv of remaining) {
+    // A bank account needs its own mandate; a card needs the old bank mandate cleared
+    const hadMandate = Boolean(inv.payment_settings?.default_mandate);
+    const update = { default_payment_method: used.paymentMethod };
+    if (used.mandate) update.payment_settings = { default_mandate: used.mandate };
+    else if (hadMandate) update.payment_settings = { default_mandate: "" };
+    try {
+      await stripe.invoices.update(inv.id, update);
+    } catch (err) {
+      // Stripe only allows a payment method saved to this customer. If the traveler
+      // didn't save the new one, the rest stay on the old one until fixed by hand.
+      await notify("A traveler paid a plan charge with a new payment method that wasn't saved; their remaining plan charges are still on the old one, so follow up by hand", { ...who, error: err.message, notMoved: remaining.slice(moved.length).map((r) => r.id) });
+      return { alerted: "new payment method not saved", moved };
+    }
+    moved.push({ id: inv.id, installment: inv.metadata.installment });
+  }
+  return { moved };
+}
+
+// The payment method (and bank mandate, if any) that actually paid an invoice
+async function paymentUsed(stripe, invoiceId) {
+  const payments = await stripe.invoicePayments.list({ invoice: invoiceId, status: "paid", limit: 10 });
+  const intentId = payments.data.map((p) => idOf(p.payment?.payment_intent)).find(Boolean);
+  if (!intentId) return null;
+  const intent = await stripe.paymentIntents.retrieve(intentId, { expand: ["latest_charge"] });
+  const paymentMethod = idOf(intent.payment_method);
+  if (!paymentMethod) return null;
+  const mandate = intent.latest_charge?.payment_method_details?.us_bank_account?.mandate || null;
+  return { paymentMethod, mandate };
+}
+
+function idOf(value) {
+  return typeof value === "string" ? value : value?.id || null;
 }
 
 // Deletes this tour's scheduled (still draft) plan charges for every Stripe
