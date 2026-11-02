@@ -28,3 +28,14 @@ export const MIN_AGE = 16;
 export const NOT_COUNTED = [
   "cs_live_a14BHM12ZbXi6qi3EBbHeNK3rjzgU2d9giqB4a5IZFNwk9TyahAuUsf5SU", // Jaime's Double deposit, Oct 31, 2026
 ];
+
+// Welcome emails (api/send-welcomes.js runs once a day). Each booking's travelers
+// get one welcome email this many days after purchase, sent through Resend.
+export const WELCOME_DELAY_DAYS = 2;
+export const WELCOME_FROM = "Parley Street Travel Co. <hello@parleystreettravel.com>";
+export const WELCOME_REPLY_TO = "hello@parleystreettravel.com";
+// Bookings made before this date never get the automatic welcome email.
+export const WELCOME_START = "2026-11-01";
+// The online waiver every traveler signs. While this is empty, the email says
+// the waiver link will follow separately.
+export const WAIVER_URL = "";

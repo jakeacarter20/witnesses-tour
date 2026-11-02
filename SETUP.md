@@ -112,6 +112,7 @@ The domain was bought through Vercel. Vercel hosts the site straight from the Gi
    - `STRIPE_SECRET_KEY`: the restricted key (starts with `rk_test_` in the sandbox, `rk_live_` in live mode)
    - `STRIPE_WEBHOOK_SECRET`: the signing secret
    - Optional email alerts: `RESEND_API_KEY` (from a free resend.com account) and `ALERT_EMAIL` (where alerts go). Without these, alerts are only in Vercel's **Logs** tab.
+   - Welcome emails (api/send-welcomes.js, run daily at 16:00 UTC by the cron in `vercel.json`): need `RESEND_API_KEY` from resend.com with parleystreettravel.com verified as a sending domain (add Resend's DNS records under the domain in Vercel), and `CRON_SECRET` set to any long random string. Until both are set, nothing is sent. Each paid deposit or pay-in-full booking from 2026-11-01 on gets one email two days after purchase, to the booker and to every traveler email from the traveler details form; it's recorded on the Stripe customer as `welcome_sent_to` and `welcome_sent_at`. The letter is in `api/_lib/welcome.js`; set `WAIVER_URL` in `api/_lib/config.js` once the online waiver exists.
 
    Then **Deployments → Redeploy** so the function picks them up.
 6. **Test it.** Make a test deposit on the live site with Stripe's test card 4242 4242 4242 4242. Within a minute the sandbox customer should have 4 scheduled invoices, and the banner should read "2 of 25 claimed" (or however many seats you booked). Then try a balance link and check the 4 are deleted.
