@@ -2,10 +2,12 @@
 // (see "crons" in vercel.json). It does nothing until these are set in Vercel:
 //   RESEND_API_KEY  from resend.com, with parleystreettravel.com verified there
 //   CRON_SECRET     any long random string; Vercel sends it so nobody else can trigger this
+// Optional: WELCOME_TEST_TO  an email address. While it's set, every run also sends a
+// sample welcome email there (subject starts with [Test]). Remove it after testing.
 // Needs STRIPE_SECRET_KEY with Checkout Sessions: Read and Customers: Write.
 
 import Stripe from "stripe";
-import { sendWelcomes, resendSender } from "./_lib/welcome.js";
+import { sendWelcomes, resendSender, buildWelcome } from "./_lib/welcome.js";
 import { notify } from "./_lib/notify.js";
 import { WELCOME_FROM, WELCOME_REPLY_TO } from "./_lib/config.js";
 
@@ -19,9 +21,16 @@ export async function GET(request) {
   if (!key || !apiKey) return Response.json({ skipped: "STRIPE_SECRET_KEY or RESEND_API_KEY is not set" });
 
   try {
+    const send = resendSender({ apiKey, from: WELCOME_FROM, replyTo: WELCOME_REPLY_TO });
+    const testTo = process.env.WELCOME_TEST_TO;
+    if (testTo) {
+      const sample = buildWelcome({ name: "Pat Lee", room: "triple", kind: "deposit", travelers: ["Pat Lee", "Jordan Lee", "Casey Lee"] });
+      await send({ to: testTo, ...sample, subject: `[Test] ${sample.subject}`, idempotencyKey: `welcome-test-${Date.now()}` });
+      console.log("[send-welcomes] sent a test email to WELCOME_TEST_TO");
+    }
     const results = await sendWelcomes(new Stripe(key), {
       now: Math.floor(Date.now() / 1000),
-      send: resendSender({ apiKey, from: WELCOME_FROM, replyTo: WELCOME_REPLY_TO }),
+      send,
       notify,
     });
     console.log("[send-welcomes]", JSON.stringify(results));
