@@ -109,6 +109,7 @@ test("the letter covers the deposit deadline only for deposits", () => {
   assert.doesNotMatch(full.text, /Pay the rest by/);
   assert.match(deposit.text, /^Hi Pat,/);
   assert.match(deposit.html, /Welcome to The Witnesses Tour/);
+  assert.match(deposit.text, /See you in Independence,\nThe Parley Street Travel Co\. team/);
 });
 
 test("the waiver is promised with the traveler packet, not in this email", () => {

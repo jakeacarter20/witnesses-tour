@@ -38,7 +38,7 @@ export function buildWelcome({ name, room, kind, travelers, detailsUrl }) {
     ...steps.flatMap((s, i) => [`${i + 1}. ${s.title}`, `   ${s.text}`, ...(s.link ? [`   ${s.link}`] : []), ""]),
     "PLAN YOUR TRAVEL", "", travel, "", next, "",
     "Questions? Just reply to this email.", "",
-    "See you in Independence,", "Jaime and the Parley Street Travel Co. team", "",
+    "See you in Independence,", "The Parley Street Travel Co. team", "",
     `Terms and cancellation policy: ${SITE}/terms.html`,
   ].join("\n");
 
@@ -69,7 +69,7 @@ export function buildWelcome({ name, room, kind, travelers, detailsUrl }) {
   ${p(esc(travel))}
   ${p(esc(next))}
   ${p("Questions? Just reply to this email.")}
-  ${p("See you in Independence,<br>Jaime and the Parley Street Travel Co. team")}
+  ${p("See you in Independence,<br>The Parley Street Travel Co. team")}
 </td></tr>
 <tr><td style="padding:16px 28px 24px;border-top:1px solid #D6CDB6;font-size:12px;line-height:1.5;color:#5B5F48;">
   Parley Street Travel Co. · <a href="${SITE}" style="color:#B4592B;">parleystreettravel.com</a> · <a href="${SITE}/terms.html" style="color:#B4592B;">Terms &amp; cancellation policy</a> · <a href="${SITE}/privacy.html" style="color:#B4592B;">Privacy policy</a>
