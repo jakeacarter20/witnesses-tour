@@ -354,9 +354,10 @@ h3 { font-size: 26px; }
 .draft-note { background: #fff; border: 1px dashed var(--rust); padding: 16px 20px; border-radius: var(--radius); color: var(--ink) !important; }
 
 /* FAQ chat (chat.js) */
-.chat-launcher { position: fixed; right: 24px; bottom: 24px; z-index: 30; display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 12px 22px 12px 18px; border: 0; border-radius: 999px; background: var(--dark-olive); color: var(--cream); font: 500 15px/1 var(--sans); letter-spacing: 0.04em; cursor: pointer; box-shadow: 0 10px 24px -10px rgba(42, 46, 26, 0.55); }
-.chat-launcher:hover { background: var(--olive); }
-.chat-launcher:focus-visible, .chat-panel button:focus-visible, .chat-panel a:focus-visible, .chat-panel input:focus-visible { outline: 2px solid var(--burnt-orange); outline-offset: 2px; }
+.chat-launcher { position: fixed; right: 24px; bottom: 24px; z-index: 30; display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 12px 22px 12px 18px; border: 0; border-radius: 999px; background: var(--rust); color: #fff; font: 500 15px/1 var(--sans); letter-spacing: 0.04em; cursor: pointer; box-shadow: 0 10px 24px -10px rgba(42, 46, 26, 0.55); }
+.chat-launcher:hover { background: var(--dark-olive); color: var(--cream); }
+.chat-launcher:focus-visible { outline: 2px solid var(--dark-olive); outline-offset: 3px; }
+.chat-panel button:focus-visible, .chat-panel a:focus-visible, .chat-panel input:focus-visible { outline: 2px solid var(--burnt-orange); outline-offset: 2px; }
 .chat-launcher svg { width: 22px; height: 22px; }
 .chat-open .chat-launcher { display: none; }
 .chat-panel { position: fixed; right: 24px; bottom: 24px; z-index: 31; width: 380px; height: min(600px, calc(100vh - var(--header) - var(--promo) - 48px)); display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 24px 48px -20px rgba(42, 46, 26, 0.5); overflow: hidden; font-size: 15px; line-height: 1.5; }
