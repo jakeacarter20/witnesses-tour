@@ -128,7 +128,7 @@ The domain was bought through Vercel. Vercel hosts the site straight from the Gi
 - [ ] Seller-of-travel registration in California, Florida, Washington and Hawaii, or a plan not to sell to residents of those states yet
 - [ ] `terms.html` replaced with attorney-approved terms
 - [x] Real logo files swapped into `assets/` (SVG or transparent PNG, cream version for the olive header and footer)
-- [ ] Higher-resolution host photo from Travis and Christian swapped into `assets/hosts.jpg`
+- [x] Host headshots: `assets/host-christian.jpg` and `assets/host-travis.jpg`, cropped to the same framing (November 2, 2026)
 - [ ] Day 5 ending confirmed: the site says the tour concludes at Carthage Jail in the early afternoon. Add return transportation details if the coach goes back to Kansas City.
 - [ ] Group reservations requested at the Independence Visitors' Center and the Nauvoo and Carthage sites
 - [ ] Site on Vercel at parleystreettravel.com, with the Stripe webhook and secrets set up and a sandbox test booking checked

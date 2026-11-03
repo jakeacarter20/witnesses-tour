@@ -186,7 +186,11 @@ h3 { font-size: 26px; }
 .host-role { margin: 8px 0 0; font-size: 15px; color: var(--muted); }
 .host-bio p { margin: 0 0 14px; color: var(--muted); }
 .host-bio p:last-child { margin-bottom: 0; }
-.host-photo { width: 150px; height: 150px; object-fit: cover; border-radius: var(--radius); }
+/* The two hosts' headshots side by side, cropped to the same framing */
+.host-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 160px)); gap: 16px; }
+.host-photos figure { margin: 0; }
+.host-photo { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius); }
+.host-photos figcaption { margin-top: 6px; font-size: 14px; color: var(--muted); }
 
 /* Where we'll meet */
 .meet-place strong { display: block; color: var(--ink); font-weight: 500; }

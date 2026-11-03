@@ -35,7 +35,7 @@ Static website for Parley Street Travel Co., LLC, selling seats on its first tou
 
 ## Open items before launch
 
-- A higher-resolution host photo, and the contact email hello@parleystreettravel.com set up.
+- The contact email hello@parleystreettravel.com confirmed as a working inbox. (Host headshots were replaced on 2026-11-02 with separate photos of Christian, left, and Travis, right.)
 - Attorney-approved terms in `terms.html`. On 2026-10-31 the public draft note and bracketed placeholders were removed, so the page only states what is already decided. Refund schedule added 2026-11-01 (before March 19, 2027: full refund minus the deposit; March 19 to April 12: 50% of what was paid beyond the deposit; after April 12: none). Still missing: what happens if a plan payment fails, transfers to another traveler, what travelers get if Parley Street cancels (including for too few bookings) and the decision date, the free-book details (what counts as sold, customizing and delivery, cancellations), conduct rules and removal, and any recommended insurance provider.
 - The LLC, EIN, a Stripe account in the LLC's name, insurance, and seller-of-travel registration in California, Florida, Washington and Hawaii.
 - Vercel import, domain, restricted key and webhook (SETUP.md step 5), tested in the sandbox, then switched to live.
