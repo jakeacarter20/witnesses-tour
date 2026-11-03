@@ -159,8 +159,8 @@
     setTimeout(function () { log.scrollTop = mine.offsetTop - 12; }, 0);
     var topic = match(question);
     if (topic === "human") {
-      say("<p>Happy to put you in touch. Email us at <a href=\"" + mailto("") + "\">" + EMAIL + "</a> and a person will write back.</p>", "bot");
-      chips([], true);
+      say("<p>Happy to put you in touch. Leave your email and we'll reach out, or email us at <a href=\"" + mailto("") + "\">" + EMAIL + "</a>.</p>", "bot");
+      signupBubble();
       return;
     }
     if (topic === "thanks") {
@@ -177,9 +177,18 @@
       say(answer, "bot");
       chips(related(topic), true);
     } else {
-      say("<p>I'm not sure about that one. Email us and a person will answer, or pick one of these:</p>", "bot");
+      say("<p>I'm not sure about that one. Leave your email and a person will reach out, or pick one of these:</p>", "bot");
+      signupBubble();
       chips(STARTERS.slice(0, 4), true);
     }
+  }
+  // A "leave your email" form inside the chat (from signup.js), with the email link as a fallback
+  function signupBubble() {
+    if (!window.parleySignupForm) { chips([], true); return; }
+    var msg = document.createElement("div");
+    msg.className = "chat-msg chat-bot chat-signup";
+    log.appendChild(msg);
+    window.parleySignupForm(msg, "chat");
   }
   function related(topic) {
     var i = TOPICS.indexOf(topic);
