@@ -390,18 +390,10 @@ h3 { font-size: 26px; }
   .chat-panel { right: 8px; left: 8px; bottom: 8px; width: auto; height: calc(100% - 16px); max-height: 640px; }
 }
 
-/* Email sign-ups (signup.js): the slide-in box, the footer and the chat */
-.su-box { position: fixed; left: 24px; bottom: 24px; z-index: 29; width: 340px; padding: 20px 20px 16px; background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--rust); border-radius: 10px; box-shadow: 0 24px 48px -20px rgba(42, 46, 26, 0.5); opacity: 0; transform: translateY(16px); transition: opacity 0.25s, transform 0.25s; }
-.su-box.is-open { opacity: 1; transform: none; }
-.su-box[hidden] { display: none; }
-.chat-open .su-box { display: none; }
-.su-close { position: absolute; top: 6px; right: 6px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: none; color: var(--muted); font-size: 24px; line-height: 1; cursor: pointer; }
-.su-close:hover { background: var(--cream); color: var(--ink); }
-.su-title { margin: 0 32px 2px 0; font-family: var(--serif); font-size: 24px; font-weight: 600; color: var(--dark-olive); line-height: 1.15; }
-.su-lead { margin: 0 0 12px; font-size: 15px; color: var(--muted); }
+/* Email sign-ups (signup.js): the footer and the chat */
 .su-form { position: relative; display: grid; gap: 8px; }
 .su-form input, .su-form textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; font: 400 16px/1.35 var(--sans); color: var(--ink); resize: vertical; }
-.su-form input:focus-visible, .su-form textarea:focus-visible, .su-send:focus-visible, .su-close:focus-visible { outline: 2px solid var(--burnt-orange); outline-offset: 1px; }
+.su-form input:focus-visible, .su-form textarea:focus-visible, .su-send:focus-visible { outline: 2px solid var(--burnt-orange); outline-offset: 1px; }
 .su-send { padding: 11px 16px; border: 0; border-radius: var(--radius); background: var(--rust); color: #fff; font: 500 14px/1 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
 .su-send:hover { background: var(--dark-olive); }
 .su-send:disabled { opacity: 0.6; cursor: wait; }
@@ -418,13 +410,12 @@ h3 { font-size: 26px; }
 .site-footer .su-status, .site-footer .su-done { font-size: 14px; }
 .site-footer .su-done { color: var(--cream); }
 .chat-signup { width: 88%; }
-@media (prefers-reduced-motion: reduce) { .su-box { transition: none; } }
-@media (max-width: 560px) {
-  .su-box { left: 8px; right: 8px; bottom: 76px; width: auto; padding: 14px 14px 10px; }
-  .su-title { font-size: 21px; }
-  .su-lead { margin-bottom: 10px; }
-  /* Keep the phone version small: just the email and Send on one line */
-  .su-box .su-form { grid-template-columns: minmax(0, 1fr) auto; }
-  .su-box .su-question { display: none; }
-  .su-box .su-consent, .su-box .su-status { grid-column: 1 / -1; }
-}
+
+/* Phones: a small "Have questions?" bubble above the chat button instead of opening the chat */
+.chat-nudge { position: fixed; right: 16px; bottom: 76px; z-index: 30; display: flex; align-items: stretch; background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 14px 30px -14px rgba(42, 46, 26, 0.55); }
+.chat-nudge[hidden], .chat-open .chat-nudge { display: none; }
+.chat-nudge::after { content: ""; position: absolute; right: 34px; bottom: -7px; width: 12px; height: 12px; background: #fff; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); transform: rotate(45deg); }
+.chat-nudge-open { padding: 10px 4px 10px 14px; border: 0; background: none; text-align: left; font: 600 15px/1.3 var(--sans); color: var(--ink); cursor: pointer; }
+.chat-nudge-open span { display: block; font-weight: 400; font-size: 13px; color: var(--rust); }
+.chat-nudge-close { width: 36px; border: 0; background: none; color: var(--muted); font-size: 20px; cursor: pointer; }
+.chat-nudge-open:focus-visible, .chat-nudge-close:focus-visible { outline: 2px solid var(--burnt-orange); outline-offset: 2px; }

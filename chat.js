@@ -196,16 +196,21 @@
   }
 
   var started = false;
-  function open() {
+  // focus: false when the chat opens on its own, so it doesn't pull the reader's cursor away
+  function open(focus) {
     panel.hidden = false;
     launcher.setAttribute("aria-expanded", "true");
     document.body.classList.add("chat-open");
+    hideNudge();
+    remember();
     if (!started) {
       started = true;
-      say("<p>Hi! Ask anything about The Witnesses Tour, or tap a question below. If I can't help, you can email a person.</p>", "bot");
+      say("<p>Have questions? Ask me anything about The Witnesses Tour, or leave your email and we'll reach out.</p>", "bot");
+      signupBubble();
       chips(STARTERS, false);
+      log.scrollTop = 0;
     }
-    input.focus();
+    if (focus !== false) input.focus();
   }
   function close() {
     panel.hidden = true;
@@ -215,6 +220,46 @@
   }
 
   launcher.addEventListener("click", function () { panel.hidden ? open() : close(); });
+
+  // Prompt once per visitor, after about 30 seconds or a third of the way down the page.
+  // Desktop: the chat opens on its own. Phones: a small "Have questions?" bubble instead,
+  // because the open chat would cover the whole screen.
+  var PROMPTED = "parleyChatPrompted";
+  function remember() { try { localStorage.setItem(PROMPTED, "1"); } catch (e) {} }
+  function prompted() {
+    try { if (localStorage.getItem(PROMPTED) === "1") return true; } catch (e) {}
+    return Boolean(window.parleySignedUp && window.parleySignedUp());
+  }
+  var nudge = document.createElement("div");
+  nudge.className = "chat-nudge";
+  nudge.hidden = true;
+  nudge.innerHTML = '<button type="button" class="chat-nudge-open">Have questions? <span>Tap to ask</span></button>' +
+    '<button type="button" class="chat-nudge-close" aria-label="Dismiss">&times;</button>';
+  document.body.appendChild(nudge);
+  function hideNudge() { nudge.hidden = true; }
+  nudge.querySelector(".chat-nudge-open").addEventListener("click", function () { open(); });
+  nudge.querySelector(".chat-nudge-close").addEventListener("click", function () { hideNudge(); remember(); });
+
+  function prompt() {
+    window.removeEventListener("scroll", onScroll);
+    clearTimeout(promptTimer);
+    if (prompted() || !panel.hidden) return;
+    if (window.matchMedia("(max-width: 560px)").matches) {
+      nudge.hidden = false;
+      remember();
+    } else {
+      open(false);
+    }
+  }
+  function onScroll() {
+    var max = document.documentElement.scrollHeight - innerHeight;
+    if (max > 0 && scrollY / max > 0.33) prompt();
+  }
+  var promptTimer;
+  if (!prompted()) {
+    promptTimer = setTimeout(prompt, 30000);
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
   $(".chat-close", panel).addEventListener("click", close);
   panel.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
   form.addEventListener("submit", function (e) {

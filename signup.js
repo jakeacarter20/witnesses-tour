@@ -1,10 +1,10 @@
 /*
   Parley Street Travel Co. — email sign-ups (tour page)
-  "Have questions? Enter your email and we'll reach out."
-  - A small box slides in after about 30 seconds or a third of the way down the page,
-    once per visitor (closing it or signing up keeps it away).
-  - The footer has the same sign-up, and the Questions? chat can show it too
-    (window.parleySignupForm).
+  "Leave your email and we'll reach out."
+  - The footer has a "Get trip updates" sign-up.
+  - The Questions? chat shows the same form (window.parleySignupForm); chat.js opens
+    the chat on its own after about 30 seconds (or a nudge bubble on phones).
+  - window.parleySignedUp() tells the chat not to prompt someone who already signed up.
   Sign-ups go to /api/signup, which emails hello@ and adds them to the Resend list.
 */
 (function () {
@@ -62,6 +62,8 @@
     });
   }
 
+  window.parleySignedUp = seen;
+
   // Lets the chat (or anything else) drop a sign-up form into an element
   window.parleySignupForm = function (container, source) {
     container.innerHTML = formHtml("su-" + source + "-" + Math.random().toString(36).slice(2, 7), true);
@@ -75,38 +77,4 @@
     wire(footer, "footer");
   }
 
-  // The slide-in box
-  if (seen()) return;
-  var box = document.createElement("aside");
-  box.className = "su-box";
-  box.setAttribute("aria-label", "Ask a question");
-  box.hidden = true;
-  box.innerHTML = '<button type="button" class="su-close" aria-label="Close">&times;</button>' +
-    '<p class="su-title">Have questions?</p><p class="su-lead">Enter your email and we\'ll reach out.</p>' + formHtml("su-box", true);
-  document.body.appendChild(box);
-  var closeTimer;
-  wire(box, "slidein", function () { closeTimer = setTimeout(hide, 4000); });
-
-  function show() {
-    if (seen() || !box.hidden || document.body.classList.contains("chat-open")) return;
-    box.hidden = false;
-    setTimeout(function () { box.classList.add("is-open"); }, 20);
-    window.removeEventListener("scroll", onScroll);
-    clearTimeout(timer);
-  }
-  function hide() {
-    clearTimeout(closeTimer);
-    box.classList.remove("is-open");
-    setTimeout(function () { box.hidden = true; }, 250);
-    remember();
-  }
-  box.querySelector(".su-close").addEventListener("click", hide);
-  box.addEventListener("keydown", function (e) { if (e.key === "Escape") hide(); });
-
-  function onScroll() {
-    var max = document.documentElement.scrollHeight - innerHeight;
-    if (max > 0 && scrollY / max > 0.33) show();
-  }
-  var timer = setTimeout(show, 30000);
-  window.addEventListener("scroll", onScroll, { passive: true });
 })();
