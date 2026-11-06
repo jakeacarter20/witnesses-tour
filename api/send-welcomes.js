@@ -2,6 +2,7 @@
 // (see "crons" in vercel.json). It does nothing until these are set in Vercel:
 //   RESEND_API_KEY  from resend.com, with parleystreettravel.com verified there
 //   CRON_SECRET     any long random string; Vercel sends it so nobody else can trigger this
+// BOOK_COUPON_CODE is the free Book of Mormon code included for bookings made before Thanksgiving.
 // Optional: WELCOME_TEST_TO  an email address. While it's set, every run also sends a
 // sample welcome email there (subject starts with [Test]). Remove it after testing.
 // Needs STRIPE_SECRET_KEY with Checkout Sessions: Read and Customers: Write.
@@ -22,9 +23,10 @@ export async function GET(request) {
 
   try {
     const send = resendSender({ apiKey, from: WELCOME_FROM, replyTo: WELCOME_REPLY_TO });
+    const couponCode = process.env.BOOK_COUPON_CODE;
     const testTo = process.env.WELCOME_TEST_TO;
     if (testTo) {
-      const sample = buildWelcome({ name: "Pat Lee", room: "triple", kind: "deposit", travelers: ["Pat Lee", "Jordan Lee", "Casey Lee"] });
+      const sample = buildWelcome({ name: "Pat Lee", room: "triple", kind: "deposit", travelers: ["Pat Lee", "Jordan Lee", "Casey Lee"], coupon: couponCode ? { code: couponCode, books: 3 } : null });
       await send({ to: testTo, ...sample, subject: `[Test] ${sample.subject}`, idempotencyKey: `welcome-test-${Date.now()}` });
       console.log("[send-welcomes] sent a test email to WELCOME_TEST_TO");
     }
@@ -32,6 +34,7 @@ export async function GET(request) {
       now: Math.floor(Date.now() / 1000),
       send,
       notify,
+      couponCode,
     });
     console.log("[send-welcomes]", JSON.stringify(results));
     return Response.json({ results });

@@ -9,9 +9,9 @@ import { TOUR } from "../api/_lib/config.js";
 const DAY = 86400;
 const NOW = Date.UTC(2026, 10, 10, 16) / 1000; // November 10, 2026
 
-function booking(id, { daysAgo = 3, kind = "deposit", room = "triple", paid = true, email = "pat@example.com", tour = TOUR } = {}) {
+function booking(id, { daysAgo = 3, created, quantity = 3, kind = "deposit", room = "triple", paid = true, email = "pat@example.com", tour = TOUR } = {}) {
   return {
-    id, status: "complete", created: NOW - daysAgo * DAY, customer: `cus_${id}`,
+    id, status: "complete", created: created ?? NOW - daysAgo * DAY, customer: `cus_${id}`, quantity,
     payment_status: paid ? "paid" : "unpaid",
     metadata: { tour, kind, room },
     customer_details: { name: "Pat Lee", email },
@@ -26,6 +26,9 @@ function fakeStripe(sessions) {
           const due = sessions.filter((s) => s.created >= created.gte && s.created <= created.lte);
           return (async function* () { yield* due; })();
         },
+        async listLineItems(id) {
+          return { data: [{ quantity: sessions.find((s) => s.id === id).quantity }] };
+        },
       },
     },
   };
@@ -39,7 +42,7 @@ function withCustomers(stripe, customers) {
   return stripe;
 }
 
-function run(sessions, customers = {}, { failFor } = {}) {
+function run(sessions, customers = {}, { failFor, now = NOW, couponCode = "TESTCODE" } = {}) {
   const sent = [];
   const alerts = [];
   const stripe = withCustomers(fakeStripe(sessions), customers);
@@ -48,7 +51,7 @@ function run(sessions, customers = {}, { failFor } = {}) {
     sent.push(email);
   };
   const notify = async (subject, details) => alerts.push({ subject, details });
-  return sendWelcomes(stripe, { now: NOW, send, notify }).then((results) => ({ results, sent, alerts, customers }));
+  return sendWelcomes(stripe, { now, send, notify, couponCode }).then((results) => ({ results, sent, alerts, customers }));
 }
 
 test("a booking gets its welcome email two days after purchase, not before", async () => {
@@ -116,6 +119,39 @@ test("the waiver is promised with the traveler packet, not in this email", () =>
   const { text } = buildWelcome({ name: "Pat", room: "single", kind: "full", travelers: ["Pat"] });
   assert.match(text, /traveler packet .* along with the traveler waiver/);
   assert.doesNotMatch(text, /Sign your waiver/);
+});
+
+test("bookings before Thanksgiving get the coupon, with one book per traveler", async () => {
+  const customers = { cus_cs_5: { details_saved_at: "x", traveler_2_name: "Jordan Lee", traveler_2_email: "jordan@example.com" } };
+  const { sent } = await run([booking("cs_5")], customers);
+  assert.equal(sent.length, 2);
+  for (const email of sent) {
+    assert.match(email.text, /3 free customizable Books of Mormon/);
+    assert.match(email.text, /Use code TESTCODE at custombookofmormon\.com/);
+    assert.match(email.html, /TESTCODE/);
+  }
+  const quad = await run([booking("cs_6", { room: "quad", quantity: 4 })]);
+  assert.match(quad.sent[0].text, /4 free customizable Books of Mormon/);
+  const single = await run([booking("cs_7", { room: "single", quantity: 1 })]);
+  assert.match(single.sent[0].text, /a free customizable Book of Mormon/);
+  assert.doesNotMatch(single.sent[0].text, /same code/);
+});
+
+test("the coupon stops at the start of Thanksgiving, Central time", async () => {
+  const start = Date.UTC(2026, 10, 26, 6) / 1000; // midnight Central, November 26, 2026
+  const later = start + 10 * DAY;
+  const { sent } = await run([booking("cs_before", { created: start - 1 }), booking("cs_after", { created: start })], {}, { now: later });
+  assert.deepEqual(sent.map((e) => e.idempotencyKey), ["welcome-cs_before-pat@example.com", "welcome-cs_after-pat@example.com"]);
+  assert.match(sent[0].text, /TESTCODE/);
+  assert.doesNotMatch(sent[1].text, /TESTCODE|free customizable/);
+});
+
+test("if the code isn't set, the email still goes and we're told to send the coupon by hand", async () => {
+  const { sent, alerts } = await run([booking("cs_8")], {}, { couponCode: null });
+  assert.equal(sent.length, 1);
+  assert.doesNotMatch(sent[0].text, /free customizable/);
+  assert.equal(alerts.length, 1);
+  assert.match(alerts[0].subject, /BOOK_COUPON_CODE/);
 });
 
 test("names are escaped in the HTML", () => {

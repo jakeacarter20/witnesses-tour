@@ -34,5 +34,9 @@ export const NOT_COUNTED = [
 export const WELCOME_DELAY_DAYS = 2;
 export const WELCOME_FROM = "Parley Street Travel Co. <hello@parleystreettravel.com>";
 export const WELCOME_REPLY_TO = "hello@parleystreettravel.com";
+// Bookings made before this moment (the start of Thanksgiving, Central) get the free
+// Book of Mormon coupon in their welcome email. Keep in step with promoEnds in
+// booking-config.js. The code itself is BOOK_COUPON_CODE in Vercel, not in this public repo.
+export const COUPON_ENDS = "2026-11-26T00:00:00-06:00";
 // Bookings made before this date never get the automatic welcome email.
 export const WELCOME_START = "2026-11-01";

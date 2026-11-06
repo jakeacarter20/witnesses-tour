@@ -5,7 +5,7 @@
 // Customer in Stripe (welcome_sent_to, welcome_sent_at), so nobody gets it twice.
 // Kept separate from the HTTP handler so it can be tested (see test/welcome.test.js).
 
-import { TOUR, NOT_COUNTED, WELCOME_DELAY_DAYS, WELCOME_START } from "./config.js";
+import { TOUR, NOT_COUNTED, WELCOME_DELAY_DAYS, WELCOME_START, COUPON_ENDS } from "./config.js";
 
 const DAY = 86400;
 const SITE = "https://parleystreettravel.com";
@@ -15,7 +15,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const firstName = (name) => String(name || "").trim().split(/\s+/)[0] || "there";
 
 // The letter itself. Returns { subject, html, text }.
-export function buildWelcome({ name, room, kind, travelers, detailsUrl }) {
+export function buildWelcome({ name, room, kind, travelers, detailsUrl, coupon }) {
   const roomName = ROOMS[room] || room;
   const subject = "Welcome to The Witnesses Tour";
   const steps = [];
@@ -25,6 +25,12 @@ export function buildWelcome({ name, room, kind, travelers, detailsUrl }) {
   steps.push({ title: "Get travel insurance", text: "We strongly recommend it. Buy within 14 days of your first payment to keep coverage for pre-existing conditions and the option to cancel for any reason.", link: "https://www.squaremouth.com/", label: "Compare plans on Squaremouth" });
   if (kind === "deposit") {
     steps.push({ title: "Pay the rest by January 1, 2027", text: "Pay the rest in full or start your 4-payment plan by January 1, 2027. If you haven't by then, your plan starts automatically on January 1, charged to the payment method you booked with.", link: `${SITE}/#plan`, label: "Pay the rest or start the plan" });
+  }
+  if (coupon) {
+    const offer = coupon.books === 1
+      ? `Because you booked before Thanksgiving, your booking includes a free customizable Book of Mormon from The Holy Rebellion. Use code ${coupon.code} at custombookofmormon.com.`
+      : `Because you booked before Thanksgiving, your booking includes ${coupon.books} free customizable Books of Mormon from The Holy Rebellion, one per traveler. Use code ${coupon.code} at custombookofmormon.com. Everyone in your booking uses the same code.`;
+    steps.push({ title: "Get your free Book of Mormon", text: offer, link: "https://custombookofmormon.com", label: "Customize your book" });
   }
 
   const who = travelers && travelers.length ? travelers : [name];
@@ -86,7 +92,7 @@ function startOf(ymd) {
 
 // Sends any welcome emails that are due. `send({ to, subject, html, text, idempotencyKey })`
 // does the actual sending. Returns what happened, for the logs.
-export async function sendWelcomes(stripe, { now, send, notify }) {
+export async function sendWelcomes(stripe, { now, send, notify, couponCode }) {
   const results = [];
   const sessions = stripe.checkout.sessions.list({
     status: "complete",
@@ -128,6 +134,17 @@ export async function sendWelcomes(stripe, { now, send, notify }) {
       continue;
     }
 
+    // Bookings made before Thanksgiving get the free book coupon, one book per seat
+    let coupon = null;
+    if (session.created * 1000 < new Date(COUPON_ENDS).getTime()) {
+      if (couponCode) {
+        const items = await stripe.checkout.sessions.listLineItems(session.id, { limit: 20 });
+        coupon = { code: couponCode, books: Math.max(1, items.data.reduce((n, item) => n + (item.quantity || 0), 0)) };
+      } else {
+        await notify("BOOK_COUPON_CODE isn't set, so this welcome email went out without the free book coupon; send it by hand", { session: session.id });
+      }
+    }
+
     const detailsUrl = saved.details_saved_at ? null : `${SITE}/thank-you.html?session_id=${session.id}`;
     const sentTo = [];
     let failed = false;
@@ -139,6 +156,7 @@ export async function sendWelcomes(stripe, { now, send, notify }) {
         kind: m.kind,
         travelers: names,
         detailsUrl: r.isBuyer ? detailsUrl : null, // the details link opens everyone's details, so only the booker gets it
+        coupon,
       });
       try {
         await send({ to: r.email, ...letter, idempotencyKey: `welcome-${session.id}-${r.key}` });
