@@ -92,7 +92,7 @@ Two things to know: each checkout creates its own Stripe customer, so one travel
 
 Stripe can't share one seat limit across the links, so:
 
-- The free Book of Mormon banner counts itself: `api/seats.js` adds up paid deposit and pay-in-full seats in Stripe, refreshed every 2 minutes. It doesn't subtract refunds; if you refund a seat, tell Claude to adjust the count. `seatsSold` in `booking-config.js` is only the fallback for when that count can't be reached.
+- The free Book of Mormon offer runs until Thanksgiving: the banner and FAQ entry remove themselves at `promoEnds` in `booking-config.js`. `/api/seats` still reports the number of paid seats from Stripe if you want to check sales; it doesn't subtract refunds.
 - Check the seat count in Stripe as bookings come in. Each Payment Link's payments page shows its quantity sold.
 - As a backstop, if your Payment Links show an option to **limit the number of payments**, set a cap on each link.
 - When a room type or the tour fills, set `soldOut: true` for that room, or `tourSoldOut: true`, in `booking-config.js` and re-upload. Also deactivate the links in Stripe.

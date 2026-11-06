@@ -1,4 +1,5 @@
-// Seats booked so far, for the free Book of Mormon banner on the tour page.
+// Seats booked so far. The tour page no longer shows this count (the free Book of
+// Mormon offer is now date-based), but it's handy for checking sales: /api/seats.
 // Counts paid deposit and pay-in-full checkouts for this tour (one seat per traveler),
 // except any listed in NOT_COUNTED in config.js.
 // Cached for two minutes so page views don't each call Stripe.

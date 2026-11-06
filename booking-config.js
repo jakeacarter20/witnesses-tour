@@ -9,7 +9,6 @@
   THE LINKS BELOW ARE LIVE STRIPE LINKS. They take real payments into the
   Parley Street Travel Co account (acct_1UTTLNBGUzBPtYtu).
 
-  As seats sell, update seatsSold so the banner's tally stays current.
   To close a room type when it fills, set its soldOut to true.
   To close the whole tour, set tourSoldOut to true.
 */
@@ -19,8 +18,7 @@ window.PARLEY_BOOKING = {
   finalPaymentDate: "March 19, 2027",    // last plan payment, one month before the April 19 departure
   autoPlanDates: "January 1, January 27, February 21 and March 19, 2027", // charge dates if the plan starts automatically
 
-  seatsSold: 0,                          // fallback seat count for the banner; on Vercel the live count from Stripe is used instead
-  freeBookSeats: 25,                     // the first this-many seats get a free customizable Book of Mormon
+  promoEnds: "2026-11-26T00:00:00-06:00", // free Book of Mormon offer: the banner and FAQ entry disappear at this time (start of Thanksgiving, Central)
 
   tourSoldOut: false,
 

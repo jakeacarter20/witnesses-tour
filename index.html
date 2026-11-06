@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261105b">
+<link rel="stylesheet" href="styles.css?v=20261105c">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CDX55VKBV"></script>
 <script>
@@ -67,11 +67,10 @@
   </div>
 </header>
 
-<!-- Free Book of Mormon offer: the tally comes from /api/seats, or seatsSold in booking-config.js -->
-<div class="promo-banner" id="promo" role="note">
+<!-- Free Book of Mormon offer: ends at promoEnds in booking-config.js, when this banner and the FAQ entry remove themselves -->
+<div class="promo-banner" id="promo" role="note" data-promo>
   <div class="wrap">
-    <p><strong>The first 25 seats sold get a free customizable Book of Mormon from <span class="promo-host">The Holy Rebellion</span>.</strong> <a class="promo-link" href="https://refugeproducts.com/scriptures" target="_blank" rel="noopener">See the books&nbsp;&rarr;</a></p>
-    <div class="promo-count"><span class="promo-tally" data-promo-tally></span><span class="promo-bar" aria-hidden="true"><span data-promo-bar></span></span></div>
+    <p><strong>Buy before Thanksgiving and get a free customizable Book of Mormon from <span class="promo-host">The Holy Rebellion</span>.</strong> <a class="promo-link" href="https://refugeproducts.com/scriptures" target="_blank" rel="noopener">See the books&nbsp;&rarr;</a></p>
   </div>
 </div>
 
@@ -409,9 +408,9 @@
             <summary>Is there an age requirement?</summary>
             <p>Travelers must be 16 or older.</p>
           </details>
-          <details>
+          <details data-promo>
             <summary>How does the free Book of Mormon work?</summary>
-            <p>The first 25 seats sold each come with a free customizable Book of Mormon. The banner at the top of this page shows how many have been claimed.</p>
+            <p>Buy before Thanksgiving (November 26, 2026), with a deposit or paid in full, and each traveler in your booking gets a free customizable Book of Mormon from The Holy Rebellion. <a href="https://refugeproducts.com/scriptures" target="_blank" rel="noopener">See the books</a>.</p>
           </details>
           <details>
             <summary>I have another question.</summary>
@@ -466,7 +465,7 @@
   </div>
 </footer>
 
-<script src="booking-config.js"></script>
+<script src="booking-config.js?v=20261105a"></script>
 <script>
 (function () {
   var cfg = window.PARLEY_BOOKING || { rooms: {} };
@@ -480,22 +479,10 @@
   var ackBox = document.getElementById("ack-box");
   var ackWrap = document.getElementById("deposit-ack");
 
-  // Free Book of Mormon banner: running tally of seats sold. Starts from
-  // seatsSold in booking-config.js, then uses the live count from Stripe
-  // (api/seats.js) when the site runs on Vercel.
-  var promoSeats = cfg.freeBookSeats || 25;
-  function showTally(count) {
-    var sold = Math.max(0, Math.min(Number(count) || 0, promoSeats));
-    document.querySelectorAll("[data-promo-tally]").forEach(function (el) {
-      el.textContent = sold >= promoSeats
-        ? "All " + promoSeats + " have been claimed."
-        : sold + " of " + promoSeats + " claimed, " + (promoSeats - sold) + " left.";
-    });
-    document.querySelectorAll("[data-promo-bar]").forEach(function (el) {
-      el.style.width = (sold / promoSeats * 100) + "%";
-    });
+  // Free Book of Mormon offer: after promoEnds the banner and FAQ entry disappear
+  if (cfg.promoEnds && Date.now() >= new Date(cfg.promoEnds).getTime()) {
+    document.querySelectorAll("[data-promo]").forEach(function (el) { el.remove(); });
   }
-  showTally(cfg.seatsSold);
 
   // The banner floats under the header; share its height so the side box and
   // section links stop below it, not behind it
@@ -505,12 +492,6 @@
   }
   setPromoHeight();
   if (window.ResizeObserver && promo) new ResizeObserver(setPromoHeight).observe(promo);
-  if (window.fetch) {
-    fetch("/api/seats")
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (data) { if (data && typeof data.seatsSold === "number") showTally(data.seatsSold); })
-      .catch(function () {});
-  }
 
   if (cfg.tourSoldOut) document.getElementById("tour-soldout").style.display = "block";
 

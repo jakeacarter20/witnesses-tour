@@ -56,15 +56,9 @@ h3 { font-size: 26px; }
 .promo-banner strong { font-weight: 500; }
 .promo-host { font-family: var(--serif); font-size: 1.2em; font-weight: 600; font-style: italic; white-space: nowrap; }
 .promo-link { color: var(--rust); font-weight: 500; white-space: nowrap; text-underline-offset: 3px; }
-.promo-count { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
-.promo-tally { color: var(--rust); white-space: nowrap; }
-.promo-bar { display: block; width: 120px; height: 4px; background: rgba(51, 57, 31, 0.15); border-radius: 4px; overflow: hidden; }
-.promo-bar span { display: block; height: 100%; width: 0; background: var(--rust); }
 @media (max-width: 560px) {
   .promo-banner .wrap { gap: 4px 12px; padding-top: 8px; padding-bottom: 8px; }
   .promo-banner p { font-size: 13px; line-height: 1.35; }
-  .promo-count { font-size: 11px; }
-  .promo-bar { display: none; }
 }
 
 /* Header */
