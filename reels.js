@@ -1,0 +1,78 @@
+/*
+  Parley Street Travel Co. — The Holy Rebellion's Instagram videos (Your hosts section)
+  To add or remove a video, edit REELS: each entry is the code from the reel's link,
+  instagram.com/reel/THIS_PART/. Each video loads from Instagram only as it comes
+  near the screen, so the page stays fast.
+*/
+(function () {
+  var REELS = [
+    "DTycLjGEuw3", "DSYiQ09ERfx", "DTBsESjAHzD", "DRZzlHPjm6b",
+    "Deu2RDBugsE", "DefJOhcvSjx", "DZqDhh2yjay", "DTqa2iNjz4x",
+    "DO1ANuzAMUD", "DR72-BVEgZk", "DNGLqOYsj5f", "DN9FqzFkl90",
+    "DNMUvsSy5CX", "DN1LSJ75Coi", "DMOAjE8uU1k", "DGnxXeFJEJ0"
+  ];
+
+  var root = document.getElementById("host-reels");
+  if (!root) return;
+  var track = root.querySelector(".reels-track");
+  var prev = root.querySelector(".reels-prev");
+  var next = root.querySelector(".reels-next");
+
+  REELS.forEach(function (id, i) {
+    var card = document.createElement("div");
+    card.className = "reel";
+    card.dataset.reel = id;
+    card.dataset.title = "The Holy Rebellion on Instagram, video " + (i + 1) + " of " + REELS.length;
+    var link = document.createElement("a");
+    link.className = "reel-link";
+    link.href = "https://www.instagram.com/reel/" + id + "/";
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = "Watch on Instagram";
+    card.appendChild(link);
+    track.appendChild(card);
+  });
+
+  function load(card) {
+    if (card.dataset.loaded) return;
+    card.dataset.loaded = "1";
+    var frame = document.createElement("iframe");
+    frame.src = "https://www.instagram.com/reel/" + card.dataset.reel + "/embed/";
+    frame.title = card.dataset.title;
+    frame.loading = "lazy";
+    frame.allow = "encrypted-media; picture-in-picture; fullscreen";
+    frame.setAttribute("scrolling", "no");
+    card.appendChild(frame);
+  }
+
+  var cards = Array.prototype.slice.call(track.children);
+  if ("IntersectionObserver" in window) {
+    var seen = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { load(e.target); seen.unobserve(e.target); }
+      });
+    }, { root: track, rootMargin: "0px 320px" });
+    // Only start watching once the section itself is close to the screen
+    var near = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        near.disconnect();
+        cards.forEach(function (c) { seen.observe(c); });
+      }
+    }, { rootMargin: "400px 0px" });
+    near.observe(root);
+  } else {
+    cards.forEach(load);
+  }
+
+  function step() { return cards[0].getBoundingClientRect().width + 16; }
+  function sync() {
+    var max = track.scrollWidth - track.clientWidth - 2;
+    prev.disabled = track.scrollLeft <= 2;
+    next.disabled = track.scrollLeft >= max;
+  }
+  prev.addEventListener("click", function () { track.scrollBy({ left: -step(), behavior: "smooth" }); });
+  next.addEventListener("click", function () { track.scrollBy({ left: step(), behavior: "smooth" }); });
+  track.addEventListener("scroll", sync, { passive: true });
+  window.addEventListener("resize", sync);
+  sync();
+})();

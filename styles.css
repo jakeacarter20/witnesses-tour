@@ -190,6 +190,19 @@ h3 { font-size: 26px; }
 .host-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 160px)); gap: 16px; }
 .host-photos figure { margin: 0; }
 .host-photo { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius); }
+/* The Holy Rebellion's Instagram videos (reels.js): swipe on phones, arrows on wider screens */
+.reels { min-width: 0; margin-top: 12px; }
+.reels-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.reels-head h3 { font-size: 26px; }
+.reels-nav { display: flex; gap: 8px; flex: none; }
+.reels-nav button { width: 44px; height: 44px; border: 1px solid var(--dark-olive); border-radius: 50%; background: transparent; color: var(--dark-olive); font-size: 18px; line-height: 1; cursor: pointer; }
+.reels-nav button:hover:not(:disabled) { background: var(--dark-olive); color: var(--cream); }
+.reels-nav button:disabled { opacity: 0.3; cursor: default; }
+.reels-nav button:focus-visible, .reels-track:focus-visible { outline: 2px solid var(--burnt-orange); outline-offset: 2px; }
+.reels-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 10px; }
+.reel { position: relative; flex: 0 0 300px; max-width: 86%; height: 590px; scroll-snap-align: start; overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+.reel iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.reel-link { position: absolute; left: 0; right: 0; top: 45%; text-align: center; font-size: 15px; }
 .host-photos figcaption { margin-top: 6px; font-size: 14px; color: var(--muted); }
 
 /* Where we'll meet */
