@@ -25,7 +25,8 @@
     return '<div class="td-field"><label for="' + id + '">' + esc(label) + (opts.optional ? ' <span>(optional)</span>' : "") + "</label>" +
       '<input id="' + id + '" name="' + id + '" type="' + type + '" value="' + esc(value) + '"' +
       (opts.optional ? "" : " required") + (opts.autocomplete ? ' autocomplete="' + opts.autocomplete + '"' : "") +
-      (opts.max ? ' max="' + opts.max + '"' : "") + (opts.maxlength ? ' maxlength="' + opts.maxlength + '"' : "") + "></div>";
+      (opts.max ? ' max="' + opts.max + '"' : "") + (opts.maxlength ? ' maxlength="' + opts.maxlength + '"' : "") + ">" +
+      (opts.hint ? '<p class="td-hint">' + esc(opts.hint) + "</p>" : "") + "</div>";
   }
 
   function render(data) {
@@ -35,7 +36,7 @@
       html += '<fieldset class="td-group"><legend>' + (data.count === 1 ? "Traveler" : "Traveler " + n + (me ? " (you)" : "")) + "</legend>" +
         input("t" + n + "-name", "Full name", "text", t.name, { autocomplete: me ? "name" : "off", maxlength: 100 }) +
         input("t" + n + "-dob", "Date of birth", "date", t.dob, { max: latestBirthday, autocomplete: me ? "bday" : "off" }) +
-        input("t" + n + "-email", "Email", "email", t.email, { optional: !me, autocomplete: me ? "email" : "off", maxlength: 254 }) +
+        input("t" + n + "-email", "Email", "email", t.email, { autocomplete: me ? "email" : "off", maxlength: 254, hint: me ? "" : "We'll send trip updates here. If they don't have one, enter yours." }) +
         input("t" + n + "-phone", "Phone", "tel", t.phone, { optional: !me, autocomplete: me ? "tel" : "off", maxlength: 30 }) +
         "</fieldset>";
     });
@@ -68,7 +69,18 @@
       form.querySelectorAll('input[name="roommate"]').forEach(function (r) { r.addEventListener("change", syncMate); });
       syncMate();
     }
-    if (data.savedAt) say("Your traveler details are saved. To change anything later, email hello@parleystreettravel.com.", "ok");
+    if (data.savedAt) {
+      say("Your traveler details are saved. To change anything later, email hello@parleystreettravel.com.", "ok");
+      showAboutYou(data.count);
+    }
+  }
+
+  // Once details are saved, point everyone to the "Tell us about you" form
+  function showAboutYou(count) {
+    var box = document.getElementById("about-you");
+    if (!box) return;
+    box.querySelector(".td-share").hidden = count < 2;
+    box.hidden = false;
   }
 
   function say(message, kind) {
@@ -98,8 +110,10 @@
     fetch("/api/traveler-details", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
       .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
       .then(function (res) {
-        if (res.ok) say("Saved. Thank you! To change anything later, email hello@parleystreettravel.com.", "ok");
-        else say(res.body.error || "We couldn't save your details. Please try again.", "error");
+        if (res.ok) {
+          say("Saved. Thank you! To change anything later, email hello@parleystreettravel.com.", "ok");
+          showAboutYou(count);
+        } else say(res.body.error || "We couldn't save your details. Please try again.", "error");
       })
       .catch(function () { say("We couldn't reach the server. Please check your connection and try again.", "error"); })
       .then(function () { button.disabled = false; });

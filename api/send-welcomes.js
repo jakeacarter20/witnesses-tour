@@ -26,7 +26,7 @@ export async function GET(request) {
     const couponCode = process.env.BOOK_COUPON_CODE;
     const testTo = process.env.WELCOME_TEST_TO;
     if (testTo) {
-      const sample = buildWelcome({ name: "Pat Lee", room: "triple", kind: "deposit", travelers: ["Pat Lee", "Jordan Lee", "Casey Lee"], coupon: couponCode ? { code: couponCode, books: 3 } : null });
+      const sample = buildWelcome({ name: "Pat Lee", room: "triple", kind: "deposit", travelers: ["Pat Lee", "Jordan Lee", "Casey Lee"], coupon: couponCode ? { code: couponCode, books: 3 } : null, seats: 3 });
       await send({ to: testTo, ...sample, subject: `[Test] ${sample.subject}`, idempotencyKey: `welcome-test-${Date.now()}` });
       console.log("[send-welcomes] sent a test email to WELCOME_TEST_TO");
     }

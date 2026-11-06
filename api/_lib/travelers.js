@@ -118,7 +118,8 @@ export async function saveDetails(stripe, body, { now = new Date() } = {}) {
     if (ageOnTour(dob) < MIN_AGE) throw new DetailsError(`Travelers must be ${MIN_AGE} or older by April 19, 2027 (${who}).`);
     if (ageOnTour(dob) > 110) throw new DetailsError(`Please check the date of birth for ${who}.`);
     if (n === 1 && (!email || !phone)) throw new DetailsError("Please enter an email and phone for traveler 1.");
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new DetailsError(`Please check the email for ${who}.`);
+    if (!email) throw new DetailsError(`Please enter an email for ${who}. If they don't have one, enter yours.`);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new DetailsError(`Please check the email for ${who}.`);
     if (phone && (phone.match(/\d/g) || []).length < 7) throw new DetailsError(`Please check the phone number for ${who}.`);
     Object.assign(metadata, {
       [`traveler_${n}_name`]: name,

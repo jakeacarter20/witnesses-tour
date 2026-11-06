@@ -5,7 +5,7 @@
 // Customer in Stripe (welcome_sent_to, welcome_sent_at), so nobody gets it twice.
 // Kept separate from the HTTP handler so it can be tested (see test/welcome.test.js).
 
-import { TOUR, NOT_COUNTED, WELCOME_DELAY_DAYS, WELCOME_START, COUPON_ENDS, WELCOME_VIDEO, WELCOME_VIDEO_IMAGE } from "./config.js";
+import { TOUR, NOT_COUNTED, WELCOME_DELAY_DAYS, WELCOME_START, COUPON_ENDS, WELCOME_VIDEO, WELCOME_VIDEO_IMAGE, WELCOME_FORM } from "./config.js";
 
 const DAY = 86400;
 const SITE = "https://parleystreettravel.com";
@@ -15,13 +15,17 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const firstName = (name) => String(name || "").trim().split(/\s+/)[0] || "there";
 
 // The letter itself. Returns { subject, html, text }.
-export function buildWelcome({ name, room, kind, travelers, detailsUrl, coupon }) {
+export function buildWelcome({ name, room, kind, travelers, detailsUrl, coupon, seats = 1 }) {
   const roomName = ROOMS[room] || room;
   const subject = "Welcome to The Witnesses Tour";
   const steps = [];
   if (detailsUrl) {
     steps.push({ title: "Add your traveler details", text: "We still need each traveler's name, date of birth and contact details for hotel rooms, the coach list and emergencies.", link: detailsUrl, label: "Add traveler details" });
   }
+  const aboutYou = "Help us plan a trip that fits you: allergies, accessibility needs, your favorite road trip snack and drink, and more. It only takes a couple of minutes.";
+  steps.push(seats > 1
+    ? { title: "Tell us about you", text: `${aboutYou} Everyone in your booking fills this out separately. If someone in your group didn't get this email, send them this link:`, link: WELCOME_FORM, label: "Tell us about you", showLink: true }
+    : { title: "Tell us about you", text: aboutYou, link: WELCOME_FORM, label: "Tell us about you" });
   steps.push({ title: "Get travel insurance", text: "We strongly recommend it. Buy within 14 days of your first payment to keep coverage for pre-existing conditions and the option to cancel for any reason.", link: "https://www.squaremouth.com/", label: "Compare plans on Squaremouth" });
   if (kind === "deposit") {
     steps.push({ title: "Pay the rest by January 1, 2027", text: "Pay the rest in full or start your 4-payment plan by January 1, 2027. If you haven't by then, your plan starts automatically on January 1, charged to the payment method you booked with.", link: `${SITE}/#plan`, label: "Pay the rest or start the plan" });
@@ -56,6 +60,7 @@ export function buildWelcome({ name, room, kind, travelers, detailsUrl, coupon }
     <td style="padding:0 0 18px;vertical-align:top;">
       <div style="font-size:16px;font-weight:600;color:#2A2E1A;margin-bottom:4px;">${esc(s.title)}</div>
       <div style="font-size:15px;line-height:1.55;color:#5B5F48;">${esc(s.text)}</div>
+      ${s.showLink ? `<div style="font-size:15px;line-height:1.55;margin-top:4px;"><a href="${esc(s.link)}" style="color:#B4592B;">${esc(s.link.replace("https://", ""))}</a></div>` : ""}
       ${s.link ? `<a href="${esc(s.link)}" style="display:inline-block;margin-top:10px;padding:10px 18px;background:#33391F;color:#EFE9DA;text-decoration:none;border-radius:4px;font-size:14px;font-weight:600;letter-spacing:0.04em;">${esc(s.label)}</a>` : ""}
     </td></tr>`).join("");
 
@@ -94,8 +99,9 @@ function startOf(ymd) {
   return Date.UTC(y, m - 1, d) / 1000;
 }
 
-// Sends any welcome emails that are due. `send({ to, subject, html, text, idempotencyKey })`
-// does the actual sending. Returns what happened, for the logs.
+// Sends any welcome emails that are due, including to travelers whose emails were added
+// after the first send. `send({ to, subject, html, text, idempotencyKey })` does the actual
+// sending. Returns what happened, for the logs.
 export async function sendWelcomes(stripe, { now, send, notify, couponCode }) {
   const results = [];
   const sessions = stripe.checkout.sessions.list({
@@ -111,7 +117,6 @@ export async function sendWelcomes(stripe, { now, send, notify, couponCode }) {
     const customerId = typeof session.customer === "string" ? session.customer : session.customer.id;
     const customer = await stripe.customers.retrieve(customerId);
     const saved = customer.metadata || {};
-    if (saved.welcome_sent_at) continue;
 
     const buyer = session.customer_details || {};
     const names = [];
@@ -138,12 +143,21 @@ export async function sendWelcomes(stripe, { now, send, notify, couponCode }) {
       continue;
     }
 
+    const toSend = unique.filter((r) => !seen.has(r.key));
+    if (saved.welcome_sent_at) {
+      // Already welcomed: only send to travelers added since. Stripe caps welcome_sent_to at
+      // 500 characters, so a nearly full list may have lost an address; don't risk a repeat.
+      if (!toSend.length || (saved.welcome_sent_to || "").length >= 450) continue;
+    }
+
+    const items = await stripe.checkout.sessions.listLineItems(session.id, { limit: 20 });
+    const seats = Math.max(1, items.data.reduce((n, item) => n + (item.quantity || 0), 0));
+
     // Bookings made before Thanksgiving get the free book coupon, one book per seat
     let coupon = null;
     if (session.created * 1000 < new Date(COUPON_ENDS).getTime()) {
       if (couponCode) {
-        const items = await stripe.checkout.sessions.listLineItems(session.id, { limit: 20 });
-        coupon = { code: couponCode, books: Math.max(1, items.data.reduce((n, item) => n + (item.quantity || 0), 0)) };
+        coupon = { code: couponCode, books: seats };
       } else {
         await notify("BOOK_COUPON_CODE isn't set, so this welcome email went out without the free book coupon; send it by hand", { session: session.id });
       }
@@ -152,8 +166,7 @@ export async function sendWelcomes(stripe, { now, send, notify, couponCode }) {
     const detailsUrl = saved.details_saved_at ? null : `${SITE}/thank-you.html?session_id=${session.id}`;
     const sentTo = [];
     let failed = false;
-    for (const r of unique) {
-      if (seen.has(r.key)) continue;
+    for (const r of toSend) {
       const letter = buildWelcome({
         name: r.name || buyer.name,
         room: m.room,
@@ -161,6 +174,7 @@ export async function sendWelcomes(stripe, { now, send, notify, couponCode }) {
         travelers: names,
         detailsUrl: r.isBuyer ? detailsUrl : null, // the details link opens everyone's details, so only the booker gets it
         coupon,
+        seats,
       });
       try {
         await send({ to: r.email, ...letter, idempotencyKey: `welcome-${session.id}-${r.key}` });
@@ -172,7 +186,7 @@ export async function sendWelcomes(stripe, { now, send, notify, couponCode }) {
         await notify("Welcome email failed to send; it will be retried tomorrow", { session: session.id, to: r.email, error: err.message });
       }
     }
-    if (!failed) {
+    if (!failed && !saved.welcome_sent_at) {
       await stripe.customers.update(customerId, { metadata: { welcome_sent_at: new Date(now * 1000).toISOString() } });
     }
     results.push({ session: session.id, sentTo, complete: !failed });

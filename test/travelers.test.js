@@ -47,7 +47,7 @@ function fakeStripe({ room = "triple", quantity = 3, kind = "deposit", status = 
   };
 }
 
-const traveler = (n, extra = {}) => ({ name: `Traveler ${n}`, dob: "1990-06-01", email: "", phone: "", ...extra });
+const traveler = (n, extra = {}) => ({ name: `Traveler ${n}`, dob: "1990-06-01", email: `traveler${n}@example.com`, phone: "", ...extra });
 const form = (travelers, extra = {}) => ({
   session_id: SESSION,
   travelers,
@@ -55,6 +55,13 @@ const form = (travelers, extra = {}) => ({
   ...extra,
 });
 const first = { email: "pat@example.com", phone: "555-555-0100" };
+
+test("every guest needs an email, and sharing the booker's is fine", async () => {
+  const noEmail = form([traveler(1, first), traveler(2, { email: "" }), traveler(3)]);
+  await assert.rejects(saveDetails(fakeStripe(), noEmail), /email for traveler 2\. If they don't have one, enter yours/);
+  const shared = form([traveler(1, first), traveler(2, { email: first.email }), traveler(3, { email: first.email })]);
+  await saveDetails(fakeStripe(), shared);
+});
 
 test("age is counted on the first day of the tour", () => {
   assert.equal(ageOnTour("2011-04-19"), 16);
@@ -83,7 +90,8 @@ test("answers are saved onto the customer, one value per key", async () => {
   assert.equal(m.traveler_1_dob, "1990-06-01");
   assert.equal(m.traveler_1_email, "pat@example.com");
   assert.equal(m.traveler_3_phone, "555 555 0123");
-  assert.equal(m.traveler_2_email, undefined);
+  assert.equal(m.traveler_2_email, "traveler2@example.com");
+  assert.equal(m.traveler_2_phone, undefined);
   assert.equal(m.emergency_name, "Sam Lee");
   assert.equal(m.details_travelers, "3");
   assert.equal(m.details_saved_at, "2026-11-01T00:00:00.000Z");

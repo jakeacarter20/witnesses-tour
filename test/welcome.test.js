@@ -161,6 +161,42 @@ test("the letter links the hosts' thank-you video in both versions", () => {
   assert.match(html, /<img src="https:\/\/i\.ytimg\.com\/vi\/4r8gvD1rUEI\/maxresdefault\.jpg"/);
 });
 
+test("a traveler added after the welcome email gets it the next day, once", async () => {
+  const customers = { cus_cs_9: { details_saved_at: "x" } };
+  await run([booking("cs_9")], customers);
+  assert.equal(customers.cus_cs_9.welcome_sent_to, "pat@example.com");
+  const firstSentAt = customers.cus_cs_9.welcome_sent_at;
+
+  Object.assign(customers.cus_cs_9, { traveler_1_name: "Pat Lee", traveler_1_email: "pat@example.com", traveler_2_name: "Jordan Lee", traveler_2_email: "Jordan@example.com" });
+  const late = await run([booking("cs_9")], customers);
+  assert.deepEqual(late.sent.map((e) => e.to), ["Jordan@example.com"]);
+  assert.match(late.sent[0].text, /^Hi Jordan,/);
+  assert.match(late.sent[0].text, /TESTCODE/);
+  assert.doesNotMatch(late.sent[0].text, /session_id/);
+  assert.equal(customers.cus_cs_9.welcome_sent_at, firstSentAt);
+
+  const again = await run([booking("cs_9")], customers);
+  assert.equal(again.sent.length, 0);
+});
+
+test("a welcomed booking with nobody new raises no alerts, even without the coupon code", async () => {
+  const customers = { cus_cs_10: { welcome_sent_at: "2026-11-05", welcome_sent_to: "pat@example.com" } };
+  const { sent, alerts } = await run([booking("cs_10")], customers, { couponCode: null });
+  assert.equal(sent.length, 0);
+  assert.equal(alerts.length, 0);
+});
+
+test("everyone gets the form, and groups are asked to share its link", async () => {
+  const group = await run([booking("cs_11", { quantity: 3 })]);
+  assert.match(group.sent[0].text, /Tell us about you/);
+  assert.match(group.sent[0].text, /send them this link:\n\s+https:\/\/forms\.gle\//);
+  assert.match(group.sent[0].html, />forms\.gle\//);
+
+  const solo = await run([booking("cs_12", { room: "single", quantity: 1 })]);
+  assert.match(solo.sent[0].text, /https:\/\/forms\.gle\//);
+  assert.doesNotMatch(solo.sent[0].text, /Everyone in your booking fills this out/);
+});
+
 test("names are escaped in the HTML", () => {
   const { html } = buildWelcome({ name: "<b>Pat</b>", room: "single", kind: "full", travelers: ["<b>Pat</b>"] });
   assert.doesNotMatch(html, /<b>Pat<\/b>/);

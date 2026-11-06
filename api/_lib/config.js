@@ -38,6 +38,9 @@ export const WELCOME_REPLY_TO = "hello@parleystreettravel.com";
 // play video, so the letter shows this thumbnail, linked to YouTube.
 export const WELCOME_VIDEO = "https://www.youtube.com/watch?v=4r8gvD1rUEI";
 export const WELCOME_VIDEO_IMAGE = "https://i.ytimg.com/vi/4r8gvD1rUEI/maxresdefault.jpg";
+// The "Tell Us About You" Google Form (allergies, accessibility, ride home and so on), in Jaime's
+// Google account. Answers go to that form's spreadsheet, not to Stripe.
+export const WELCOME_FORM = "https://forms.gle/VLq6aqWUrbpQ2qG9A";
 // Bookings made before this moment (the start of Thanksgiving, Central) get the free
 // Book of Mormon coupon in their welcome email. Keep in step with promoEnds in
 // booking-config.js. The code itself is BOOK_COUPON_CODE in Vercel, not in this public repo.
