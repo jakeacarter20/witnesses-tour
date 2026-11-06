@@ -1,13 +1,13 @@
 /*
-  Parley Street Travel Co. — The Holy Rebellion's Instagram videos (Your hosts section)
+  Parley Street Travel Co. — The Holy Rebellion's Instagram videos (the section above the FAQ)
   To add or remove a video, edit REELS: each entry is the code from the reel's link,
   instagram.com/reel/THIS_PART/. Each video loads from Instagram only as it comes
   near the screen, so the page stays fast.
 */
 (function () {
   var REELS = [
-    "DTycLjGEuw3", "DSYiQ09ERfx", "DTBsESjAHzD", "DRZzlHPjm6b",
-    "Deu2RDBugsE", "DefJOhcvSjx", "DZqDhh2yjay", "DTqa2iNjz4x",
+    "DZqDhh2yjay", "DTycLjGEuw3", "DSYiQ09ERfx", "DTBsESjAHzD",
+    "DRZzlHPjm6b", "Deu2RDBugsE", "DefJOhcvSjx", "DTqa2iNjz4x",
     "DO1ANuzAMUD", "DR72-BVEgZk", "DNGLqOYsj5f", "DN9FqzFkl90",
     "DNMUvsSy5CX", "DN1LSJ75Coi", "DMOAjE8uU1k", "DGnxXeFJEJ0"
   ];

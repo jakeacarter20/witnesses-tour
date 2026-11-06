@@ -184,10 +184,11 @@ h3 { font-size: 26px; }
 .host-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 160px)); gap: 16px; }
 .host-photos figure { margin: 0; }
 .host-photo { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius); }
-/* The Holy Rebellion's Instagram videos (reels.js): swipe on phones, arrows on wider screens */
-.reels { min-width: 0; margin-top: 12px; }
+/* The Holy Rebellion's Instagram videos (reels.js, above the FAQ): swipe on phones, arrows on wider screens */
+.reels { min-width: 0; }
 .reels-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-.reels-head h3 { font-size: 26px; }
+.reels-head h2 { margin-bottom: 0; }
+@media (max-width: 640px) { .reels-head h2 { font-size: 30px; } } /* two lines beside the arrows */
 .reels-nav { display: flex; gap: 8px; flex: none; }
 .reels-nav button { width: 44px; height: 44px; border: 1px solid var(--dark-olive); border-radius: 50%; background: transparent; color: var(--dark-olive); font-size: 18px; line-height: 1; cursor: pointer; }
 .reels-nav button:hover:not(:disabled) { background: var(--dark-olive); color: var(--cream); }
