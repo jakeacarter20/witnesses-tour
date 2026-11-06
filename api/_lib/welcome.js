@@ -5,7 +5,7 @@
 // Customer in Stripe (welcome_sent_to, welcome_sent_at), so nobody gets it twice.
 // Kept separate from the HTTP handler so it can be tested (see test/welcome.test.js).
 
-import { TOUR, NOT_COUNTED, WELCOME_DELAY_DAYS, WELCOME_START, COUPON_ENDS } from "./config.js";
+import { TOUR, NOT_COUNTED, WELCOME_DELAY_DAYS, WELCOME_START, COUPON_ENDS, WELCOME_VIDEO, WELCOME_VIDEO_IMAGE } from "./config.js";
 
 const DAY = 86400;
 const SITE = "https://parleystreettravel.com";
@@ -35,12 +35,13 @@ export function buildWelcome({ name, room, kind, travelers, detailsUrl, coupon }
 
   const who = travelers && travelers.length ? travelers : [name];
   const intro = `Welcome to The Witnesses Tour! We're so glad you're coming with us April 19–23, 2027, to stand where the witnesses of the Book of Mormon lived, testified and are buried.`;
+  const video = "Travis from The Holy Rebellion has a quick thank-you for you:";
   const booking = `Your booking: ${roomName} room for ${who.length} traveler${who.length === 1 ? "" : "s"}: ${who.join(", ")}.`;
   const travel = "Fly into Kansas City International (MCI) by late morning on Monday, April 19. We gather at 1:30 PM at the Independence Visitors' Center, 937 W Walnut St, Independence, MO 64050. The tour ends after the closing devotional at Carthage Jail, about 12:30 PM on Friday, April 23. Ride the coach back to Kansas City (arriving at MCI about 6:15 PM), or leave from Carthage on your own. We'll ask which you prefer before the trip.";
   const next = "About a month before the trip, you'll get your traveler packet with final times, hotels and roommate details, along with the traveler waiver for each traveler to sign.";
 
   const text = [
-    `Hi ${firstName(name)},`, "", intro, "", booking, "", "WHAT TO DO NOW", "",
+    `Hi ${firstName(name)},`, "", intro, "", video, WELCOME_VIDEO, "", booking, "", "WHAT TO DO NOW", "",
     ...steps.flatMap((s, i) => [`${i + 1}. ${s.title}`, `   ${s.text}`, ...(s.link ? [`   ${s.link}`] : []), ""]),
     "PLAN YOUR TRAVEL", "", travel, "", next, "",
     "Questions? Just reply to this email.", "",
@@ -68,6 +69,9 @@ export function buildWelcome({ name, room, kind, travelers, detailsUrl, coupon }
 <tr><td style="padding:28px;">
   ${p(`Hi ${esc(firstName(name))},`)}
   ${p(esc(intro))}
+  ${p(esc(video), "margin-bottom:10px;")}
+  <a href="${WELCOME_VIDEO}" style="display:block;margin:0 0 10px;"><img src="${WELCOME_VIDEO_IMAGE}" alt="Watch the thank-you video from Travis of The Holy Rebellion" width="544" style="display:block;width:100%;max-width:544px;height:auto;border:0;border-radius:4px;"></a>
+  <a href="${WELCOME_VIDEO}" style="display:inline-block;margin:0 0 20px;padding:10px 18px;background:#33391F;color:#EFE9DA;text-decoration:none;border-radius:4px;font-size:14px;font-weight:600;letter-spacing:0.04em;">Watch the video</a>
   ${p(esc(booking), "padding:14px 16px;background:#ffffff;border:1px solid #D6CDB6;border-radius:4px;")}
   ${h("What to do now")}
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${stepHtml}</table>

@@ -34,6 +34,10 @@ export const NOT_COUNTED = [
 export const WELCOME_DELAY_DAYS = 2;
 export const WELCOME_FROM = "Parley Street Travel Co. <hello@parleystreettravel.com>";
 export const WELCOME_REPLY_TO = "hello@parleystreettravel.com";
+// The hosts' thank-you video, shown near the top of the welcome email. Email clients don't
+// play video, so the letter shows this thumbnail, linked to YouTube.
+export const WELCOME_VIDEO = "https://www.youtube.com/watch?v=4r8gvD1rUEI";
+export const WELCOME_VIDEO_IMAGE = "https://i.ytimg.com/vi/4r8gvD1rUEI/maxresdefault.jpg";
 // Bookings made before this moment (the start of Thanksgiving, Central) get the free
 // Book of Mormon coupon in their welcome email. Keep in step with promoEnds in
 // booking-config.js. The code itself is BOOK_COUPON_CODE in Vercel, not in this public repo.

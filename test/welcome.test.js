@@ -154,6 +154,13 @@ test("if the code isn't set, the email still goes and we're told to send the cou
   assert.match(alerts[0].subject, /BOOK_COUPON_CODE/);
 });
 
+test("the letter links the hosts' thank-you video in both versions", () => {
+  const { text, html } = buildWelcome({ name: "Pat", room: "single", kind: "full", travelers: ["Pat"] });
+  assert.match(text, /youtube\.com\/watch\?v=4r8gvD1rUEI/);
+  assert.match(html, /href="https:\/\/www\.youtube\.com\/watch\?v=4r8gvD1rUEI"/);
+  assert.match(html, /<img src="https:\/\/i\.ytimg\.com\/vi\/4r8gvD1rUEI\/maxresdefault\.jpg"/);
+});
+
 test("names are escaped in the HTML", () => {
   const { html } = buildWelcome({ name: "<b>Pat</b>", room: "single", kind: "full", travelers: ["<b>Pat</b>"] });
   assert.doesNotMatch(html, /<b>Pat<\/b>/);
