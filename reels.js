@@ -64,6 +64,53 @@
     cards.forEach(load);
   }
 
+  // One video at a time. Instagram's embeds can't be paused from the page or report
+  // that they're playing, so the page stops a video by reloading its embed, which
+  // sends it back to its cover. A click into an embed shows up as the page's focus
+  // moving to that iframe, which is how we know which video someone is on.
+  var active = null;
+  var touch = window.matchMedia("(pointer: coarse)").matches; // taps don't always move focus on phones
+  function stop(card) {
+    var frame = card.querySelector("iframe");
+    if (!frame) return;
+    if (document.activeElement === frame) frame.blur();
+    frame.src = frame.src;
+  }
+  setInterval(function () {
+    var el = document.activeElement;
+    if (!el || el.tagName !== "IFRAME" || !el.parentNode.classList.contains("reel")) return;
+    if (el.parentNode !== active) {
+      if (active) stop(active);
+      active = el.parentNode;
+    }
+  }, 250);
+
+  // A video also stops when it scrolls out of view. On phones we can't tell which one
+  // is playing, so any video that was on screen is stopped as it leaves.
+  function left(card) {
+    if (card === active) {
+      stop(card);
+      active = null;
+    } else if (touch && card.dataset.onscreen) {
+      stop(card);
+    }
+    delete card.dataset.onscreen;
+  }
+  if ("IntersectionObserver" in window) {
+    var visible = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) e.target.dataset.onscreen = "1";
+        else if (e.target.dataset.onscreen) left(e.target);
+      });
+    }, { root: track });
+    cards.forEach(function (c) { visible.observe(c); });
+    // Scrolling the whole carousel off the page stops it too
+    new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) return;
+      cards.forEach(function (c) { if (c.dataset.onscreen) { left(c); c.dataset.onscreen = "1"; } });
+    }).observe(root);
+  }
+
   function step() { return cards[0].getBoundingClientRect().width + 16; }
   function sync() {
     var max = track.scrollWidth - track.clientWidth - 2;
