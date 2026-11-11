@@ -9,7 +9,7 @@ import { TOUR, NOT_COUNTED, WELCOME_DELAY_DAYS, WELCOME_START, COUPON_ENDS, WELC
 
 const DAY = 86400;
 const SITE = "https://parleystreettravel.com";
-const ROOMS = { double: "Double", single: "Single", triple: "Triple", quad: "Quad" };
+const ROOMS = { double: "Double", shared: "Shared Double", single: "Single", triple: "Triple", quad: "Quad" };
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const firstName = (name) => String(name || "").trim().split(/\s+/)[0] || "there";
@@ -169,7 +169,7 @@ export async function sendWelcomes(stripe, { now, send, notify, couponCode }) {
     for (const r of toSend) {
       const letter = buildWelcome({
         name: r.name || buyer.name,
-        room: m.room,
+        room: m.share ? "shared" : m.room, // solo travelers sharing a room book 1 seat in a Double
         kind: m.kind,
         travelers: names,
         detailsUrl: r.isBuyer ? detailsUrl : null, // the details link opens everyone's details, so only the booker gets it

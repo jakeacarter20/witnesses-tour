@@ -2,7 +2,7 @@
   PARLEY STREET TRAVEL CO. — BOOKING SETTINGS
   This is the only file you need to edit to open, update or close booking.
 
-  1. Create the 16 Stripe Payment Links described in SETUP.md (deposit, full, balance and plan for each room).
+  1. Create the 20 Stripe Payment Links described in SETUP.md (deposit, full, balance and plan for each room, plus Shared).
   2. Paste each link between the quotes below.
   3. Upload the site. Any room whose link is still empty shows "Booking opens soon".
 
@@ -28,6 +28,14 @@ window.PARLEY_BOOKING = {
       full:    "https://buy.stripe.com/4gMeVc52oepN0Ds1nT8g00d",
       balance: "https://buy.stripe.com/bJecN47aw2H5gCq1nT8g002",
       plan:    "https://buy.stripe.com/8x200ifH23L94TI6Id8g005",
+      soldOut: false
+    },
+    // Solo travelers who share a room: 1 seat in a Double, paired by us (Stripe metadata room "double", share "1")
+    shared: {
+      deposit: "https://buy.stripe.com/bJe4gy2UgftR1Hw4A58g00g",
+      full:    "https://buy.stripe.com/14AfZgcuQ3L93PEd6B8g00h",
+      balance: "https://buy.stripe.com/aFa9AS52odlJ4TI9Up8g00i",
+      plan:    "https://buy.stripe.com/5kQdR8dyU0yXcmafeJ8g00j",
       soldOut: false
     },
     single: {

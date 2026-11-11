@@ -34,7 +34,8 @@
     { q: "How much does it cost?", strong: ["cost", "price", "prices", "much", "expensive", "rate"], weak: ["double", "triple", "quad", "room", "total"],
       a: function () {
         var rooms = $$("#book .room").map(function (r) {
-          return "<li><strong>" + esc(text($("h3", r))) + "</strong>: " + esc(text($(".price", r))) + " " + esc(text($(".per", r))) + "</li>";
+          var info = r.dataset.summary || text($(".price", r)) + " " + text($(".per", r));
+          return "<li><strong>" + esc(text($("h3", r))) + "</strong>: " + esc(info) + "</li>";
         });
         return rooms.length ? "<p>Prices are per person and include everything listed under What's included.</p><ul>" + rooms.join("") + "</ul>" + more("book", "See rooms and prices") : "";
       } },
@@ -42,6 +43,7 @@
     { q: "Is there a payment plan?", strong: ["plan", "installment", "installments", "monthly"], weak: ["payments", "spread"], a: function () { return faq("Is there a payment plan"); } },
     { q: "What happens if I don't choose by January 1?", strong: ["january", "deadline", "automatic", "automatically"], weak: ["choose", "decide", "miss"], a: function () { return faq("What happens if I don"); } },
     { q: "I'm traveling alone. Do I need a single?", strong: ["alone", "solo", "roommate", "pair", "myself"], weak: ["single", "share"], a: function () { return faq("I'm traveling alone"); } },
+    { q: "We're sharing a Double. Do we book once or twice?", strong: ["ticket", "tickets", "twice", "both", "couple", "spouse", "husband", "wife", "partner", "quantity"], weak: ["double", "two", "seats", "sharing"], a: function () { return faq("We're sharing a Double"); } },
     { q: "How do I book a Triple or Quad?", strong: ["triple", "quad", "family", "friends"], weak: ["three", "four", "together", "group"], a: function () { return faq("How do I book a Triple"); } },
     { q: "How do I pay?", strong: ["card", "credit", "debit", "bank", "ach", "stripe", "venmo", "paypal", "check"], weak: ["pay", "paying", "payment", "method"], a: function () { return faq("How do I pay"); } },
     { q: "Can I get a refund if I cancel?", strong: ["refund", "refunds", "cancel", "cancellation", "canceling", "cancelling", "back"], weak: ["money", "policy", "terms"], a: function () { return faq("Can I get a refund"); } },

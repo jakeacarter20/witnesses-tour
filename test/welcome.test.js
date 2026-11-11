@@ -197,6 +197,13 @@ test("everyone gets the form, and groups are asked to share its link", async () 
   assert.doesNotMatch(solo.sent[0].text, /Everyone in your booking fills this out/);
 });
 
+test("a solo traveler sharing a room sees it named that way", async () => {
+  const shared = booking("cs_13", { room: "double", quantity: 1 });
+  shared.metadata.share = "1";
+  const { sent } = await run([shared]);
+  assert.match(sent[0].text, /Your booking: Shared Double room for 1 traveler/);
+});
+
 test("names are escaped in the HTML", () => {
   const { html } = buildWelcome({ name: "<b>Pat</b>", room: "single", kind: "full", travelers: ["<b>Pat</b>"] });
   assert.doesNotMatch(html, /<b>Pat<\/b>/);

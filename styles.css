@@ -228,6 +228,10 @@ h3 { font-size: 26px; }
 .room .price { font-family: var(--serif); font-size: 44px; font-weight: 600; color: var(--dark-olive); line-height: 1; }
 .room .per { font-size: 14px; color: var(--muted); }
 .room ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 15px; }
+/* Solo card: choose your own room or a shared one */
+.solo-choice { display: grid; gap: 4px; }
+.solo-choice label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.solo-choice input { width: 16px; height: 16px; margin: 0; accent-color: var(--dark-olive); }
 .room .due { font-size: 15px; border-top: 1px solid var(--line); padding-top: 14px; }
 .room .due b { font-weight: 500; }
 /* Room details: always shown on wider screens; on phones they fold behind a Details toggle */
