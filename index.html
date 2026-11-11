@@ -262,21 +262,6 @@
         <div class="soldout-banner" id="tour-soldout" role="status">The Witnesses Tour is sold out. Email us to join the waitlist.</div>
 
         <div class="rooms">
-          <article class="room is-base" data-room="double" data-price="1800" data-group="2">
-            <div class="tag">Base price</div>
-            <h3>Double</h3>
-            <div class="room-price"><div class="price">$1,800</div><div class="per">per person, room for 2</div></div>
-            <button type="button" class="room-toggle" aria-expanded="false" aria-controls="more-double">Details</button>
-            <div class="room-more" id="more-double">
-              <ul>
-                <li>One booking covers you and your roommate</li>
-                <li>Traveling solo? Choose Share a room under Solo</li>
-              </ul>
-              <div class="due" aria-live="polite"></div>
-            </div>
-            <a class="btn btn-dark" href="#" data-book>Book a Double</a>
-          </article>
-
           <article class="room" data-room="single" data-price="2250" data-summary="$2,250 for a room to yourself, or $1,800 to share a room (we pair you with another solo traveler of the same gender)">
             <div class="tag"></div>
             <h3>Solo</h3>
@@ -296,6 +281,21 @@
               <div class="due" aria-live="polite"></div>
             </div>
             <a class="btn btn-dark" href="#" data-book>Book a Single</a>
+          </article>
+
+          <article class="room is-base" data-room="double" data-price="1800" data-group="2">
+            <div class="tag">Base price</div>
+            <h3>Double</h3>
+            <div class="room-price"><div class="price">$1,800</div><div class="per">per person, room for 2</div></div>
+            <button type="button" class="room-toggle" aria-expanded="false" aria-controls="more-double">Details</button>
+            <div class="room-more" id="more-double">
+              <ul>
+                <li>One booking covers you and your roommate</li>
+                <li>Traveling solo? Choose Share a room under Solo</li>
+              </ul>
+              <div class="due" aria-live="polite"></div>
+            </div>
+            <a class="btn btn-dark" href="#" data-book>Book a Double</a>
           </article>
 
           <article class="room" data-room="triple" data-price="1700" data-group="3">
@@ -334,18 +334,18 @@
           <p>Choose how to pay the rest by <span data-deadline>January 1, 2027</span>. If you do nothing, your payment plan starts automatically on that date, charged to the card or bank account you used for your deposit.</p>
           <h4>Pay the rest in full</h4>
           <div class="plan-links">
-            <a class="btn btn-outline" href="#" data-balance="double" data-price="1800" data-group="2">Double</a>
-            <a class="btn btn-outline" href="#" data-balance="shared" data-price="1800">Shared room</a>
             <a class="btn btn-outline" href="#" data-balance="single" data-price="2250">Single</a>
+            <a class="btn btn-outline" href="#" data-balance="shared" data-price="1800">Shared room</a>
+            <a class="btn btn-outline" href="#" data-balance="double" data-price="1800" data-group="2">Double</a>
             <a class="btn btn-outline" href="#" data-balance="triple" data-price="1700" data-group="3">Triple</a>
             <a class="btn btn-outline" href="#" data-balance="quad" data-price="1650" data-group="4">Quad</a>
           </div>
           <h4>Start your payment plan now</h4>
           <p>Pay the rest in 4 equal payments. The first is charged today and the other 3 automatically, spaced evenly to <span data-final-payment>March 19, 2027</span>.</p>
           <div class="plan-links">
-            <a class="btn btn-outline" href="#" data-plan="double" data-price="1800" data-group="2">Double</a>
-            <a class="btn btn-outline" href="#" data-plan="shared" data-price="1800">Shared room</a>
             <a class="btn btn-outline" href="#" data-plan="single" data-price="2250">Single</a>
+            <a class="btn btn-outline" href="#" data-plan="shared" data-price="1800">Shared room</a>
+            <a class="btn btn-outline" href="#" data-plan="double" data-price="1800" data-group="2">Double</a>
             <a class="btn btn-outline" href="#" data-plan="triple" data-price="1700" data-group="3">Triple</a>
             <a class="btn btn-outline" href="#" data-plan="quad" data-price="1650" data-group="4">Quad</a>
           </div>
