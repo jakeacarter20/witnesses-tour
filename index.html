@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261125b">
+<link rel="stylesheet" href="styles.css?v=20261125c">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CDX55VKBV"></script>
 <script>
@@ -237,129 +237,82 @@
 
       <!-- BOOKING -->
       <section class="block" id="book">
-        <h2>Plan your trip</h2>
+        <h2>Book online with 3 simple steps</h2>
         <p class="call-line book-call"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><span>Call to book your trip or speak with your trip leaders: <a href="tel:+13853120685" data-phone>(385) 312-0685</a></span></p>
-        <ol class="steps">
-          <li><strong>Pick your room and payment</strong>Reserve with a deposit or pay in full, then select your room below.</li>
-          <li><strong>Check out securely</strong>Pay on our secure Stripe checkout by card or bank transfer, then add each traveler's details on the next page.</li>
-          <li><strong>Get your confirmation</strong>You'll receive a receipt right away and a welcome letter two days later. Your traveler packet and waiver come about a month before the trip.</li>
-        </ol>
-
-        <h3 class="book-sub">Choose your room</h3>
-        <p>Prices are per person and include everything listed above.</p>
-
-        <fieldset class="pay-choice">
-          <legend>How would you like to pay?</legend>
-          <div class="pay-options">
-            <label>
-              <input type="radio" name="pay" value="deposit" checked>
-              <strong>Reserve with a deposit</strong>
-              <span><span data-deposit>$250</span> per person today, nonrefundable. Pay the rest in full or start the 4-payment plan by <span data-deadline>January 1, 2027</span>. If you haven't, the plan starts automatically on <span data-deadline>January 1, 2027</span>.</span>
-              <span class="sale-note" data-sale>Black Friday: book with a deposit by Saturday, November 28, and we'll take 10% off the rest of your trip before your remaining payments.</span>
-            </label>
-            <label>
-              <input type="radio" name="pay" value="full">
-              <strong>Pay in full</strong>
-              <span>Pay the whole trip today and you're done.</span>
-              <span class="sale-note" data-sale>Black Friday: 10% off, taken off at checkout through Saturday, November 28.</span>
-            </label>
-          </div>
-        </fieldset>
-
-        <label class="ack" id="deposit-ack">
-          <input type="checkbox" id="ack-box">
-          <span><strong>Please read and check this box to book with a deposit.</strong> I understand that my <span data-deposit>$250</span>-per-person deposit is nonrefundable and that my card or bank account will be saved. If I haven't paid the rest of my trip in full or started the payment plan by <span data-deadline>January 1, 2027</span>, my payment plan starts automatically and the rest of my trip price is charged to that payment method in 4 equal payments on <span data-auto-dates>January 1, January 27, February 21 and March 19, 2027</span>.</span>
-        </label>
-
         <div class="soldout-banner" id="tour-soldout" role="status">The Witnesses Tour is sold out. Email us to join the waitlist.</div>
 
-        <div class="rooms">
-          <article class="room" data-room="single" data-price="2250" data-summary="$2,250 for a room to yourself, or $1,800 to share a room (we pair you with another solo traveler of the same gender)">
-            <div class="tag"></div>
-            <h3>Solo</h3>
-            <div class="room-price"><div class="price">$2,250</div>
-              <div class="per solo-choice" role="radiogroup" aria-label="Solo room choice">
-                <label><input type="radio" name="solo" value="single" data-price="2250" data-label="Book my own room" checked> Own room, $2,250</label>
-                <label><input type="radio" name="solo" value="shared" data-price="1800" data-label="Book a shared room"> Share a room, $1,800</label>
+        <!-- The booking flow (booking.js): one question at a time, sliding from step to step -->
+        <div class="booker" id="booker">
+          <div class="bk-progress" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="bk-viewport">
+
+            <div class="bk-step is-current" data-step="1" role="group" aria-labelledby="bk-q1">
+              <p class="bk-count">Step 1 of 3</p>
+              <h3 id="bk-q1" tabindex="-1">How many total travelers are you booking for today?</h3>
+              <label class="bk-select-label" for="bk-travelers">Number of travelers</label>
+              <div class="bk-select">
+                <select id="bk-travelers">
+                  <option value="">Choose 1 to 4</option>
+                  <option value="1">1 traveler</option>
+                  <option value="2">2 travelers</option>
+                  <option value="3">3 travelers</option>
+                  <option value="4">4 travelers</option>
+                </select>
               </div>
+              <p class="bk-hint">Booking for more than 4? Book each group separately, or call us.</p>
+              <div class="bk-actions"><button type="button" class="btn btn-dark bk-next" data-next="1" disabled>Next</button></div>
             </div>
-            <button type="button" class="room-toggle" aria-expanded="false" aria-controls="more-single">Details</button>
-            <div class="room-more" id="more-single">
-              <ul>
-                <li data-solo="single">Your own hotel room all 4 nights</li>
-                <li data-solo="shared" hidden>We'll pair you with another solo traveler of the same gender</li>
-                <li data-solo="shared" hidden>Rooming with a friend who's booking separately? You'll name them after checkout.</li>
-              </ul>
-              <div class="due" aria-live="polite"></div>
-            </div>
-            <a class="btn btn-dark" href="#" data-book>Book a Single</a>
-          </article>
 
-          <article class="room is-base" data-room="double" data-price="1800" data-group="2">
-            <div class="tag">Base price</div>
-            <h3>Double</h3>
-            <div class="room-price"><div class="price">$1,800</div><div class="per">per person, room for 2</div></div>
-            <button type="button" class="room-toggle" aria-expanded="false" aria-controls="more-double">Details</button>
-            <div class="room-more" id="more-double">
-              <ul>
-                <li>One booking covers you and your roommate</li>
-                <li>Traveling solo? Choose Share a room under Solo</li>
-              </ul>
-              <div class="due" aria-live="polite"></div>
+            <div class="bk-step" data-step="2" role="group" aria-labelledby="bk-q2">
+              <p class="bk-count">Step 2 of 3 · <span data-travelers-label></span></p>
+              <h3 id="bk-q2" tabindex="-1">Which room option would you like?</h3>
+              <p class="bk-hint">Prices are per person and include everything listed above.</p>
+              <div class="bk-options"></div>
+              <div class="bk-actions"><button type="button" class="bk-back" data-back>&larr; Back</button></div>
             </div>
-            <a class="btn btn-dark" href="#" data-book>Book a Double</a>
-          </article>
 
-          <article class="room" data-room="triple" data-price="1700" data-group="3">
-            <div class="tag"></div>
-            <h3>Triple</h3>
-            <div class="room-price"><div class="price">$1,700</div><div class="per">per person, 3 to a room</div></div>
-            <button type="button" class="room-toggle" aria-expanded="false" aria-controls="more-triple">Details</button>
-            <div class="room-more" id="more-triple">
-              <ul>
-                <li>Room with two beds</li>
-                <li>Books all 3 travelers in one order</li>
-              </ul>
-              <div class="due" aria-live="polite"></div>
+            <div class="bk-step" data-step="3" role="group" aria-labelledby="bk-q3">
+              <p class="bk-count">Step 3 of 3</p>
+              <h3 id="bk-q3" tabindex="-1">How would you like to pay?</h3>
+              <p class="bk-summary" data-summary></p>
+              <div class="bk-pay">
+                <label class="bk-pay-option">
+                  <input type="radio" name="bk-pay" value="deposit">
+                  <span class="bk-pay-body">
+                    <strong>Deposit + payment plan</strong>
+                    <span class="bk-pay-today"><b data-deposit-today></b> today <span class="bk-muted">(<span data-deposit>$250</span> per person, nonrefundable)</span></span>
+                    <span class="bk-pay-detail" data-deposit-rest></span>
+                    <span class="bk-sale-note" data-sale-deposit hidden></span>
+                  </span>
+                </label>
+                <label class="bk-ack" hidden>
+                  <input type="checkbox" id="bk-ack">
+                  <span><strong>Please read and check this box.</strong> I understand that my <span data-deposit>$250</span>-per-person deposit is nonrefundable and that my card or bank account will be saved. If I haven't paid the rest of my trip in full by <span data-deadline>January 1, 2027</span>, the rest of my trip price is charged to that payment method in 4 equal payments on <span data-auto-dates>January 1, January 27, February 21 and March 19, 2027</span>.</span>
+                </label>
+                <label class="bk-pay-option">
+                  <input type="radio" name="bk-pay" value="full">
+                  <span class="bk-pay-body">
+                    <strong>Pay in full</strong>
+                    <span class="bk-pay-today"><b data-full-today></b> today, and you're done</span>
+                    <span class="bk-sale-note" data-sale-full hidden></span>
+                  </span>
+                </label>
+              </div>
+              <div class="bk-actions">
+                <button type="button" class="bk-back" data-back>&larr; Back</button>
+                <button type="button" class="btn btn-dark bk-go" data-checkout disabled>Continue to checkout</button>
+              </div>
+              <p class="bk-secure">Secure checkout through Stripe. Card or US bank account.</p>
             </div>
-            <a class="btn btn-dark" href="#" data-book>Book a Triple</a>
-          </article>
 
-          <article class="room" data-room="quad" data-price="1650" data-group="4">
-            <div class="tag"></div>
-            <h3>Quad</h3>
-            <div class="room-price"><div class="price">$1,650</div><div class="per">per person, 4 to a room</div></div>
-            <button type="button" class="room-toggle" aria-expanded="false" aria-controls="more-quad">Details</button>
-            <div class="room-more" id="more-quad">
-              <ul>
-                <li>Room with two beds</li>
-                <li>Books all 4 travelers in one order</li>
-              </ul>
-              <div class="due" aria-live="polite"></div>
+            <div class="bk-step" data-step="4" role="group" aria-labelledby="bk-q4">
+              <p class="bk-count">Almost done</p>
+              <h3 id="bk-q4" tabindex="-1">Check out each room</h3>
+              <p class="bk-hint">Each room has its own checkout. After paying for one, you'll come back here to book the next.</p>
+              <ol class="bk-rooms"></ol>
+              <div class="bk-actions"><button type="button" class="bk-back" data-back>&larr; Back</button></div>
             </div>
-            <a class="btn btn-dark" href="#" data-book>Book a Quad</a>
-          </article>
-        </div>
 
-        <div class="plan-start" id="plan">
-          <h3>Already paid your deposit?</h3>
-          <p>Choose how to pay the rest by <span data-deadline>January 1, 2027</span>. If you do nothing, your payment plan starts automatically on that date, charged to the card or bank account you used for your deposit.</p>
-          <h4>Pay the rest in full</h4>
-          <div class="plan-links">
-            <a class="btn btn-outline" href="#" data-balance="single" data-price="2250">Single</a>
-            <a class="btn btn-outline" href="#" data-balance="shared" data-price="1800">Shared room</a>
-            <a class="btn btn-outline" href="#" data-balance="double" data-price="1800" data-group="2">Double</a>
-            <a class="btn btn-outline" href="#" data-balance="triple" data-price="1700" data-group="3">Triple</a>
-            <a class="btn btn-outline" href="#" data-balance="quad" data-price="1650" data-group="4">Quad</a>
-          </div>
-          <h4>Start your payment plan now</h4>
-          <p>Pay the rest in 4 equal payments. The first is charged today and the other 3 automatically, spaced evenly to <span data-final-payment>March 19, 2027</span>.</p>
-          <div class="plan-links">
-            <a class="btn btn-outline" href="#" data-plan="single" data-price="2250">Single</a>
-            <a class="btn btn-outline" href="#" data-plan="shared" data-price="1800">Shared room</a>
-            <a class="btn btn-outline" href="#" data-plan="double" data-price="1800" data-group="2">Double</a>
-            <a class="btn btn-outline" href="#" data-plan="triple" data-price="1700" data-group="3">Triple</a>
-            <a class="btn btn-outline" href="#" data-plan="quad" data-price="1650" data-group="4">Quad</a>
           </div>
         </div>
 
@@ -398,19 +351,19 @@
         <div class="faq">
           <details>
             <summary>I'm traveling alone. Do I have to pay for a single?</summary>
-            <p>No. Under Solo, choose "Share a room" for $1,800. We'll pair you with another solo traveler of the same gender, and if we can't, you'll have the room to yourself at the same price. If you'd rather have a room to yourself from the start, choose "Room to yourself" for $2,250.</p>
+            <p>No. Under Book online, choose 1 traveler, then "Share a room" for $1,800. We'll pair you with another solo traveler of the same gender, and if we can't, you'll have the room to yourself at the same price. If you'd rather have a room to yourself from the start, choose "A room to yourself" for $2,250.</p>
           </details>
           <details>
             <summary>How does the deposit work?</summary>
-            <p>A <span data-deposit>$250</span> deposit per person holds your seat. The deposit is nonrefundable. At checkout your card or bank account is saved. By <span data-deadline>January 1, 2027</span>, either pay the rest of your trip in full or start the payment plan, using the buttons under the room prices.</p>
+            <p>A <span data-deposit>$250</span> deposit per person holds your seat. The deposit is nonrefundable. At checkout your card or bank account is saved, and the rest of your trip is charged to it in 4 equal payments on <span data-auto-dates>January 1, January 27, February 21 and March 19, 2027</span>. Your welcome email has a link to pay off the rest any time before <span data-final-payment>March 19, 2027</span>.</p>
           </details>
           <details>
-            <summary>What happens if I don't choose by January 1?</summary>
-            <p>Your payment plan starts automatically. The rest of your trip price is charged to the card or bank account you used for your deposit, in 4 equal payments on <span data-auto-dates>January 1, January 27, February 21 and March 19, 2027</span>. You agree to this when you book with a deposit. To pay in full instead, use the Pay the rest in full buttons before January 1.</p>
+            <summary>Can I pay off my trip early?</summary>
+            <p>Yes. Your welcome email has a "Pay off your trip" link. Use it any time before <span data-final-payment>March 19, 2027</span>, even after one or more plan payments, and everything that's left is charged at once to the card or bank account you booked with. Your remaining scheduled payments are canceled.</p>
           </details>
           <details>
             <summary>Is there a payment plan?</summary>
-            <p>Yes. After your deposit, you can pay the rest of your trip in 4 equal payments, spaced evenly from the day you start the plan to <span data-final-payment>March 19, 2027</span>, one month before departure. Start right away, or any time up to <span data-deadline>January 1, 2027</span>, with the Start your payment plan buttons under the room prices. If you haven't started it by then, it starts automatically on January 1. Payments are charged automatically to your saved card or bank account.</p>
+            <p>Yes. Book with a <span data-deposit>$250</span>-per-person deposit, and the rest of your trip is charged automatically to your saved card or bank account in 4 equal payments on <span data-auto-dates>January 1, January 27, February 21 and March 19, 2027</span>. You agree to this when you book with a deposit, and you can pay off what's left any time before the last payment.</p>
           </details>
           <details>
             <summary>Can I get a refund if I cancel?</summary>
@@ -423,11 +376,11 @@
           </details>
           <details>
             <summary>We're sharing a Double. Do we book once or twice?</summary>
-            <p>Once. One of you books the Double, which covers both of you, then adds your roommate's details right after checkout. If you'd each rather pay on your own, you can each choose "Share a room" under Solo and tell us each other's name after checkout.</p>
+            <p>Once. One of you books the Double, which covers both of you, then adds your roommate's details right after checkout. If you'd each rather pay on your own, you can each book 1 traveler, choose "Share a room", and tell us each other's name after checkout.</p>
           </details>
           <details>
             <summary>How do I book a Triple or Quad?</summary>
-            <p>One person books the whole room in a single order, then adds every traveler's details right after checkout.</p>
+            <p>Under Book online, choose 3 or 4 travelers and pick "All three in one room" or "All four in one room". One person books the whole room in a single order, then adds every traveler's details right after checkout.</p>
           </details>
           <details>
             <summary>How do I pay?</summary>
@@ -469,7 +422,7 @@
         <a href="#meet">Where we'll meet</a>
         <a href="#itinerary">Full itinerary</a>
         <a href="#meals">Meals</a>
-        <a href="#book">Plan your trip</a>
+        <a href="#book">Book online</a>
         <a href="#faq">FAQ</a>
       </nav>
       <a class="btn btn-dark side-cta" href="#book">Book now</a>
@@ -498,7 +451,7 @@
   </div>
 </footer>
 
-<script src="booking-config.js?v=20261124d"></script>
+<script src="booking-config.js?v=20261125a"></script>
 <script>
 (function () {
   var cfg = window.PARLEY_BOOKING || { rooms: {} };
@@ -509,8 +462,6 @@
   document.querySelectorAll("[data-deadline]").forEach(function (el) { if (cfg.paymentDeadline) el.textContent = cfg.paymentDeadline; });
   document.querySelectorAll("[data-final-payment]").forEach(function (el) { if (cfg.finalPaymentDate) el.textContent = cfg.finalPaymentDate; });
   document.querySelectorAll("[data-auto-dates]").forEach(function (el) { if (cfg.autoPlanDates) el.textContent = cfg.autoPlanDates; });
-  var ackBox = document.getElementById("ack-box");
-  var ackWrap = document.getElementById("deposit-ack");
 
   // Free Book of Mormon offer: after promoEnds the banner and FAQ entry disappear
   if (cfg.promoEnds && Date.now() >= new Date(cfg.promoEnds).getTime()) {
@@ -564,102 +515,6 @@
 
   if (cfg.tourSoldOut) document.getElementById("tour-soldout").style.display = "block";
 
-  function update() {
-    var mode = document.querySelector('input[name="pay"]:checked').value;
-    // Deposit bookings need the acknowledgement box checked first
-    ackWrap.hidden = mode !== "deposit";
-    var needsAck = mode === "deposit" && !ackBox.checked;
-    document.querySelectorAll(".room").forEach(function (card) {
-      var choice = card.querySelector(".solo-choice input:checked");
-      var key = choice ? choice.value : card.dataset.room;
-      var room = cfg.rooms[key] || {};
-      var price = Number(choice ? choice.dataset.price : card.dataset.price);
-      if (choice) {
-        card.querySelector(".price").textContent = money(price);
-        card.querySelectorAll("[data-solo]").forEach(function (li) { li.hidden = li.dataset.solo !== key; });
-      }
-      var group = Number(card.dataset.group || 0);
-      var discounted = sale && mode === "full";
-      var per = mode === "deposit" ? deposit : discounted ? price * (100 - sale.percentOff) / 100 : price;
-      var off = discounted ? " <span class=\"sale-due\">(" + sale.percentOff + "% off)</span>" : "";
-      var due = card.querySelector(".due");
-      due.innerHTML = group
-        ? "Due today: <b>" + money(per * group) + "</b> for " + group + " travelers" + off
-        : "Due today: <b>" + money(per) + "</b> per traveler" + off;
-
-      var btn = card.querySelector("[data-book]");
-      var link = room[mode];
-      var closed = cfg.tourSoldOut || room.soldOut;
-      btn.removeAttribute("data-needs-ack");
-      if (closed) {
-        btn.textContent = "Sold out";
-        btn.setAttribute("aria-disabled", "true");
-        btn.removeAttribute("href");
-      } else if (!link) {
-        btn.textContent = "Booking opens soon";
-        btn.setAttribute("aria-disabled", "true");
-        btn.removeAttribute("href");
-      } else if (needsAck) {
-        // Still a link: it takes them up to the acknowledgement box
-        btn.textContent = "Check the box above \u2191";
-        btn.removeAttribute("aria-disabled");
-        btn.setAttribute("href", "#deposit-ack");
-        btn.setAttribute("data-needs-ack", "");
-      } else {
-        btn.textContent = choice ? choice.dataset.label : "Book a " + card.querySelector("h3").textContent;
-        btn.removeAttribute("aria-disabled");
-        // During the sale, pay-in-full checkouts open with the Black Friday code already applied
-        btn.setAttribute("href", sale && mode === "full" && sale.promoCode ? link + (link.indexOf("?") < 0 ? "?" : "&") + "prefilled_promo_code=" + encodeURIComponent(sale.promoCode) : link);
-      }
-    });
-  }
-  // Payment plan buttons: each payment is a quarter of what's left after the deposit
-  document.querySelectorAll("[data-plan]").forEach(function (btn) {
-    var key = btn.dataset.plan;
-    var room = cfg.rooms[key] || {};
-    var each = (Number(btn.dataset.price) - deposit) / 4;
-    var label = btn.textContent.replace(/ ·.*$/, "");
-    btn.textContent = label + " · " + money(each) + " per person, 4 times";
-    if (cfg.tourSoldOut || !room.plan) {
-      btn.setAttribute("aria-disabled", "true");
-      btn.removeAttribute("href");
-    } else {
-      btn.setAttribute("href", room.plan);
-    }
-  });
-
-  // Pay-the-rest buttons: the room price minus the deposit
-  document.querySelectorAll("[data-balance]").forEach(function (btn) {
-    var room = cfg.rooms[btn.dataset.balance] || {};
-    var rest = Number(btn.dataset.price) - deposit;
-    btn.textContent = btn.textContent.replace(/ ·.*$/, "") + " · " + money(rest) + " per person";
-    if (cfg.tourSoldOut || !room.balance) { btn.setAttribute("aria-disabled", "true"); btn.removeAttribute("href"); }
-    else btn.setAttribute("href", room.balance);
-  });
-
-  document.querySelector(".rooms").addEventListener("click", function (e) {
-    var btn = e.target.closest("[data-needs-ack]");
-    if (!btn) return;
-    e.preventDefault();
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    ackWrap.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
-    ackBox.focus({ preventScroll: true });
-    ackWrap.classList.remove("is-flash");
-    void ackWrap.offsetWidth; // restart the highlight if clicked again
-    ackWrap.classList.add("is-flash");
-  });
-  // On phones each room card shows just its price; "Details" opens the rest
-  document.querySelectorAll(".room-toggle").forEach(function (t) {
-    t.addEventListener("click", function () {
-      var open = t.closest(".room").classList.toggle("is-open");
-      t.setAttribute("aria-expanded", open ? "true" : "false");
-      t.textContent = open ? "Hide details" : "Details";
-    });
-  });
-  ackBox.addEventListener("change", update);
-  document.querySelectorAll('input[name="pay"], input[name="solo"]').forEach(function (r) { r.addEventListener("change", update); });
-  update();
-
   // Highlight the side-box link for the section in view
   var links = document.querySelectorAll(".section-nav a");
   if ("IntersectionObserver" in window && links.length) {
@@ -676,7 +531,8 @@
   }
 })();
 </script>
-<script src="chat.js?v=20261124a"></script>
+<script src="booking.js?v=20261125b"></script>
+<script src="chat.js?v=20261125a"></script>
 <script src="signup.js?v=20261102d"></script>
 <script src="reels.js?v=20261105e"></script>
 </body>

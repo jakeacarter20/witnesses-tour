@@ -33,15 +33,21 @@
       a: function () { return list("#included") ? "<p>Your trip price includes:</p>" + list("#included") + (list("#not-included") ? "<p>Not included:</p>" + list("#not-included") : "") : ""; } },
     { q: "How much does it cost?", strong: ["cost", "price", "prices", "much", "expensive", "rate"], weak: ["double", "triple", "quad", "room", "total"],
       a: function () {
-        var rooms = $$("#book .room").map(function (r) {
-          var info = r.dataset.summary || text($(".price", r)) + " " + text($(".per", r));
-          return "<li><strong>" + esc(text($("h3", r))) + "</strong>: " + esc(info) + "</li>";
+        var cfg = window.PARLEY_BOOKING || {};
+        var all = cfg.rooms || {};
+        var sale = cfg.sale && cfg.sale.ends && Date.now() < new Date(cfg.sale.ends).getTime() ? cfg.sale : null;
+        var order = ["single", "shared", "double", "triple", "quad"];
+        var rooms = order.filter(function (k) { return all[k] && all[k].price; }).map(function (k) {
+          var r = all[k];
+          var who = k === "single" ? "a room to yourself" : k === "shared" ? "solo, paired with a roommate" : r.seats + " to a room";
+          return "<li><strong>" + esc(r.name) + "</strong>: $" + r.price.toLocaleString("en-US") + " per person (" + who + ")" + (r.soldOut ? ", sold out" : "") + "</li>";
         });
-        return rooms.length ? "<p>Prices are per person and include everything listed under What's included.</p><ul>" + rooms.join("") + "</ul>" + more("book", "See rooms and prices") : "";
+        return rooms.length ? "<p>Prices are per person and include everything listed under What's included.</p><ul>" + rooms.join("") + "</ul>" +
+          (sale ? "<p>Black Friday: " + sale.percentOff + "% off your trip when you book by November 28.</p>" : "") + more("book", "Book online") : "";
       } },
     { q: "How does the deposit work?", strong: ["deposit", "reserve", "hold"], weak: ["seat", "spot", "nonrefundable"], a: function () { return faq("How does the deposit work"); } },
     { q: "Is there a payment plan?", strong: ["plan", "installment", "installments", "monthly"], weak: ["payments", "spread"], a: function () { return faq("Is there a payment plan"); } },
-    { q: "What happens if I don't choose by January 1?", strong: ["january", "deadline", "automatic", "automatically"], weak: ["choose", "decide", "miss"], a: function () { return faq("What happens if I don"); } },
+    { q: "Can I pay off my trip early?", strong: ["early", "payoff", "remaining", "balance", "sooner"], weak: ["january", "automatic", "automatically", "rest", "finish", "off"], a: function () { return faq("Can I pay off my trip early"); } },
     { q: "I'm traveling alone. Do I need a single?", strong: ["alone", "solo", "roommate", "pair", "myself"], weak: ["single", "share"], a: function () { return faq("I'm traveling alone"); } },
     { q: "We're sharing a Double. Do we book once or twice?", strong: ["ticket", "tickets", "twice", "both", "couple", "spouse", "husband", "wife", "partner", "quantity"], weak: ["double", "two", "seats", "sharing"], a: function () { return faq("We're sharing a Double"); } },
     { q: "How do I book a Triple or Quad?", strong: ["triple", "quad", "family", "friends"], weak: ["three", "four", "together", "group"], a: function () { return faq("How do I book a Triple"); } },

@@ -36,8 +36,12 @@ window.PARLEY_BOOKING = {
 
   tourSoldOut: false,
 
+  // Each room type: price per person, how many seats one checkout books, and its 4 Stripe links.
+  // The booking flow (booking.js) builds every room option for 1 to 4 travelers from these.
   rooms: {
     double: {
+      // per person; seats = travelers this link books
+      price: 1800, seats: 2, name: "Double",
       deposit: "https://buy.stripe.com/28E9AS66s3L9bi62rX8g00b",
       full:    "https://buy.stripe.com/4gMeVc52oepN0Ds1nT8g00d",
       balance: "https://buy.stripe.com/bJecN47aw2H5gCq1nT8g002",
@@ -46,6 +50,8 @@ window.PARLEY_BOOKING = {
     },
     // Solo travelers who share a room: 1 seat in a Double, paired by us (Stripe metadata room "double", share "1")
     shared: {
+      // per person; seats = travelers this link books
+      price: 1800, seats: 1, name: "Shared room",
       deposit: "https://buy.stripe.com/bJe4gy2UgftR1Hw4A58g00g",
       full:    "https://buy.stripe.com/14AfZgcuQ3L93PEd6B8g00h",
       balance: "https://buy.stripe.com/aFa9AS52odlJ4TI9Up8g00i",
@@ -53,6 +59,8 @@ window.PARLEY_BOOKING = {
       soldOut: false
     },
     single: {
+      // per person; seats = travelers this link books
+      price: 2250, seats: 1, name: "Single",
       deposit: "https://buy.stripe.com/28E8wOamIftRdqefeJ8g00a",
       full:    "https://buy.stripe.com/6oU3cudyU1D1ae26Id8g00e",
       balance: "https://buy.stripe.com/3cI9AS52ogxVae23w18g001",
@@ -60,6 +68,8 @@ window.PARLEY_BOOKING = {
       soldOut: false
     },
     triple: {
+      // per person; seats = travelers this link books
+      price: 1700, seats: 3, name: "Triple",
       deposit: "https://buy.stripe.com/bJe9ASeCY2H52LA9Up8g008",
       full:    "https://buy.stripe.com/dRm6oG9iE0yXbi63w18g00f",
       balance: "https://buy.stripe.com/dRm9AS2UgdlJ0Dsc2x8g003",
@@ -67,6 +77,8 @@ window.PARLEY_BOOKING = {
       soldOut: false
     },
     quad: {
+      // per person; seats = travelers this link books
+      price: 1650, seats: 4, name: "Quad",
       deposit: "https://buy.stripe.com/00wbJ0dyUftReui2rX8g004",
       full:    "https://buy.stripe.com/28E9ASgL681p2LA0jP8g00c",
       balance: "https://buy.stripe.com/28E14m1Qc4PdcmafeJ8g000",

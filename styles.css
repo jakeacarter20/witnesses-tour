@@ -455,3 +455,98 @@ h3 { font-size: 26px; }
 .chat-nudge-open span { display: block; font-weight: 400; font-size: 13px; color: var(--rust); }
 .chat-nudge-close { width: 36px; border: 0; background: none; color: var(--muted); font-size: 20px; cursor: pointer; }
 .chat-nudge-open:focus-visible, .chat-nudge-close:focus-visible { outline: 2px solid var(--burnt-orange); outline-offset: 2px; }
+
+/* "Book online with 3 simple steps" (booking.js): one question at a time, sliding
+   between steps. Written for phones first; wider columns get more room below. */
+.booker { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 18px 16px 20px; margin-top: 4px; box-shadow: 0 14px 30px -24px rgba(42, 46, 26, 0.5); }
+.booker[hidden] { display: none; }
+.bk-progress { display: flex; gap: 6px; margin-bottom: 18px; }
+.bk-progress span { flex: 1; height: 4px; border-radius: 2px; background: var(--line); transition: background 0.3s ease; }
+.bk-progress span.is-done { background: var(--rust); }
+.bk-viewport { position: relative; overflow: hidden; transition: height 0.35s ease; }
+.bk-step { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; visibility: hidden; transform: translateX(56px); transition: transform 0.35s ease, opacity 0.35s ease, visibility 0s linear 0.35s; }
+.bk-step.is-past { transform: translateX(-56px); }
+.bk-step.is-current { position: relative; opacity: 1; visibility: visible; transform: none; transition: transform 0.35s ease, opacity 0.35s ease, visibility 0s; }
+.bk-count { margin: 0 0 6px; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rust); }
+.bk-step h3 { margin: 0 0 14px; font-family: var(--serif); font-size: 25px; line-height: 1.15; color: var(--dark-olive); outline: none; }
+.bk-select-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.bk-select { position: relative; }
+.bk-select select { width: 100%; min-height: 54px; padding: 14px 46px 14px 16px; border: 1px solid var(--dark-olive); border-radius: var(--radius); background: #fff; color: var(--ink); font: 500 17px/1.2 var(--sans); -webkit-appearance: none; appearance: none; cursor: pointer; }
+.bk-select::after { content: ""; position: absolute; right: 18px; top: 50%; width: 9px; height: 9px; border-right: 2px solid var(--dark-olive); border-bottom: 2px solid var(--dark-olive); transform: translateY(-70%) rotate(45deg); pointer-events: none; }
+.bk-select select:focus-visible, .bk-option:focus-visible, .bk-pay-option:has(input:focus-visible), .bk-ack:has(input:focus-visible), .bk-back:focus-visible { outline: 2px solid var(--burnt-orange); outline-offset: 2px; }
+.bk-hint { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+.bk-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 20px; }
+.bk-actions .bk-next, .bk-actions .bk-go { flex: 1 1 100%; }
+.bk-back { padding: 8px 0; border: 0; background: none; color: var(--dark-olive); font: 500 15px var(--sans); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.btn:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
+
+.bk-options { display: grid; gap: 10px; margin-top: 14px; }
+.bk-option { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; width: 100%; padding: 14px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+.bk-option:hover { border-color: var(--dark-olive); box-shadow: inset 0 0 0 1px var(--dark-olive); background: #fff; }
+.bk-option:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+.bk-option-main { display: grid; gap: 3px; }
+.bk-option-main strong { font-size: 17px; font-weight: 600; line-height: 1.25; }
+.bk-option-rooms { font-size: 14px; color: var(--muted); line-height: 1.4; }
+.bk-option-note { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.bk-option-price { display: grid; flex: none; justify-items: end; text-align: right; }
+.bk-option-price b { font-family: var(--serif); font-size: 23px; font-weight: 600; line-height: 1.05; color: var(--dark-olive); }
+.bk-option-price > span { font-size: 12px; color: var(--muted); }
+.bk-option-price .bk-save { margin-top: 5px; padding: 1px 6px; border-radius: 2px; background: var(--rust); color: #fff; font-size: 12px; font-weight: 600; white-space: nowrap; }
+
+.bk-summary { margin: -6px 0 14px; font-size: 14px; color: var(--muted); }
+.bk-pay { display: grid; gap: 10px; }
+.bk-pay-option, .bk-ack { display: flex; align-items: flex-start; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); cursor: pointer; }
+.bk-pay-option:has(input:checked) { border-color: var(--dark-olive); box-shadow: inset 0 0 0 1px var(--dark-olive); background: #fff; }
+.bk-pay-option input, .bk-ack input { flex: none; width: 18px; height: 18px; margin-top: 3px; accent-color: var(--dark-olive); }
+.bk-pay-body { display: grid; gap: 4px; }
+.bk-pay-body strong { font-size: 17px; font-weight: 600; }
+.bk-pay-today { font-size: 15px; }
+.bk-pay-today b { font-weight: 600; }
+.bk-pay-today s { margin-left: 4px; font-weight: 400; color: var(--muted); }
+.bk-muted { color: var(--muted); }
+.bk-pay-detail { font-size: 14px; line-height: 1.45; color: var(--muted); }
+.bk-sale-note { font-size: 14px; font-weight: 500; color: var(--rust); }
+.bk-sale-note[hidden], .bk-ack[hidden] { display: none; }
+.bk-ack { border-color: var(--rust); background: #fff; font-size: 14px; line-height: 1.45; color: var(--ink); }
+.bk-secure { margin: 12px 0 0; font-size: 13px; color: var(--muted); text-align: center; }
+
+.bk-rooms { display: grid; gap: 10px; margin: 14px 0 0; padding: 0; list-style: none; }
+.bk-rooms li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 14px; padding: 14px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+.bk-rooms li strong { font-weight: 600; }
+.bk-room-who { display: block; font-size: 14px; color: var(--muted); }
+.bk-rooms .btn { width: auto; flex: 1 1 100%; }
+
+@container (min-width: 560px) {
+  .booker { padding: 26px 30px 28px; }
+  .bk-step h3 { font-size: 30px; }
+  .bk-select { max-width: 360px; }
+  .bk-actions .bk-next { flex: 0 0 auto; min-width: 180px; }
+  .bk-actions .bk-go { flex: 0 1 auto; min-width: 260px; }
+  .bk-option { padding: 16px 18px; }
+  .bk-rooms .btn { flex: 0 0 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bk-viewport, .bk-step, .bk-step.is-current, .bk-progress span { transition: none; }
+}
+
+/* Thank-you page: the next room of a multi-room booking */
+.next-room { margin: 28px 0 8px; padding: 22px 20px; border: 2px solid var(--rust); border-radius: 8px; background: #fff; }
+.next-room[hidden] { display: none; }
+.page .next-room h2 { margin-top: 0; }
+.next-room .btn { width: auto; }
+
+/* Pay off your trip (pay.html, payoff.js) */
+.payoff { margin: 32px 0; padding: 24px 20px; border: 1px solid var(--dark-olive); border-radius: 8px; background: #fff; }
+.page .payoff h2 { margin-top: 0; }
+.payoff-list { list-style: none; margin: 14px 0; padding: 0; border-top: 1px solid var(--line); }
+.page .payoff-list li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--ink); }
+.page .payoff-total { display: flex; justify-content: space-between; margin: 4px 0 18px; font-size: 18px; color: var(--ink); }
+.payoff-total b { font-family: var(--serif); font-size: 26px; color: var(--dark-olive); }
+.payoff-confirm { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; margin-bottom: 16px; border: 1px solid var(--rust); border-radius: 6px; font-size: 15px; color: var(--ink); cursor: pointer; }
+.payoff-confirm input { flex: none; width: 18px; height: 18px; margin-top: 3px; accent-color: var(--dark-olive); }
+.payoff-go { width: 100%; }
+.page .payoff-status { margin: 12px 0 0; font-weight: 500; }
+.page .payoff-status:empty { display: none; }
+.page .payoff-status.is-error { color: var(--rust); }
+@container (min-width: 560px) { .payoff-go { width: auto; } }
+@media (min-width: 600px) { .payoff { padding: 28px 30px; } .payoff-go { width: auto; } }

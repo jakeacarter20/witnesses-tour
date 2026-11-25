@@ -15,7 +15,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const firstName = (name) => String(name || "").trim().split(/\s+/)[0] || "there";
 
 // The letter itself. Returns { subject, html, text }.
-export function buildWelcome({ name, room, kind, travelers, detailsUrl, coupon, seats = 1 }) {
+export function buildWelcome({ name, room, kind, travelers, detailsUrl, payoffUrl, coupon, seats = 1 }) {
   const roomName = ROOMS[room] || room;
   const subject = "Welcome to The Witnesses Tour";
   const steps = [];
@@ -28,7 +28,9 @@ export function buildWelcome({ name, room, kind, travelers, detailsUrl, coupon, 
     : { title: "Tell us about you", text: aboutYou, link: WELCOME_FORM, label: "Tell us about you" });
   steps.push({ title: "Get travel insurance", text: "We strongly recommend it. Buy within 14 days of your first payment to keep coverage for pre-existing conditions and the option to cancel for any reason.", link: "https://www.squaremouth.com/", label: "Compare plans on Squaremouth" });
   if (kind === "deposit") {
-    steps.push({ title: "Pay the rest by January 1, 2027", text: "Pay the rest in full or start your 4-payment plan by January 1, 2027. If you haven't by then, your plan starts automatically on January 1, charged to the payment method you booked with.", link: `${SITE}/#plan`, label: "Pay the rest or start the plan" });
+    steps.push(payoffUrl
+      ? { title: "Your payment plan", text: "The rest of your trip is charged automatically in 4 payments on January 1, January 27, February 21 and March 19, 2027, to the payment method you booked with. Want to pay it off sooner? You can any time before March 19.", link: payoffUrl, label: "Pay off your trip" }
+      : { title: "Your payment plan", text: "The rest of your trip is charged automatically in 4 payments on January 1, January 27, February 21 and March 19, 2027, to the payment method you booked with. The person who booked can pay it off any time before March 19 from their welcome email." });
   }
   if (coupon) {
     const offer = coupon.books === 1
@@ -173,6 +175,7 @@ export async function sendWelcomes(stripe, { now, send, notify, couponCode }) {
         kind: m.kind,
         travelers: names,
         detailsUrl: r.isBuyer ? detailsUrl : null, // the details link opens everyone's details, so only the booker gets it
+        payoffUrl: r.isBuyer ? `${SITE}/pay.html?session_id=${session.id}` : null, // only the person who paid can pay off the rest
         coupon,
         seats,
       });

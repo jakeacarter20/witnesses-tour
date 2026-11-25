@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261125b">
+<link rel="stylesheet" href="styles.css?v=20261125c">
 <script>
   // Take the Stripe booking ID out of the address before any analytics loads, so
   // Google Analytics, Clarity and Vercel never record it. traveler-form.js reads it back.
@@ -55,6 +55,12 @@
     <p class="label">The Witnesses Tour · April 19–23, 2027</p>
     <h1>You're booked. We'll see you in Independence.</h1>
     <p>Thank you for reserving your seat. Stripe has emailed your receipt.</p>
+    <!-- Shown when this booking has more rooms still to check out (set by booking.js) -->
+    <section class="next-room" id="next-room" hidden>
+      <h2>One more step: book your next room</h2>
+      <p data-next-room-text></p>
+      <a class="btn btn-dark" data-next-room-link href="#">Check out the next room</a>
+    </section>
     <section class="traveler-details" id="traveler-details" hidden data-clarity-mask="True">
       <h2>Add your traveler details</h2>
       <p>One last step: tell us who's traveling. We use this for hotel rooms, the coach list and emergencies.</p>
@@ -70,7 +76,7 @@
     <h2>What happens next</h2>
     <ol>
       <li>Two days after you book, we'll email you a welcome letter.</li>
-      <li>If you paid a deposit, pay the rest in full or start your 4-payment plan by January 1, 2027, using the <a href="index.html#plan">Already paid your deposit?</a> buttons on the tour page. If you haven't by then, your plan starts automatically on January 1 and is charged to the card or bank account you used today.</li>
+      <li>If you paid a deposit, the rest of your trip is charged automatically in 4 payments on January 1, January 27, February 21 and March 19, 2027. Want to pay it off sooner? Your welcome letter has a link to pay the rest any time before March 19.</li>
       <li>About a month before the trip, you'll get your traveler packet with final times, hotels, and roommate details, along with the traveler waiver for each traveler to sign.</li>
     </ol>
     <h2>Book your travel</h2>
@@ -88,5 +94,39 @@
   </div>
 </footer>
 <script src="traveler-form.js?v=20261105a"></script>
+<script src="booking-config.js?v=20261125a"></script>
+<script>
+  // A booking with more than one room checks out one room at a time (booking.js keeps
+  // the list in localStorage "parleyRooms"). Mark this room paid and offer the next.
+  (function () {
+    var cfg = window.PARLEY_BOOKING, plan;
+    try { plan = JSON.parse(localStorage.getItem("parleyRooms") || "null"); } catch (e) { return; }
+    if (!cfg || !plan || !plan.rooms || Date.now() - (plan.at || 0) > 3 * 86400000) return;
+    var cameFromCheckout = window.parleyBookingSession || /[?&]session_id=/.test(location.search);
+    if (cameFromCheckout && plan.current >= 0 && plan.done.indexOf(plan.current) < 0) plan.done.push(plan.current);
+    plan.current = -1;
+    var next = -1;
+    for (var i = 0; i < plan.rooms.length; i++) if (plan.done.indexOf(i) < 0) { next = i; break; }
+    try {
+      if (next < 0) localStorage.removeItem("parleyRooms"); else localStorage.setItem("parleyRooms", JSON.stringify(plan));
+    } catch (e) {}
+    if (next < 0) return;
+    var room = cfg.rooms[plan.rooms[next]];
+    var link = room && room[plan.mode];
+    if (!link) return;
+    var sale = cfg.sale && Date.now() < new Date(cfg.sale.ends).getTime() ? cfg.sale : null;
+    if (plan.mode === "full" && sale && sale.promoCode) link += (link.indexOf("?") < 0 ? "?" : "&") + "prefilled_promo_code=" + encodeURIComponent(sale.promoCode);
+    var box = document.getElementById("next-room");
+    box.querySelector("[data-next-room-text]").textContent = "Your booking has " + plan.rooms.length + " rooms. Room " + (next + 1) + " of " + plan.rooms.length + " is a " + room.name + " for " + (room.seats === 1 ? "1 traveler" : room.seats + " travelers") + ". Check it out now to hold those seats too.";
+    var a = box.querySelector("[data-next-room-link]");
+    a.href = link;
+    a.textContent = "Check out room " + (next + 1) + " of " + plan.rooms.length;
+    a.addEventListener("click", function () {
+      plan.current = next;
+      try { localStorage.setItem("parleyRooms", JSON.stringify(plan)); } catch (e) {}
+    });
+    box.hidden = false;
+  })();
+</script>
 </body>
 </html>

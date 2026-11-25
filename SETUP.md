@@ -51,7 +51,7 @@ Deposits are set by `depositPerPerson` in `booking-config.js`. If you change tha
 
 **Terms checkbox:** not turned on yet. It needs a terms URL in Stripe's public business settings, and `terms.html` is still a draft. Turn it on once the attorney-approved terms are live.
 
-**Deposit links save the payment method and require consent.** Each deposit checkout saves the card or bank account and shows a required checkbox: the traveler agrees that if they haven't paid the rest in full or started the plan by January 1, 2027, the plan starts automatically and the rest is charged in 4 equal payments on January 1, January 27, February 21 and March 19, 2027. The checkbox links to `terms.html`. The tour page also has its own acknowledgement box that must be checked before the deposit buttons work. Balance links ("pay the rest in full") are on the tour page under "Already paid your deposit?".
+**Deposit links save the payment method and require consent.** Each deposit checkout saves the card or bank account and shows a required checkbox: the traveler agrees that if they haven't paid the rest in full or started the plan by January 1, 2027, the plan starts automatically and the rest is charged in 4 equal payments on January 1, January 27, February 21 and March 19, 2027. The checkbox links to `terms.html`. The tour page also has its own acknowledgement box that must be checked before the deposit buttons work. Since November 25, 2026 the tour page offers only deposit or pay in full; the balance and plan links still work for anyone who has them but are no longer shown. Instead, the booker's welcome email links **pay.html** ("Pay off your trip"), where they can pay everything left on their plan at once, any time before March 19, 2027.
 
 ## 2b. How the payment plan works
 
@@ -63,6 +63,7 @@ Every checkout sends Stripe a webhook to `https://parleystreettravel.com/api/str
 | Start the plan (plan link) | Charges payment 1 at checkout. Deletes that traveler's 4 automatic-plan charges, and schedules payments 2 to 4 evenly from today to March 19, 2027 |
 | Pay the rest in full (balance link) | Deletes every scheduled plan charge for that traveler's email |
 | Pay in full | Nothing to schedule |
+| Pay off your trip (pay.html, not a checkout) | Charges one new invoice for the total of that booking's waiting plan charges on the saved card or bank account, then deletes those charges. If the payment fails, the new invoice is voided, the schedule stays as it was, and you get an alert |
 | A scheduled plan charge is paid with a new card or bank account (`invoice.paid`) | Moves that booking's remaining scheduled charges to the new payment method (clearing the old bank mandate if they switched to a card). If the traveler didn't save the new one, sends an alert so you can follow up by hand |
 
 The scheduled charges are Stripe invoices in the **Invoices** tab, as drafts with a scheduled charge date, until the day they're charged. For the new-card step to work, turn on **Settings → Billing → Invoices → Save customer payment information** and keep **Ask customers before saving their payment information** on, so the payment page offers to save a new card. Bank payments take a few days to clear; the automation waits until the money arrives.

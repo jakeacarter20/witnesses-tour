@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pay off your trip | Parley Street Travel Co.</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261125c">
+<script>
+  // Take the Stripe booking ID out of the address before any analytics loads, so
+  // Google Analytics, Clarity and Vercel never record it. traveler-form.js reads it back.
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var id = params.get("session_id");
+    if (!id) return;
+    window.parleyBookingSession = id;
+    try { sessionStorage.setItem("parleyBookingSession", id); } catch (e) {}
+    params.delete("session_id");
+    var rest = params.toString();
+    history.replaceState(null, "", location.pathname + (rest ? "?" + rest : "") + location.hash);
+  })();
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8CDX55VKBV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8CDX55VKBV');
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z6n9kx0wy9");
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Parley Street Travel Co. home"><img src="assets/logo-horizontal-cream.svg" alt="Parley Street Travel Co." width="138" height="46"></a>
+  </div>
+</header>
+<main class="page">
+  <div class="wrap">
+    <p class="label">The Witnesses Tour · April 19–23, 2027</p>
+    <h1>Pay off your trip</h1>
+    <p>On the payment plan? You can pay the rest of your trip any time before your last payment on March 19, 2027. It's charged to the card or bank account you booked with.</p>
+
+    <section class="payoff" id="payoff" data-clarity-mask="True" aria-live="polite">
+      <p class="payoff-status">Loading your booking…</p>
+    </section>
+
+    <p>Questions, or want to pay with a different card? Call <a href="tel:+13853120685">(385) 312-0685</a> or email <a href="mailto:hello@parleystreettravel.com">hello@parleystreettravel.com</a>.</p>
+    <p><a class="btn btn-dark" style="width:auto" href="index.html">Back to the tour</a></p>
+  </div>
+</main>
+<footer class="site-footer site-footer-slim">
+  <div class="wrap">
+    <p><a href="index.html">The Witnesses Tour</a> · <a href="terms.html">Terms &amp; cancellation policy</a> · <a href="privacy.html">Privacy policy</a> · <a href="mailto:hello@parleystreettravel.com">hello@parleystreettravel.com</a></p>
+    <p class="small site-notice">We use Google Analytics, Microsoft Clarity and Vercel Web Analytics to see how visitors use this site so we can improve it. By using this site, you agree that we, Google and Microsoft can collect and use this data. Our <a href="privacy.html">privacy policy</a> has more details.</p>
+  </div>
+</footer>
+<script src="payoff.js?v=20261125b"></script>
+</body>
+</html>

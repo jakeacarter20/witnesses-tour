@@ -80,7 +80,7 @@ test("only the booker gets the traveler details link, and only if details are mi
   assert.doesNotMatch(sent[1].text, /session_id/);
 
   const done = await run([booking("cs_3")], { cus_cs_3: { details_saved_at: "2026-11-05" } });
-  assert.doesNotMatch(done.sent[0].text, /session_id/);
+  assert.doesNotMatch(done.sent[0].text, /thank-you\.html\?session_id/);
 });
 
 test("a failed send is retried the next day without resending to the others", async () => {
@@ -108,8 +108,8 @@ test("unpaid, balance, plan and other trips' checkouts get no welcome email", as
 test("the letter covers the deposit deadline only for deposits", () => {
   const deposit = buildWelcome({ name: "Pat Lee", room: "double", kind: "deposit", travelers: ["Pat Lee"] });
   const full = buildWelcome({ name: "Pat Lee", room: "double", kind: "full", travelers: ["Pat Lee"] });
-  assert.match(deposit.text, /January 1, 2027/);
-  assert.doesNotMatch(full.text, /Pay the rest by/);
+  assert.match(deposit.text, /January 1, January 27, February 21 and March 19, 2027/);
+  assert.doesNotMatch(full.text, /Your payment plan/);
   assert.match(deposit.text, /^Hi Pat,/);
   assert.match(deposit.html, /Welcome to The Witnesses Tour/);
   assert.match(deposit.text, /See you in Independence,\nThe Parley Street Travel Co\. team/);
