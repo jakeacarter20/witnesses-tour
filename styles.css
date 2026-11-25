@@ -75,6 +75,14 @@ h3 { font-size: 26px; }
 
 /* Black Friday and seats-left lines */
 .sale-tag { color: var(--rust); font-weight: 600 !important; }
+.sale-highlight { background: var(--rust); color: #fff; font-weight: 700; padding: 2px 8px; border-radius: 3px; white-space: nowrap; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+/* "Call to book" lines under the side box's Book now button and under Plan your trip */
+.call-line { display: flex; gap: 10px; align-items: flex-start; margin: 0; color: var(--ink); line-height: 1.45; }
+.call-line .ico { flex: none; margin-top: 3px; color: var(--rust); }
+.call-line a { color: var(--rust); font-weight: 600; white-space: nowrap; text-underline-offset: 3px; }
+.side-call { margin-top: 16px; font-size: 15px; }
+.book-call { margin: -6px 0 28px; font-size: 17px; }
 .seats-left b { font-weight: 600; }
 .pay-options .sale-note { display: block; margin-top: 8px; color: var(--rust); font-size: 14px; font-weight: 500; }
 .sale-due { color: var(--rust); font-weight: 500; }

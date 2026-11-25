@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261124a">
+<link rel="stylesheet" href="styles.css?v=20261125a">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CDX55VKBV"></script>
 <script>
@@ -51,6 +51,7 @@
   <symbol id="i-cal" viewBox="0 0 20 20"><rect x="3" y="4.5" width="14" height="12.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 8.5h14M7 2.5v4M13 2.5v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
   <symbol id="i-people" viewBox="0 0 20 20"><circle cx="7.5" cy="7" r="2.75" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 16.5c.6-2.9 2.6-4.5 5-4.5s4.4 1.6 5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M13 4.6a2.6 2.6 0 010 5M14.6 12.3c1.6.5 2.6 1.9 2.9 4.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
   <symbol id="i-in" viewBox="0 0 20 20"><path d="M11 3.5h4.5v13H11M3 10h9M8.5 6.5L12 10l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 20 20"><path d="M6.6 3h-2A1.6 1.6 0 003 4.7C3.3 11.3 8.7 16.7 15.3 17a1.6 1.6 0 001.7-1.6v-2l-3.3-1.4-1.8 1.8a10.6 10.6 0 01-4.7-4.7l1.8-1.8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
   <symbol id="i-out" viewBox="0 0 20 20"><path d="M9 3.5H4.5v13H9M8 10h9M13.5 6.5L17 10l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
@@ -78,7 +79,7 @@
      both in booking-config.js; the seats line stays and is filled in from /api/seats -->
 <div class="promo-banner" id="promo" role="note">
   <div class="wrap">
-    <p data-sale><strong><span class="sale-tag">Black Friday:</span> Order by November 28th and get 10% off your trip and a free customizable Book of Mormon from <span class="promo-host">The Holy Rebellion</span>.</strong> <a class="promo-link" href="https://custombookofmormon.com" target="_blank" rel="noopener">See the books&nbsp;&rarr;</a></p>
+    <p data-sale><strong><span class="sale-tag">Black Friday:</span> Order by November 28th and get <mark class="sale-highlight">10% off your trip</mark> and a free customizable Book of Mormon from <span class="promo-host">The Holy Rebellion</span>.</strong> <a class="promo-link" href="https://custombookofmormon.com" target="_blank" rel="noopener">See the books&nbsp;&rarr;</a></p>
   </div>
 </div>
 
@@ -91,7 +92,7 @@
       <nav class="crumbs" aria-label="Breadcrumb"><span>Parley Street Travel Co.</span><span aria-hidden="true">/</span><span aria-current="page">The Witnesses Tour</span></nav>
       <h1>The Witnesses Tour</h1>
       <p class="hero-sub">Five Days in Missouri &amp; Nauvoo with The Holy Rebellion</p>
-      <div class="hero-meta"><span>April 19–23, 2027</span><span>From $1,650</span><span>50 seats</span></div>
+      <div class="hero-meta"><span>April 19–23, 2027</span><span>From $1,650</span></div>
       <a class="btn btn-dark hero-cta" href="#book">Book now</a>
     </div>
   </div>
@@ -101,7 +102,7 @@
 
       <section class="block" id="about">
         <h2>About the Witnesses Tour</h2>
-        <p>Five days walking the ground of the Restoration, limited to 50 travelers on one coach and hosted by The Holy Rebellion.</p>
+        <p>Five days walking the ground of the Restoration, on one coach, hosted by The Holy Rebellion.</p>
         <p>We visit the classic sites, Liberty Jail, Far West, Adam-ondi-Ahman, Historic Nauvoo, the Nauvoo Temple, and Carthage Jail, and stand in the places where the Book of Mormon witnesses lived, testified, and are buried.</p>
         <p>They testified of a book written &ldquo;to the convincing of the Jew and Gentile that Jesus is the Christ.&rdquo; Every one of their testimonies points back to Him.</p>
         <p>The tour runs April 19 to 23, 2027. Travelers must be 16 or older.</p>
@@ -237,6 +238,7 @@
       <!-- BOOKING -->
       <section class="block" id="book">
         <h2>Plan your trip</h2>
+        <p class="call-line book-call"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><span>Call to book your trip or speak with your trip leaders: <a href="tel:+13853120685" data-phone>(385) 312-0685</a></span></p>
         <ol class="steps">
           <li><strong>Pick your room and payment</strong>Reserve with a deposit or pay in full, then select your room below.</li>
           <li><strong>Check out securely</strong>Pay on our secure Stripe checkout by card or bank transfer, then add each traveler's details on the next page.</li>
@@ -244,7 +246,7 @@
         </ol>
 
         <h3 class="book-sub">Choose your room</h3>
-        <p>Prices are per person and include everything listed above. Only 50 seats.</p>
+        <p>Prices are per person and include everything listed above.</p>
 
         <fieldset class="pay-choice">
           <legend>How would you like to pay?</legend>
@@ -458,7 +460,6 @@
         <ul class="facts-list">
           <li><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Missouri &amp; Nauvoo, Illinois</li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg>April 19–23, 2027 <span>(5 days, 4 nights)</span></li>
-          <li><svg class="ico" aria-hidden="true"><use href="#i-people"/></svg>50 seats on one coach</li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg><span class="plain"><span data-deposit>$250</span> deposit, 4-payment plan available</span></li>
         </ul>
       </div>
@@ -472,6 +473,7 @@
         <a href="#faq">FAQ</a>
       </nav>
       <a class="btn btn-dark side-cta" href="#book">Book now</a>
+      <p class="call-line side-call"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><span>Call to book your trip or speak with your trip leaders: <a href="tel:+13853120685" data-phone>(385) 312-0685</a></span></p>
     </aside>
   </div>
 </main>
