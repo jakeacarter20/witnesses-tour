@@ -20,7 +20,9 @@ window.PARLEY_BOOKING = {
 
   promoEnds: "2026-11-26T00:00:00-06:00", // free Book of Mormon offer: the banner and FAQ entry disappear at this time (start of Thanksgiving, Central)
 
-  totalSeats: 50,                        // seats on the coach; the banner shows totalSeats minus seats sold (from /api/seats)
+  totalSeats: 50,                        // seats on the coach; the banner shows totalSeats minus seats sold (from /api/seats) minus seatsPledged
+  seatsPledged: 9,                       // seats promised but not yet paid on the site (11 pledged as of Nov 24, 2026, 2 of them already paid online).
+                                         // When a pledged traveler books on the site, lower this by their seats so they aren't counted twice.
   phone: "385-312-0685",                 // Google Voice number in the call bar at the top of the page
 
   // Black Friday: 10% off, shown on the site until saleEnds. Pay-in-full checkouts get the

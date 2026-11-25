@@ -497,7 +497,7 @@
   </div>
 </footer>
 
-<script src="booking-config.js?v=20261124a"></script>
+<script src="booking-config.js?v=20261124b"></script>
 <script>
 (function () {
   var cfg = window.PARLEY_BOOKING || { rooms: {} };
@@ -530,7 +530,7 @@
   if (cfg.totalSeats && window.fetch) {
     fetch("/api/seats").then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
       if (!data || typeof data.seatsSold !== "number") return;
-      var left = Math.max(0, cfg.totalSeats - data.seatsSold);
+      var left = Math.max(0, cfg.totalSeats - data.seatsSold - (cfg.seatsPledged || 0));
       var line = document.createElement("p");
       line.className = "seats-left";
       line.innerHTML = left ? "We have <b>" + left + "</b> seat" + (left === 1 ? "" : "s") + " available." : "<b>The tour is full.</b> Email us to join the waitlist.";
