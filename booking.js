@@ -119,7 +119,7 @@
         (option.note ? '<span class="bk-option-note">' + esc(option.note) + "</span>" : "") + "</span>" +
         '<span class="bk-option-price">' + (isClosed ? "<b>Sold out</b>" :
           "<b>" + money(total(option)) + "</b><span>total</span>" +
-          (save ? '<span class="bk-save">Save ' + money(save) + "</span>" : "")) + "</span>";
+          (save ? '<span class="bk-save"><span class="bk-save-tag">Black Friday deal</span>Save ' + money(save) + "</span>" : "")) + "</span>";
       b.addEventListener("click", function () {
         state.option = option;
         renderPayment();
