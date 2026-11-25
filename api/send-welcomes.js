@@ -2,7 +2,7 @@
 // (see "crons" in vercel.json). It does nothing until these are set in Vercel:
 //   RESEND_API_KEY  from resend.com, with parleystreettravel.com verified there
 //   CRON_SECRET     any long random string; Vercel sends it so nobody else can trigger this
-// BOOK_COUPON_CODE is the free Book of Mormon code included for bookings made before Thanksgiving.
+// BOOK_COUPON_CODE is the free Book of Mormon code included for bookings made by the end of Black Friday (COUPON_ENDS).
 // Optional: WELCOME_TEST_TO  an email address. While it's set, every run also sends a
 // sample welcome email there (subject starts with [Test]). Remove it after testing.
 // Needs STRIPE_SECRET_KEY with Checkout Sessions: Read and Customers: Write.

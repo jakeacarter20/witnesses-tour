@@ -18,7 +18,7 @@ window.PARLEY_BOOKING = {
   finalPaymentDate: "March 19, 2027",    // last plan payment, one month before the April 19 departure
   autoPlanDates: "January 1, January 27, February 21 and March 19, 2027", // charge dates if the plan starts automatically
 
-  promoEnds: "2026-11-26T00:00:00-06:00", // free Book of Mormon offer: the banner and FAQ entry disappear at this time (start of Thanksgiving, Central)
+  promoEnds: "2026-11-28T23:59:59-07:00", // free Book of Mormon offer, now part of Black Friday: its FAQ entry disappears at this time (Saturday 11:59 PM Mountain, same as sale.ends)
 
   totalSeats: 50,                        // seats on the coach; the banner shows totalSeats minus seats sold (from /api/seats) minus seatsPledged
   seatsPledged: 29,                      // seats promised but not yet paid on the site (set Nov 24, 2026 so the banner shows 19 available: 50 - 2 paid online - 29).

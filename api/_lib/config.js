@@ -41,9 +41,10 @@ export const WELCOME_VIDEO_IMAGE = "https://i.ytimg.com/vi/4r8gvD1rUEI/maxresdef
 // The "Tell Us About You" Google Form (allergies, accessibility, ride home and so on), in Jaime's
 // Google account. Answers go to that form's spreadsheet, not to Stripe.
 export const WELCOME_FORM = "https://forms.gle/VLq6aqWUrbpQ2qG9A";
-// Bookings made before this moment (the start of Thanksgiving, Central) get the free
-// Book of Mormon coupon in their welcome email. Keep in step with promoEnds in
-// booking-config.js. The code itself is BOOK_COUPON_CODE in Vercel, not in this public repo.
-export const COUPON_ENDS = "2026-11-26T00:00:00-06:00";
+// Bookings made before this moment (the end of the Black Friday offer, Saturday 11:59 PM
+// Mountain) get the free Book of Mormon coupon in their welcome email. Keep in step with
+// promoEnds and sale.ends in booking-config.js. The code itself is BOOK_COUPON_CODE in
+// Vercel, not in this public repo.
+export const COUPON_ENDS = "2026-11-28T23:59:59-07:00";
 // Bookings made before this date never get the automatic welcome email.
 export const WELCOME_START = "2026-11-01";

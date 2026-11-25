@@ -32,8 +32,8 @@ export function buildWelcome({ name, room, kind, travelers, detailsUrl, coupon, 
   }
   if (coupon) {
     const offer = coupon.books === 1
-      ? `Because you booked before Thanksgiving, your booking includes a free customizable Book of Mormon from The Holy Rebellion. Use code ${coupon.code} at custombookofmormon.com.`
-      : `Because you booked before Thanksgiving, your booking includes ${coupon.books} free customizable Books of Mormon from The Holy Rebellion, one per traveler. Use code ${coupon.code} at custombookofmormon.com. Everyone in your booking uses the same code.`;
+      ? `Because you booked during our Black Friday offer, your booking includes a free customizable Book of Mormon from The Holy Rebellion. Use code ${coupon.code} at custombookofmormon.com.`
+      : `Because you booked during our Black Friday offer, your booking includes ${coupon.books} free customizable Books of Mormon from The Holy Rebellion, one per traveler. Use code ${coupon.code} at custombookofmormon.com. Everyone in your booking uses the same code.`;
     steps.push({ title: "Get your free Book of Mormon", text: offer, link: "https://custombookofmormon.com", label: "Customize your book" });
   }
 
@@ -153,7 +153,7 @@ export async function sendWelcomes(stripe, { now, send, notify, couponCode }) {
     const items = await stripe.checkout.sessions.listLineItems(session.id, { limit: 20 });
     const seats = Math.max(1, items.data.reduce((n, item) => n + (item.quantity || 0), 0));
 
-    // Bookings made before Thanksgiving get the free book coupon, one book per seat
+    // Bookings made during the Black Friday offer get the free book coupon, one book per seat
     let coupon = null;
     if (session.created * 1000 < new Date(COUPON_ENDS).getTime()) {
       if (couponCode) {

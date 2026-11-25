@@ -121,7 +121,7 @@ test("the waiver is promised with the traveler packet, not in this email", () =>
   assert.doesNotMatch(text, /Sign your waiver/);
 });
 
-test("bookings before Thanksgiving get the coupon, with one book per traveler", async () => {
+test("bookings during the Black Friday offer get the coupon, with one book per traveler", async () => {
   const customers = { cus_cs_5: { details_saved_at: "x", traveler_2_name: "Jordan Lee", traveler_2_email: "jordan@example.com" } };
   const { sent } = await run([booking("cs_5")], customers);
   assert.equal(sent.length, 2);
@@ -137,8 +137,8 @@ test("bookings before Thanksgiving get the coupon, with one book per traveler", 
   assert.doesNotMatch(single.sent[0].text, /same code/);
 });
 
-test("the coupon stops at the start of Thanksgiving, Central time", async () => {
-  const start = Date.UTC(2026, 10, 26, 6) / 1000; // midnight Central, November 26, 2026
+test("the coupon stops when Black Friday ends, Saturday 11:59 PM Mountain", async () => {
+  const start = Date.UTC(2026, 10, 29, 6, 59, 59) / 1000; // 11:59:59 PM Mountain, November 28, 2026
   const later = start + 10 * DAY;
   const { sent } = await run([booking("cs_before", { created: start - 1 }), booking("cs_after", { created: start })], {}, { now: later });
   assert.deepEqual(sent.map((e) => e.idempotencyKey), ["welcome-cs_before-pat@example.com", "welcome-cs_after-pat@example.com"]);
