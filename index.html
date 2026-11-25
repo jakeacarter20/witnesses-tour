@@ -533,7 +533,7 @@
       var left = Math.max(0, cfg.totalSeats - data.seatsSold - (cfg.seatsPledged || 0));
       var line = document.createElement("p");
       line.className = "seats-left";
-      line.innerHTML = left ? "We have <b>" + left + "</b> seat" + (left === 1 ? "" : "s") + " available." : "<b>The tour is full.</b> Email us to join the waitlist.";
+      line.innerHTML = left ? "<b>" + left + "</b> seat" + (left === 1 ? "" : "s") + " remaining" : "<b>The tour is full.</b> Email us to join the waitlist.";
       document.querySelector("#promo .wrap").appendChild(line);
       syncBanner();
     }).catch(function () {});
