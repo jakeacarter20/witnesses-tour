@@ -15,11 +15,12 @@
   --gutter: 40px;
   --header: 76px;
   --promo: 0px; /* height of the floating banner, set by the page script */
+  --callbar: 0px; /* height of the call bar above the header (tour page only), set by the page script */
   --radius: 4px;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header) + var(--promo) + 24px); }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--callbar) + var(--header) + var(--promo) + 24px); }
 body {
   margin: 0;
   background: var(--cream);
@@ -50,7 +51,7 @@ h3 { font-size: 26px; }
 .ico-x { color: var(--rust); }
 
 /* Promo banner above the header */
-.promo-banner { background: var(--paper); color: var(--dark-olive); border-bottom: 1px solid var(--line); position: sticky; top: var(--header); z-index: 19; box-shadow: 0 6px 14px -10px rgba(51, 57, 31, 0.35); }
+.promo-banner { background: var(--paper); color: var(--dark-olive); border-bottom: 1px solid var(--line); position: sticky; top: calc(var(--callbar) + var(--header)); z-index: 19; box-shadow: 0 6px 14px -10px rgba(51, 57, 31, 0.35); }
 .promo-banner .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 28px; padding-top: 14px; padding-bottom: 14px; text-align: center; }
 .promo-banner p { margin: 0; font-size: 15px; line-height: 1.45; }
 .promo-banner strong { font-weight: 500; }
@@ -62,7 +63,21 @@ h3 { font-size: 26px; }
 }
 
 /* Header */
-.site-header { background: var(--olive); position: sticky; top: 0; z-index: 20; }
+.site-header { background: var(--olive); position: sticky; top: var(--callbar); z-index: 20; }
+
+/* Call bar above the header */
+.call-bar { background: var(--dark-olive); color: var(--cream); position: sticky; top: 0; z-index: 21; }
+.call-bar .wrap { padding-top: 7px; padding-bottom: 7px; text-align: center; }
+.call-bar p { margin: 0; font-size: 14px; line-height: 1.4; letter-spacing: 0.02em; }
+.call-bar a { color: #fff; font-weight: 500; white-space: nowrap; text-underline-offset: 3px; }
+.call-bar a:hover { color: var(--burnt-orange); }
+@media (max-width: 560px) { .call-bar p { font-size: 12.5px; } .call-bar .wrap { padding-top: 5px; padding-bottom: 5px; } }
+
+/* Black Friday and seats-left lines */
+.sale-tag { color: var(--rust); font-weight: 600 !important; }
+.seats-left b { font-weight: 600; }
+.pay-options .sale-note { display: block; margin-top: 8px; color: var(--rust); font-size: 14px; font-weight: 500; }
+.sale-due { color: var(--rust); font-weight: 500; }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: var(--header); }
 .site-header .brand img { height: 46px; width: auto; }
 .nav { display: flex; align-items: center; gap: 28px; }
@@ -85,7 +100,7 @@ h3 { font-size: 26px; }
 
 /* Title over a faded 1854 engraving */
 /* Fills the screen below the header and floating banner, content centred */
-.hero-engraving { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); display: flex; align-items: center; min-height: max(520px, min(820px, calc(100svh - var(--header) - var(--promo)))); }
+.hero-engraving { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); display: flex; align-items: center; min-height: max(520px, min(820px, calc(100svh - var(--callbar) - var(--header) - var(--promo)))); }
 .hero-engraving-art { position: absolute; right: -40px; top: 50%; transform: translateY(-50%); width: min(78vw, 1120px); height: auto; opacity: 0.22; pointer-events: none; }
 .hero-engraving .wrap { position: relative; width: 100%; padding-top: 0; padding-bottom: 120px; } /* sits a little above centre */
 .crumbs { display: flex; flex-wrap: wrap; gap: 10px; font-size: clamp(13px, 1.1vw, 16px); color: var(--muted); margin-bottom: 20px; }
@@ -109,7 +124,7 @@ h3 { font-size: 26px; }
 /* Two columns: content, and a side box that stays in view */
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) 380px; column-gap: clamp(48px, 8vw, 136px); align-items: start; padding-top: 64px; padding-bottom: 96px; }
 .content { container-type: inline-size; }
-.sidebar { position: sticky; top: calc(var(--header) + var(--promo) + 32px); }
+.sidebar { position: sticky; top: calc(var(--callbar) + var(--header) + var(--promo) + 32px); }
 .summary { padding-bottom: 24px; border-bottom: 1px solid var(--line); }
 .from { margin: 0 0 18px; font-size: 15px; color: var(--muted); }
 .from strong { font-family: var(--serif); font-size: 40px; font-weight: 600; color: var(--dark-olive); line-height: 1; }
@@ -286,7 +301,7 @@ h3 { font-size: 26px; }
 .ack input { width: 20px; height: 20px; margin-top: 2px; flex: none; accent-color: var(--dark-olive); }
 .ack strong { display: block; font-weight: 500; margin-bottom: 4px; }
 .ack:has(input:checked) { border-color: var(--dark-olive); }
-.ack { scroll-margin-top: calc(var(--header) + var(--promo) + 24px); }
+.ack { scroll-margin-top: calc(var(--callbar) + var(--header) + var(--promo) + 24px); }
 .ack.is-flash { animation: ack-flash 1.6s ease-out; }
 @keyframes ack-flash { 0%, 40% { box-shadow: 0 0 0 4px rgba(180, 89, 43, 0.35); } 100% { box-shadow: 0 0 0 4px rgba(180, 89, 43, 0); } }
 @media (prefers-reduced-motion: reduce) { .ack.is-flash { animation: none; } }
@@ -372,7 +387,7 @@ h3 { font-size: 26px; }
 .chat-panel button:focus-visible, .chat-panel a:focus-visible, .chat-panel input:focus-visible { outline: 2px solid var(--burnt-orange); outline-offset: 2px; }
 .chat-launcher svg { width: 22px; height: 22px; }
 .chat-open .chat-launcher { display: none; }
-.chat-panel { position: fixed; right: 24px; bottom: 24px; z-index: 31; width: 380px; height: min(600px, calc(100vh - var(--header) - var(--promo) - 48px)); display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 24px 48px -20px rgba(42, 46, 26, 0.5); overflow: hidden; font-size: 15px; line-height: 1.5; }
+.chat-panel { position: fixed; right: 24px; bottom: 24px; z-index: 31; width: 380px; height: min(600px, calc(100vh - var(--callbar) - var(--header) - var(--promo) - 48px)); display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 24px 48px -20px rgba(42, 46, 26, 0.5); overflow: hidden; font-size: 15px; line-height: 1.5; }
 .chat-panel[hidden] { display: none; }
 .chat-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px 14px 20px; background: var(--olive); color: var(--cream); }
 .chat-head strong { display: block; font: 600 21px/1.2 var(--serif); }

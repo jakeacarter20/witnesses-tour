@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261110a">
+<link rel="stylesheet" href="styles.css?v=20261124a">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CDX55VKBV"></script>
 <script>
@@ -54,6 +54,13 @@
   <symbol id="i-out" viewBox="0 0 20 20"><path d="M9 3.5H4.5v13H9M8 10h9M13.5 6.5L17 10l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
+<!-- Call bar: always at the very top. The number comes from phone in booking-config.js -->
+<div class="call-bar" id="call-bar">
+  <div class="wrap">
+    <p>Call to book your trip or speak with your trip leaders: <a href="tel:+13853120685" data-phone>(385) 312-0685</a></p>
+  </div>
+</div>
+
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Parley Street Travel Co. home"><img src="assets/logo-horizontal-cream.svg" alt="Parley Street Travel Co." width="138" height="46"></a>
@@ -67,10 +74,12 @@
   </div>
 </header>
 
-<!-- Free Book of Mormon offer: ends at promoEnds in booking-config.js, when this banner and the FAQ entry remove themselves -->
-<div class="promo-banner" id="promo" role="note" data-promo>
+<!-- Floating banner. Free Book of Mormon line (data-promo) ends at promoEnds, Black Friday line (data-sale) at sale.ends,
+     both in booking-config.js; the seats line stays and is filled in from /api/seats -->
+<div class="promo-banner" id="promo" role="note">
   <div class="wrap">
-    <p><strong>Buy before Thanksgiving and get a free customizable Book of Mormon from <span class="promo-host">The Holy Rebellion</span>.</strong> <a class="promo-link" href="https://custombookofmormon.com" target="_blank" rel="noopener">See the books&nbsp;&rarr;</a></p>
+    <p data-sale><strong class="sale-tag">Black Friday: 10% off your trip</strong> through Saturday, November 28. <a class="promo-link" href="#book">See how&nbsp;&rarr;</a></p>
+    <p data-promo><strong>Buy before Thanksgiving and get a free customizable Book of Mormon from <span class="promo-host">The Holy Rebellion</span>.</strong> <a class="promo-link" href="https://custombookofmormon.com" target="_blank" rel="noopener">See the books&nbsp;&rarr;</a></p>
   </div>
 </div>
 
@@ -245,11 +254,13 @@
               <input type="radio" name="pay" value="deposit" checked>
               <strong>Reserve with a deposit</strong>
               <span><span data-deposit>$250</span> per person today, nonrefundable. Pay the rest in full or start the 4-payment plan by <span data-deadline>January 1, 2027</span>. If you haven't, the plan starts automatically on <span data-deadline>January 1, 2027</span>.</span>
+              <span class="sale-note" data-sale>Black Friday: book with a deposit by Saturday, November 28, and we'll take 10% off the rest of your trip before your remaining payments.</span>
             </label>
             <label>
               <input type="radio" name="pay" value="full">
               <strong>Pay in full</strong>
               <span>Pay the whole trip today and you're done.</span>
+              <span class="sale-note" data-sale>Black Friday: 10% off, taken off at checkout through Saturday, November 28.</span>
             </label>
           </div>
         </fieldset>
@@ -425,6 +436,10 @@
             <summary>Is there an age requirement?</summary>
             <p>Travelers must be 16 or older.</p>
           </details>
+          <details data-sale>
+            <summary>How does the Black Friday deal work?</summary>
+            <p>Through Saturday, November 28 (11:59 PM Mountain), you get 10% off your trip. Pay in full and the 10% comes off at checkout. Book with a deposit instead, and we'll take 10% off the rest of your trip before your remaining payments; we'll email you to confirm the new amounts.</p>
+          </details>
           <details data-promo>
             <summary>How does the free Book of Mormon work?</summary>
             <p>Book before Thanksgiving (November 26, 2026), with a deposit or paid in full, and you'll receive a coupon code for a free customizable Book of Mormon from The Holy Rebellion. Use it at <a href="https://custombookofmormon.com" target="_blank" rel="noopener">custombookofmormon.com</a>. Each traveler in your booking gets one, so a Triple gets 3 and a Quad gets 4. If you later cancel, you can still get your free book.</p>
@@ -482,7 +497,7 @@
   </div>
 </footer>
 
-<script src="booking-config.js?v=20261110a"></script>
+<script src="booking-config.js?v=20261124a"></script>
 <script>
 (function () {
   var cfg = window.PARLEY_BOOKING || { rooms: {} };
@@ -501,14 +516,50 @@
     document.querySelectorAll("[data-promo]").forEach(function (el) { el.remove(); });
   }
 
-  // The banner floats under the header; share its height so the side box and
-  // section links stop below it, not behind it
+  // Black Friday: the offer and its notes disappear after sale.ends
+  var sale = cfg.sale && cfg.sale.ends && Date.now() < new Date(cfg.sale.ends).getTime() ? cfg.sale : null;
+  if (!sale) document.querySelectorAll("[data-sale]").forEach(function (el) { el.remove(); });
+  // Hide the banner while it has nothing to say (the seats line arrives a moment later)
+  function syncBanner() {
+    var banner = document.getElementById("promo");
+    if (banner) banner.hidden = !banner.querySelector("p");
+    if (typeof setPromoHeight === "function") setPromoHeight();
+  }
+
+  // Seats left, from the live count of paid deposits and pay-in-full bookings
+  if (cfg.totalSeats && window.fetch) {
+    fetch("/api/seats").then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+      if (!data || typeof data.seatsSold !== "number") return;
+      var left = Math.max(0, cfg.totalSeats - data.seatsSold);
+      var line = document.createElement("p");
+      line.className = "seats-left";
+      line.innerHTML = left ? "We have <b>" + left + "</b> seat" + (left === 1 ? "" : "s") + " available." : "<b>The tour is full.</b> Email us to join the waitlist.";
+      document.querySelector("#promo .wrap").appendChild(line);
+      syncBanner();
+    }).catch(function () {});
+  }
+
+  // Phone number in the call bar
+  if (cfg.phone) {
+    var digits = cfg.phone.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
+    document.querySelectorAll("[data-phone]").forEach(function (a) {
+      a.href = "tel:+1" + digits;
+      a.textContent = "(" + digits.slice(0, 3) + ") " + digits.slice(3, 6) + "-" + digits.slice(6);
+    });
+  }
+
+  // The call bar, header and banner all float at the top; share their heights so
+  // the side box and section links stop below them, not behind them
   var promo = document.getElementById("promo");
+  var callBar = document.getElementById("call-bar");
   function setPromoHeight() {
     if (promo) document.documentElement.style.setProperty("--promo", promo.offsetHeight + "px");
+    if (callBar) document.documentElement.style.setProperty("--callbar", callBar.offsetHeight + "px");
   }
   setPromoHeight();
   if (window.ResizeObserver && promo) new ResizeObserver(setPromoHeight).observe(promo);
+  if (window.ResizeObserver && callBar) new ResizeObserver(setPromoHeight).observe(callBar);
+  syncBanner();
 
   if (cfg.tourSoldOut) document.getElementById("tour-soldout").style.display = "block";
 
@@ -527,11 +578,13 @@
         card.querySelectorAll("[data-solo]").forEach(function (li) { li.hidden = li.dataset.solo !== key; });
       }
       var group = Number(card.dataset.group || 0);
-      var per = mode === "deposit" ? deposit : price;
+      var discounted = sale && mode === "full";
+      var per = mode === "deposit" ? deposit : discounted ? price * (100 - sale.percentOff) / 100 : price;
+      var off = discounted ? " <span class=\"sale-due\">(" + sale.percentOff + "% off)</span>" : "";
       var due = card.querySelector(".due");
       due.innerHTML = group
-        ? "Due today: <b>" + money(per * group) + "</b> for " + group + " travelers"
-        : "Due today: <b>" + money(per) + "</b> per traveler";
+        ? "Due today: <b>" + money(per * group) + "</b> for " + group + " travelers" + off
+        : "Due today: <b>" + money(per) + "</b> per traveler" + off;
 
       var btn = card.querySelector("[data-book]");
       var link = room[mode];
@@ -554,7 +607,8 @@
       } else {
         btn.textContent = choice ? choice.dataset.label : "Book a " + card.querySelector("h3").textContent;
         btn.removeAttribute("aria-disabled");
-        btn.setAttribute("href", link);
+        // During the sale, pay-in-full checkouts open with the Black Friday code already applied
+        btn.setAttribute("href", sale && mode === "full" && sale.promoCode ? link + (link.indexOf("?") < 0 ? "?" : "&") + "prefilled_promo_code=" + encodeURIComponent(sale.promoCode) : link);
       }
     });
   }
@@ -621,7 +675,7 @@
   }
 })();
 </script>
-<script src="chat.js?v=20261110a"></script>
+<script src="chat.js?v=20261124a"></script>
 <script src="signup.js?v=20261102d"></script>
 <script src="reels.js?v=20261105e"></script>
 </body>

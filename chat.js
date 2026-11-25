@@ -48,6 +48,7 @@
     { q: "How do I pay?", strong: ["card", "credit", "debit", "bank", "ach", "stripe", "venmo", "paypal", "check"], weak: ["pay", "paying", "payment", "method"], a: function () { return faq("How do I pay"); } },
     { q: "Can I get a refund if I cancel?", strong: ["refund", "refunds", "cancel", "cancellation", "canceling", "cancelling", "back"], weak: ["money", "policy", "terms"], a: function () { return faq("Can I get a refund"); } },
     { q: "Is there an age requirement?", strong: ["age", "old", "kids", "children", "child", "teen", "teens", "minor", "16"], weak: ["young", "bring"], a: function () { return faq("Is there an age"); } },
+    { q: "How does the Black Friday deal work?", strong: ["black", "friday", "sale", "discount", "deal", "coupon", "promo"], weak: ["off", "percent", "save", "savings"], a: function () { return faq("How does the Black Friday deal"); } },
     { q: "How does the free Book of Mormon work?", strong: ["mormon", "free", "customizable", "scriptures", "bom"], weak: ["book", "gift"], a: function () { return faq("How does the free Book"); } },
     { q: "When is the tour?", strong: ["when", "dates", "date", "april", "long", "days"], weak: ["start", "begin", "end"],
       a: function () { return $$("#itinerary .bookends p").map(function (p) { return "<p>" + esc(text(p)) + "</p>"; }).join("") + more("itinerary", "See the full itinerary"); } },

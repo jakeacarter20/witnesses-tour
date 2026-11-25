@@ -20,6 +20,18 @@ window.PARLEY_BOOKING = {
 
   promoEnds: "2026-11-26T00:00:00-06:00", // free Book of Mormon offer: the banner and FAQ entry disappear at this time (start of Thanksgiving, Central)
 
+  totalSeats: 50,                        // seats on the coach; the banner shows totalSeats minus seats sold (from /api/seats)
+  phone: "385-312-0685",                 // Google Voice number in the call bar at the top of the page
+
+  // Black Friday: 10% off, shown on the site until saleEnds. Pay-in-full checkouts get the
+  // Stripe promotion code below applied automatically; deposits booked by then get 10% off
+  // the rest of their trip, applied by hand in Stripe (see "Before January 1.md").
+  sale: {
+    ends: "2026-11-28T23:59:59-07:00",   // Saturday 11:59 PM Mountain
+    percentOff: 10,
+    promoCode: "BLACKFRIDAY"
+  },
+
   tourSoldOut: false,
 
   rooms: {
