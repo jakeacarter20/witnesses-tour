@@ -126,8 +126,8 @@ h3 { font-size: 26px; }
 }
 @media (max-width: 760px) {
   .hero-engraving-art { top: auto; bottom: -20px; right: -30%; transform: none; width: 130%; opacity: 0.16; }
-  .hero-engraving { min-height: 600px; }
-  .hero-engraving .wrap { padding-top: 32px; padding-bottom: 48px; }
+  .hero-engraving { min-height: 0; align-items: flex-start; }
+  .hero-engraving .wrap { padding-top: 20px; padding-bottom: 56px; }
 }
 
 /* Two columns: content, and a side box that stays in view */
