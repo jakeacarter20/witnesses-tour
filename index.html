@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261126a">
+<link rel="stylesheet" href="styles.css?v=20261126b">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CDX55VKBV"></script>
 <script>
@@ -100,6 +100,17 @@
   <div class="wrap layout">
     <div class="content">
 
+      <section class="block glance" id="glance" aria-labelledby="glance-h">
+        <div class="glance-head"><h2 id="glance-h">Your 5 days</h2><span class="glance-hint" aria-hidden="true">Swipe &rarr;</span></div>
+        <ul class="glance-list">
+          <li><a class="glance-card" href="#day-1"><img src="assets/itinerary/small/day1-independence.jpg" alt="" width="480" height="480"><span class="glance-text"><span class="glance-day">Day 1</span><strong>Independence</strong><span class="glance-line">The Temple Lot and a welcome dinner with your hosts</span></span></a></li>
+          <li><a class="glance-card" href="#day-2"><img src="assets/itinerary/small/day2-whitmer.jpg" alt="" width="480" height="480"><span class="glance-text"><span class="glance-day">Day 2</span><strong>Liberty &amp; Far West</strong><span class="glance-line">Liberty Jail and the witnesses' graves</span></span></a></li>
+          <li><a class="glance-card" href="#day-3"><img src="assets/itinerary/small/day3-adam-ondi-ahman.jpg" alt="" width="480" height="480" loading="lazy"><span class="glance-text"><span class="glance-day">Day 3</span><strong>Adam-ondi-Ahman</strong><span class="glance-line">Hawn's Mill and a picnic in the valley</span></span></a></li>
+          <li><a class="glance-card" href="#day-4"><img src="assets/itinerary/small/day4-red-brick-store.jpg" alt="" width="480" height="480" loading="lazy"><span class="glance-text"><span class="glance-day">Day 4</span><strong>Nauvoo</strong><span class="glance-line">Historic Nauvoo and the Red Brick Store</span></span></a></li>
+          <li><a class="glance-card" href="#day-5"><img src="assets/itinerary/small/day5-carthage.jpg" alt="" width="480" height="480" loading="lazy"><span class="glance-text"><span class="glance-day">Day 5</span><strong>Carthage</strong><span class="glance-line">A closing devotional at Carthage Jail</span></span></a></li>
+        </ul>
+      </section>
+
       <section class="block" id="about">
         <h2>About the Witnesses Tour</h2>
         <p>Five days walking the ground of the Restoration, on one coach, hosted by The Holy Rebellion.</p>
@@ -159,7 +170,7 @@
         <p class="note">Times are approximate and will be confirmed in your traveler packet.</p>
 
         <div class="days">
-          <article class="day">
+          <article class="day" id="day-1">
             <div class="day-body">
               <p class="day-meta"><span class="day-num">Day 1</span><span class="day-date">Mon, April 19</span></p>
               <h3>Independence</h3>
@@ -167,7 +178,7 @@
             </div>
             <figure class="day-photo"><img src="assets/itinerary/day1-independence.jpg" alt="The spiral spire of the Community of Christ Temple in Independence, Missouri" width="1000" height="1000" loading="lazy"></figure>
           </article>
-          <article class="day">
+          <article class="day" id="day-2">
             <div class="day-body">
               <p class="day-meta"><span class="day-num">Day 2</span><span class="day-date">Tue, April 20</span></p>
               <h3>Liberty, Richmond &amp; Far West</h3>
@@ -175,7 +186,7 @@
             </div>
             <figure class="day-photo"><img src="assets/itinerary/day2-whitmer.jpg" alt="David Whitmer's headstone in Richmond, Missouri, inscribed with his testimony" width="1000" height="1000" loading="lazy"></figure>
           </article>
-          <article class="day">
+          <article class="day" id="day-3">
             <div class="day-body">
               <p class="day-meta"><span class="day-num">Day 3</span><span class="day-date">Wed, April 21</span></p>
               <h3>Hawn's Mill, Adam-ondi-Ahman &amp; on to Nauvoo</h3>
@@ -183,7 +194,7 @@
             </div>
             <figure class="day-photo"><img src="assets/itinerary/day3-adam-ondi-ahman.jpg" alt="Sunset over the valley at Adam-ondi-Ahman, Missouri" width="1000" height="1000" loading="lazy"></figure>
           </article>
-          <article class="day">
+          <article class="day" id="day-4">
             <div class="day-body">
               <p class="day-meta"><span class="day-num">Day 4</span><span class="day-date">Thu, April 22</span></p>
               <h3>Nauvoo</h3>
@@ -191,7 +202,7 @@
             </div>
             <figure class="day-photo"><img src="assets/itinerary/day4-red-brick-store.jpg" alt="Joseph Smith's Red Brick Store in Nauvoo, Illinois" width="1000" height="1000" loading="lazy"></figure>
           </article>
-          <article class="day">
+          <article class="day" id="day-5">
             <div class="day-body">
               <p class="day-meta"><span class="day-num">Day 5</span><span class="day-date">Fri, April 23</span></p>
               <h3>Carthage</h3>
@@ -410,6 +421,7 @@
     <aside class="sidebar" aria-label="Tour summary">
       <div class="summary">
         <p class="from">from <strong>$1,650</strong> <span>per person</span></p>
+        <p class="side-hosts"><span class="side-faces"><img src="assets/host-christian.jpg?v=2" alt="" width="40" height="40"><img src="assets/host-travis.jpg?v=2" alt="" width="40" height="40"></span><span>Hosted by Christian Williams and Travis Lish of The Holy Rebellion</span></p>
         <ul class="facts-list">
           <li><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Missouri &amp; Nauvoo, Illinois</li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg>April 19–23, 2027 <span>(5 days, 4 nights)</span></li>
@@ -487,6 +499,13 @@
       line.className = "seats-left";
       line.innerHTML = left ? "<b>" + left + "</b> seat" + (left === 1 ? "" : "s") + " remaining" : "<b>The tour is full.</b> Email us to join the waitlist.";
       document.querySelector("#promo .wrap").appendChild(line);
+      var side = document.querySelector(".summary .facts-list");
+      if (side && left) {
+        var li = document.createElement("li");
+        li.className = "side-seats";
+        li.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-people"/></svg><span class="plain"><b>' + left + "</b> seat" + (left === 1 ? "" : "s") + " remaining</span>";
+        side.appendChild(li);
+      }
       syncBanner();
     }).catch(function () {});
   }
