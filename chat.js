@@ -71,7 +71,7 @@
     { q: "Do I need travel insurance?", strong: ["insurance", "insure", "insured", "squaremouth", "protection"], weak: ["sick", "illness", "protect"],
       a: function () { var ans = faq("Should I get travel insurance"); if (ans) return ans; var f = $$("#details .fact").filter(function (x) { return /insurance/i.test(text($("h3", x))); })[0]; return f ? "<p>" + $("p", f).innerHTML + "</p>" : ""; } },
     { q: "How big is the group?", strong: ["seats", "size", "spots", "available", "left", "people", "travelers"], weak: ["many", "group", "full"],
-      a: function () { var p = $("#about p"); return p ? "<p>" + esc(text(p)) + "</p>" : ""; } }
+      a: function () { var seats = $(".side-seats"); return "<p>Everyone travels together on one coach with your hosts." + (seats ? " " + esc(text(seats)) + "." : "") + "</p>"; } }
   ];
   var HELLO = ["hi", "hello", "hey", "howdy"];
   var THANKS = ["thanks", "thank", "thx"];

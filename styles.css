@@ -110,8 +110,11 @@ h3 { font-size: 26px; }
 /* Title over a faded 1854 engraving */
 /* Fills the screen below the header and floating banner, content centred */
 .hero-engraving { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); display: flex; align-items: center; min-height: max(520px, min(820px, calc(100svh - var(--callbar) - var(--header) - var(--promo)))); }
-.hero-engraving-art { position: absolute; right: -40px; top: 50%; transform: translateY(-50%); width: min(78vw, 1120px); height: auto; opacity: 0.22; pointer-events: none; }
-.hero-engraving .wrap { position: relative; width: 100%; padding-top: 0; padding-bottom: 120px; } /* sits a little above centre */
+.hero-engraving-art { position: absolute; right: -40px; top: 50%; transform: translateY(-50%); width: min(78vw, 1120px); height: auto; opacity: 0.45; pointer-events: none; }
+/* soft fade behind the title so the darker engraving doesn't fight the words */
+.hero-engraving::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(90deg, var(--cream) 0%, rgba(239, 233, 218, 0.85) 30%, rgba(239, 233, 218, 0) 62%); }
+@media (max-width: 760px) { .hero-engraving::before { background: linear-gradient(180deg, rgba(239, 233, 218, 0.75) 0%, rgba(239, 233, 218, 0.45) 45%, rgba(239, 233, 218, 0) 75%); } }
+.hero-engraving .wrap { position: relative; z-index: 2; width: 100%; padding-top: 0; padding-bottom: 120px; } /* sits a little above centre */
 .crumbs { display: flex; flex-wrap: wrap; gap: 10px; font-size: clamp(13px, 1.1vw, 16px); color: var(--muted); margin-bottom: 20px; }
 .crumbs [aria-current] { color: var(--ink); }
 .hero-engraving h1 { font-size: clamp(44px, 7.6vw, 124px); max-width: 1200px; }
@@ -125,7 +128,7 @@ h3 { font-size: 26px; }
   .hero-engraving-art { width: 108vw; right: -28%; }
 }
 @media (max-width: 760px) {
-  .hero-engraving-art { top: auto; bottom: -20px; right: -30%; transform: none; width: 130%; opacity: 0.16; }
+  .hero-engraving-art { top: auto; bottom: -20px; right: -30%; transform: none; width: 130%; opacity: 0.5; }
   .hero-engraving { min-height: 0; align-items: flex-start; }
   .hero-engraving .wrap { padding-top: 20px; padding-bottom: 56px; }
 }
@@ -582,3 +585,34 @@ h3 { font-size: 26px; }
 .side-faces img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--cream); }
 .side-faces img + img { margin-left: -10px; }
 .side-seats b { color: var(--rust); }
+
+/* "What makes this tour different": the overview. A short heading, then four drawn tiles. */
+.different .eyebrow { margin: 0 0 10px; font-size: 13px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rust); }
+.different-head h2 { margin-bottom: 0; }
+.different-lead { margin: 12px 0 0; font-family: var(--serif); font-size: 24px; font-weight: 500; line-height: 1.25; color: var(--muted); }
+
+@container (min-width: 700px) {
+  .different-head h2 { font-size: 46px; }
+  .different-lead { font-size: 28px; }
+}
+
+/* Four panels: their witness, your questions, firesides, your witness. Each has an engraving-style
+   drawing inside the logo's arch (assets/different/*.svg, drawn by tools/draw_different.py: python3 tools/draw_different.py). */
+.witness-panels { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 12px; }
+.wp { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 16px; align-items: center; padding: 14px 18px 14px 14px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); }
+.wp-art { display: block; width: 100%; height: auto; }
+.wp-when { margin: 0 0 4px; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rust); }
+.wp-text h3 { margin: 0; font-size: 30px; line-height: 1.05; }
+.wp-text p:last-child { margin: 6px 0 0; font-size: 16px; line-height: 1.35; color: var(--muted); }
+@container (min-width: 700px) {
+  /* four tiles: two by two, drawing beside the words */
+  .witness-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 44px; }
+  .wp { grid-template-columns: 120px minmax(0, 1fr); padding: 16px 18px 16px 16px; }
+  .wp-text h3 { font-size: 28px; }
+  .wp-text p:last-child { font-size: 15px; }
+}
+@container (min-width: 980px) {
+  .witness-panels { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .wp { grid-template-columns: 1fr; gap: 16px; align-items: start; padding: 22px; text-align: center; }
+  .wp-art { width: 78%; margin: 0 auto; }
+}
